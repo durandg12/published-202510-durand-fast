@@ -8,7 +8,7 @@ author:
     url: https://durandg12.github.io/
     orcid: 0000-0003-4056-5631
     affiliations:
-      - name: Université Paris-Saclay
+      - name: Université Paris-Saclay, CNRS, Inria, 91405, Orsay, France
         department: Laboratoire de Mathématiques d'Orsay
         url: https://www.imo.universite-paris-saclay.fr/fr/
 date: last-modified

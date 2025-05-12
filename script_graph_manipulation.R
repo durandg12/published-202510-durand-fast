@@ -69,6 +69,7 @@ for (i in 1:4) {
   )
   loaded$time <- microbenchmark:::convert_to_unit(loaded, unit)
   loaded_list[[i]] <- loaded
+  print(loaded)
   summary_list[[i]] <- summary(loaded)
 }
 

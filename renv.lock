@@ -390,14 +390,14 @@
     },
     "sanssouci": {
       "Package": "sanssouci",
-      "Version": "0.13.0",
+      "Version": "0.14.1",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "sanssouci-org",
       "RemoteRepo": "sanssouci",
       "RemoteRef": "develop",
-      "RemoteSha": "bdd12b3e88ccbfc30943e79a8a2b8d2b141fb5bb",
+      "RemoteSha": "2dde9b42c0354b29a42fb2ebc8c2b0d04dd23052",
       "Remotes": "github::sanssouci-org/sanssouci.data",
       "Requirements": [
         "Matrix",
@@ -406,9 +406,10 @@
         "RcppArmadillo",
         "generics",
         "matrixStats",
-        "matrixTests"
+        "matrixTests",
+        "rlang"
       ],
-      "Hash": "a1cb94087c78d7bb3f01b6f74173aabe"
+      "Hash": "5db84e626ce4fae59068ef525234df06"
     },
     "sass": {
       "Package": "sass",

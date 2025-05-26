@@ -419,7 +419,7 @@ We minimize over all $Q$ to get that $\Vstar(S)\geq V^*_{\Rfam^{\pr}}(S)$. $\squ
 
 This gives a practical way to speed up computations by first pruning the family before computing any $\Vstar(S)$, because $\cK^{\pr}$ is smaller than $\cK$, and by the above Proposition there is no theoretical loss in doing so. 
 
-Furthermore, pruning can be done really simply by following @alg-vstar for $S=\Nm^*$, and pruning when appropriate. This gives the following @alg-pruning, assuming, for simplicity, that the family is complete. The computation time of the algorithm is the same as @alg-vstar, that is $O(m|\cK|)$. Note that the only differences between @alg-pruning and @alg-vstar are the pruning step and $\zeta_k$ replacing $\zeta_k\wedge|S\cap R_k|$, because $\zeta_k\leq|R_k|$ and here $S=\Nm^*$, so $\zeta_k\wedge|\Nm^*\cap R_k|=\zeta_k$. Also note that the algorithm returns $\Vstar(\Nm^*)$ as a by-product. The following proposition states that @alg-pruning indeed produces the pruned region as in @def-pruning. 
+Furthermore, pruning can be done really simply by following @alg-vstar for $S=\Nm^*$, and pruning when appropriate. This gives the following @alg-pruning, assuming, for simplicity, that the family is complete. Note that the only differences between @alg-pruning and @alg-vstar are the pruning step and $\zeta_k$ replacing $\zeta_k\wedge|S\cap R_k|$, because $\zeta_k\leq|R_k|$ and $S=\Nm^*$ here, so $\zeta_k\wedge|\Nm^*\cap R_k|=\zeta_k$. 
 
 ::: {.content-visible when-format="html"}
 ```pseudocode
@@ -498,6 +498,8 @@ Furthermore, pruning can be done really simply by following @alg-vstar for $S=\N
 ```
 :::
 
+Also note that the algorithm returns $\Vstar(\Nm^*)$ as a by-product. The following proposition states that @alg-pruning indeed produces the pruned region as in @def-pruning.
+
 ::: {#prp-pruning-correct}
 
 The final $\mathcal{L}$ returned by @alg-pruning is equal to $\cK^{\pr}$: $\mathcal{L}=\cK^{\pr}$.
@@ -510,6 +512,11 @@ First, $\cK\setminus\mathcal{L}\subseteq\cK\setminus\cK^{\pr}$ is trivial: a $k$
 Now let $(i,i')\in \cK\setminus\cK^{\pr}$ an element that is pruned by @def-pruning, so there exists $p\geq2$ and integers $i_1,\dotsc,i_{p-1}$ such that, when setting $i_0=i$ and $i_{p}=i'+1$, the sequence $(i_0,\dotsc,i_{p})$ is strictly increasing, $(i_{j-1},i_{j}-1)\in\cK$ for all $1\leq j\leq p$ and finally $\zeta_{(i,i')}=\zeta_{(i_0,i_{p}-1)}\geq \sum_{j=1}^{p} \zeta_{(i_{j-1}, i_{j}-1)}$. Then by the proof of Theorem 1 of @MR4178188 but applied to $S=R_{(i,i')}$ we have that $\sum_{j=1}^{p} \zeta_{(i_{j-1}, i_{j}-1)}\geq  \sum_{k'\in Succ_{(i,i')}} Vec_{k'}$ (see the unnumbered line just above Equation (A4) in that paper) and so $\zeta_{(i,i')}\geq \sum_{k'\in Succ_{(i,i')}} Vec_{k'}$ hence $(i,i')$ is pruned by @alg-pruning and $\cK\setminus\cK^{\pr}\subseteq\cK\setminus\mathcal{L}$.
 
 In the end, $\cK\setminus\cK^{\pr}=\cK\setminus\mathcal{L}$ so $\cK^{\pr}=\mathcal{L}$. $\square$
+:::
+
+::: {.callout-tip}
+
+We saw that @alg-vstar has $O(mN+|\cK|)$ complexity, the $mN$ term coming from the evaluation of $|S\cap P_i|$. Here, $|S\cap P_i|=|\Nm^*\cap P_i|=|P_i|$ can be accessed in $O(1)$ and $N\leq |\cK|$, so @alg-pruning has simply $O(|\cK|)$ complexity.
 :::
 
 

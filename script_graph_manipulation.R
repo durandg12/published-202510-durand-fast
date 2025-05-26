@@ -76,20 +76,47 @@ for (i in 1:4) {
 ##
 def_mar <- c(5, 4, 4, 2) + 0.1
 
-shift_fig <- c(0.305, 0.305, 0.1, 0.1)
-# shift_fig <- rep(0, 4)
+
 
 par(mfrow = c(2, 2))
 
+# shift_fig <- c(0.3398, 0.3398, 0.3395, 0.3392)
+# # shift_fig <- rep(0, 4)
+# for (i in 1:4) {
+#   par(mar = def_mar + c(3.8, 0, 0, 0))
+#   
+#   bp <- boxplot(
+#     time ~ expr,
+#     data = loaded_list[[i]],
+#     ylab = "log seconds",
+#     xlab = "method",
+#     ylim = c(1e-4, limord[i]),
+#     horizontal = F,
+#     main = paste0("Comp. time, scenario ", i),
+#     xaxt = "n",
+#     log = "y"
+#   )
+#   tick <- seq_along(bp$names)
+#   axis(1, at = tick, labels = FALSE)
+#   text(tick,
+#        par("usr")[1] - shift_fig[i],
+#        bp$names,
+#        srt = 60,
+#        xpd = T)
+# }
+
+shift_fig <- c(0.33994, 0.33994, 0.3396, 0.3396)
+liminford <- c(1e-3, 1e-3, 1e-2, 1e-2)
+limsupord <- c(9, 9, 350, 350)
 for (i in 1:4) {
   par(mar = def_mar + c(3.8, 0, 0, 0))
   
   bp <- boxplot(
     time ~ expr,
     data = loaded_list[[i]],
-    ylab = "log seconds",
+    ylab = "seconds",
     xlab = "method",
-    ylim = NULL,
+    ylim = c(liminford[i], limsupord[i]),
     horizontal = F,
     main = paste0("Comp. time, scenario ", i),
     xaxt = "n",
@@ -101,5 +128,9 @@ for (i in 1:4) {
        par("usr")[1] - shift_fig[i],
        bp$names,
        srt = 60,
-       xpd = TRUE)
+       xpd = T)
+  # print(summary(loaded_list[[i]])$median[1]/summary(loaded_list[[i]])$median[2])
+  # print(summary(loaded_list[[i]])$median[3]/summary(loaded_list[[i]])$median[4])
+  print(summary(loaded_list[[i]])$median[1]/summary(loaded_list[[i]])$median[3])
+  print(summary(loaded_list[[i]])$median[2]/summary(loaded_list[[i]])$median[4])
 }

@@ -1314,7 +1314,7 @@ Differences between the scenarios
 
 For the trivial $\zeta_k$ computation of scenarios 1 and 3, the pruning obviously deletes all non-atom regions so $|\cK^{\pr}|=512$. Whereas, for the particular instance $\omega\in\Omega$ in the experiments, $|\cK^{\pr}|=541$ for scenario 2, and $|\cK^{\pr}|=573$ for scenario 4. Those results alone illustrate the benefits of pruning with respect to the reduction of the cardinality of the reference family: the regions above atoms with no signal (or no detectable signal in the trivial scenarios) are pruned. The fact that the regions above atoms with detectable signal are not pruned means that they are relevant for the confidences bounds (which had already been demonstrated in the simulation study of @MR4178188).
 
-The summary statistics of the computation time in each scenario are presented in @tbl-benchmark01, @tbl-benchmark02, @tbl-benchmark03, and @tbl-benchmark04, and they are also presented as boxplots in @fig-benchmark01. The time unit is the second (in logarithmic scale in the boxplots).
+The summary statistics of the computation time in each scenario are presented in @tbl-benchmark01, @tbl-benchmark02, @tbl-benchmark03, and @tbl-benchmark04, and they are also presented as boxplots in @fig-benchmark01. The time unit is the second.
 
 ```{r loading, echo=FALSE}
 library(microbenchmark)
@@ -1366,7 +1366,7 @@ knitr::kable(summary_list[[i]], caption = paste0("Scenario ", i))
 #| label: fig-benchmark01
 #| message: false
 #| warning: false
-#| fig-cap: "Computation times in scenario, in log seconds"
+#| fig-cap: "Computation times in each scenario, in seconds (using a logarithmic scale)"
 
 def_mar <- c(5, 4, 4, 2) + 0.1
 
@@ -1380,7 +1380,7 @@ for (i in 1:4) {
   bp <- boxplot(
     time ~ expr,
     data = loaded_list[[i]],
-    ylab = "log seconds",
+    ylab = "seconds",
     xlab = "",
     ylim = NULL,
     horizontal = F,

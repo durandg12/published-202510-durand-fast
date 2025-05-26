@@ -169,6 +169,7 @@ k & \mapsto & 1 + \left| \{k'\in\cK: R_k\subsetneq R_{k'} \} \right|   .
 \right.
 \label{eq-depth}
 \end{equation}
+In all the remainder, $H$ refers to the maximum depth in the structure: $H=\max_{k\in\cK}\phi(k)$.
 
 ::: {#exm-toy-forest}
 

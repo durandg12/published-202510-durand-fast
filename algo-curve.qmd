@@ -346,6 +346,32 @@ Furthermore, computing $|S\cap R_k|$ for each $k$ is not necessary, it is suffic
 By the two previous points, we can actually refine the complexity result of @alg-vstar: it is in $O(mN+|\cK|)\leq O(m|\cK|)$.
 :::
 
+Speaking of complexity, we have the following result regarding $m$, $|\cK|$ and $N$:
+
+::: {#prp-cardinals}
+
+For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure, we have $N\leq m$, $H\leq m$, $|\cK|\leq 2N-1$ and these three bounds can be achieved simultaneously. In particular, $|\cK|\leq 2m-1$.
+
+:::
+
+::: {.proof}
+
+The $P_n$, $n\in \mathbb N_N^*$, form a partition of $\Nm^*$, so $N\leq m$.
+
+There is a sequence $R^{(1)}\subsetneq\dotsb\subsetneq R^{(H)}$ with $|R^{(1)}|\geq1$ so $|R^{(H)}|\geq H$, but, on the other end, $|R^{(H)}|\leq m$, so $H\leq m$.
+
+To show that the three bounds can be achieved simultaneously, we let $P_i=\{i\}$ for all $i\in\Nm^*$, $\cK=\{(i,i), i\in\Nm^*\}\cup\{(1,i), i\in\Nm^*\}$, and, as usual, for $(i,j)\in\cK$, $R_{(i,j)}=P_{i:j}=\bigcup_{i\leq n\leq j}P_n$.
+
+Finally we show by induction over $N\geq1$ that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ leaves, $|\cK|\leq 2N-1$. For $N=1$ it is trivial, necessarily $P_1=\Nm^*$ and then the only possible set $R_k$ is also $\Nm^*$ so $|\cK|=1=2N-1$. Let $N\geq 1$. Assume that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ compatible leaves, $|\cK|\leq 2N-1$. Let $(R_k)_{k\in\cK}$ a forest structure with $N+1$ leaves, let $H$ its maximum depth, let $P_1, \dotsc P_{N+1}$ the leaves. We distinguish two cases.
+
+In the first case, (rappeler que ça fait bien une partition)
+
+On the contrary, in the second case, assume that . Let $\hat k\in\cK$ of depth $H$, that is $\phi(\hat k)=H$, and let $\tilde k\in\cK$ the element of depth $H-1$ such that $R_{\hat k}\subsetneq R_{\tilde k}$. Identify $\tilde k$ to $(\tilde\imath, \tilde\jmath)\in \left(\mathbb N_N^* \right)^2$ such that $R_{\tilde k}=\bigcup_{\tilde\imath\leq n\leq \tilde\jmath}P_n$. If $\tilde\jmath=\tilde\imath$, $R_{\tilde k}=P_{\tilde\imath}$, so we have also $R_{\hat k}=P_{\tilde\imath}$, and there is a contradiction with the fact that $R_{\hat k}\subsetneq R_{\tilde k}$. So
+$\tilde\jmath\geq\tilde\imath+1$. 
+
+In both cases, we have constructed a forest structure $(R_k)_{k\in\cK^-}$ with $N$ compatible leaves. By the induction hypothesis, $|\cK^-|\leq 2N-1$ and so $|\cK|\leq|\cK^-|+2\leq 2(N+1)-1$ which concludes. $\square$
+:::
+
 ::: {#rem-zeta}
 
 The specific computation of the $R_k$'s and the $\zeta_k$'s such that Equation \eqref{eq_jer_control} holds is outside the scope of the present paper, but different constructions can be found in @MR4124323, @MR4178188 or @blain22notip for example.

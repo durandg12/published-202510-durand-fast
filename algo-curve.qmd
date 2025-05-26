@@ -516,7 +516,7 @@ In the end, $\cK\setminus\cK^{\pr}=\cK\setminus\mathcal{L}$ so $\cK^{\pr}=\mathc
 
 ::: {.callout-tip}
 
-We saw that @alg-vstar has $O(mN+|\cK|)$ complexity, the $mN$ term coming from the evaluation of $|S\cap P_i|$. Here, $|S\cap P_i|=|\Nm^*\cap P_i|=|P_i|$ can be accessed in $O(1)$, and $N\leq |\cK|$ for a complete family, so @alg-pruning has simply $O(|\cK|)$ complexity.
+We saw that @alg-vstar has $O(mN+|\cK|)$ complexity, the $mN$ term coming from the evaluation of $|S\cap P_i|$. Here, $|S\cap P_i|=|\Nm^*\cap P_i|=|P_i|$ can be accessed in $O(1)$, and $N\leq |\cK|$ for a complete family, so @alg-pruning simply has $O(|\cK|)$ complexity.
 :::
 
 

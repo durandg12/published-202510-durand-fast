@@ -205,7 +205,7 @@ The regions of @exm-toy-forest.
 
 :::
 
-Another tool of @MR4178188 that will be used is its Lemma 2, that is the identification of $\Rfam$ with a set $\mathcal C\subset \left\{(i,j)\in \left({\mathbb N_N}^*\right)^2 \: : i\leq j\right\}$ such that for $(i,j), (i',j')\in\mathcal C$, $\{i,\dotsc, j\}\cap\{i',\dotsc,j'\}\in\left\{\varnothing, \{i,\dotsc, j\},\{i',\dotsc j'\}  \right\}$. With this identification, each $R_k=R_{(i,j)}$ can be written as $P_{i:j}=\bigcup_{i\leq n\leq j}P_n$ where $(P_n)_{1\leq n \leq N}$ is a partition of $\Nm^*$. The $P_n$'s were called atoms in @MR4178188 because they have the thinnest granularity in the structure, but to continue the analogy with graphs, forests and trees, they can also be called leafs. See @exm-toy-leaves for a concrete example.
+Another tool of @MR4178188 that will be used is its Lemma 2, that is the identification of $\Rfam$ with a set $\mathcal C\subset \left\{(i,j)\in \left(\mathbb N_N^*\right)^2 \: : i\leq j\right\}$ such that for $(i,j), (i',j')\in\mathcal C$, $\{i,\dotsc, j\}\cap\{i',\dotsc,j'\}\in\left\{\varnothing, \{i,\dotsc, j\},\{i',\dotsc j'\}  \right\}$. With this identification, each $R_k=R_{(i,j)}$ can be written as $P_{i:j}=\bigcup_{i\leq n\leq j}P_n$ where $(P_n)_{1\leq n \leq N}$ is a partition of $\Nm^*$. The $P_n$'s were called atoms in @MR4178188 because they have the thinnest granularity in the structure, but to continue the analogy with graphs, forests and trees, they can also be called leafs. See @exm-toy-leaves for a concrete example.
 
 ::: {#exm-toy-leaves}
 

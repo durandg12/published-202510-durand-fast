@@ -276,7 +276,7 @@ Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a si
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Computation of a given $V^*_{\mathfrak{R}}(S)$}
+\caption{Computation of a given $V^*_{\mathfrak{R}}(S)$ with a complete family}
 \begin{algorithmic}
 \Procedure{Vstar}{S, $\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete}
   \State $ H \gets \max_{k\in\mathcal{K}} \phi(k)  $ \Comment{maximum depth}
@@ -310,7 +310,7 @@ Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a si
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Computation of a given $V^*_{\mathfrak{R}}(S)$}
+\caption{Computation of a given $V^*_{\mathfrak{R}}(S)$ with a complete family}
 \begin{algorithmic}
 \Procedure{Vstar}{S, $\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete}
   \State $ H \gets \max_{k\in\mathcal{K}} \phi(k)  $ \Comment{maximum depth}
@@ -432,7 +432,7 @@ Furthermore, pruning can be done really simply by following @alg-vstar for $S=\N
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Pruning of $\mathfrak{R}$}
+\caption{Pruning of a complete $\mathfrak{R}$}
 \begin{algorithmic}
 \Procedure{Pruning}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete}
   \State $\mathcal{L}\gets\mathcal{K}$
@@ -470,7 +470,7 @@ Furthermore, pruning can be done really simply by following @alg-vstar for $S=\N
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Pruning of $\mathfrak{R}$}
+\caption{Pruning of a complete $\mathfrak{R}$}
 \begin{algorithmic}
 \Procedure{Pruning}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete}
   \State $\mathcal{L}\gets\mathcal{K}$
@@ -540,7 +540,7 @@ Now we can finally present the new algorithm and the proof that it computes the 
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
+\caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $\mathcal{P}^0\gets\{(i,i): 1\leq i \leq n\}$ \Comment{the set of all atoms indices}
@@ -589,7 +589,7 @@ Now we can finally present the new algorithm and the proof that it computes the 
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
+\caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $\mathcal{P}^0\gets\{(i,i): 1\leq i \leq n\}$ \Comment{the set of all atoms indices}
@@ -682,7 +682,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
+\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $V_0\gets 0$
@@ -722,7 +722,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
+\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $V_0\gets 0$

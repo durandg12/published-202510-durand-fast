@@ -378,8 +378,6 @@ $\tilde\jmath\geq\tilde\imath+1$. Let again $\cK^-=\cK\setminus\{(\tilde\imath, 
 In both cases, we have constructed a forest structure $(R_k)_{k\in\cK^-}$ with $N$ compatible leaves. By the induction hypothesis, $|\cK^-|\leq 2N-1$ and so $|\cK|\leq|\cK^-|+2\leq 2(N+1)-1$ which concludes. $\square$
 :::
 
-
-
 # New algorithms
 
 ## Pruning the forest {#sec-pruning}

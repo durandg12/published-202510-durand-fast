@@ -150,6 +150,12 @@ What says the JER control is that $\cH_0\in\mathcal A(\Rfam)$. We leverage this 
 \end{equation}
 which optimally uses the information provided by the JER control of the reference family, as proven by Proposition 2.1 of @MR4124323. Because of the $\max_{A\in\mathcal A(\Rfam)}$, the computation of $\Vstar(S)$ is generally intractable (see Proposition 2.2 of @MR4124323), but for specific structures of reference families, a polynomial computation can be derived. This is the topic of @MR4178188 and of next section.
 
+::: {#rem-zeta}
+
+The specific computation of the $R_k$'s and the $\zeta_k$'s such that Equation \eqref{eq_jer_control} holds is outside the scope of the present paper, but different constructions can be found in @MR4124323, @MR4178188 or @blain22notip, for example.
+
+:::
+
 ## Regions with a forest structure {#sec-forest-structure}
 
 The core concept of this section is to assume that the regions $R_k$'s of the reference family are what we called in @MR4178188 a forest structure, that is two regions are either disjoint or nested:
@@ -372,11 +378,7 @@ $\tilde\jmath\geq\tilde\imath+1$. Let again $\cK^-=\cK\setminus\{(\tilde\imath, 
 In both cases, we have constructed a forest structure $(R_k)_{k\in\cK^-}$ with $N$ compatible leaves. By the induction hypothesis, $|\cK^-|\leq 2N-1$ and so $|\cK|\leq|\cK^-|+2\leq 2(N+1)-1$ which concludes. $\square$
 :::
 
-::: {#rem-zeta}
 
-The specific computation of the $R_k$'s and the $\zeta_k$'s such that Equation \eqref{eq_jer_control} holds is outside the scope of the present paper, but different constructions can be found in @MR4124323, @MR4178188 or @blain22notip for example.
-
-:::
 
 # New algorithms
 

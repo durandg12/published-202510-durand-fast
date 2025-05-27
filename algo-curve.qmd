@@ -362,7 +362,7 @@ There is a sequence $R^{(1)}\subsetneq\dotsb\subsetneq R^{(H)}$ with $|R^{(1)}|\
 
 To show that the three bounds can be achieved simultaneously, we let $P_i=\{i\}$ for all $i\in\Nm^*$, $\cK=\{(i,i), i\in\Nm^*\}\cup\{(1,i), i\in\Nm^*\}$, and, as usual, for $(i,j)\in\cK$, $R_{(i,j)}=P_{i:j}=\bigcup_{i\leq n\leq j}P_n$.
 
-Finally we show by induction over $N\geq1$ that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ leaves, $|\cK|\leq 2N-1$. For $N=1$ it is trivial, necessarily $P_1=\Nm^*$ and then the only possible set $R_k$ is also $\Nm^*$ so $|\cK|=1=2N-1$. Let $N\geq 1$. Assume that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ compatible leaves, $|\cK|\leq 2N-1$. Let $(R_k)_{k\in\cK}$ a forest structure with $N+1$ leaves, let $H$ its maximum depth, let $P_1, \dotsc P_{N+1}$ the leaves. We distinguish two cases.
+Finally we show by induction over $N\geq1$ that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ leaves, $|\cK|\leq 2N-1$. For $N=1$ it is trivial, necessarily $P_1=\Nm^*$ and then the only possible set $R_k$ is also $\Nm^*$ so $|\cK|=1=2N-1$. Let $N\geq 1$. Assume that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ compatible leaves, $|\cK|\leq 2N-1$. Let $(R_k)_{k\in\cK}$ a forest structure with $N+1$ leaves, let $H$ its maximum depth, let $P_1, \dotsc P_{N+1}$ the leaves. If $H=1$, all the regions are two-by-two disjoint so there is an injection from the regions to the leaves and so $|\cK|\leq N+1\leq 2(N+1)-1$. From now on we assume $H\geq2$ and we distinguish two cases.
 
 In the first case, (rappeler que ça fait bien une partition)
 

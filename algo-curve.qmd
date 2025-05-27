@@ -143,7 +143,7 @@ Note that Equation \eqref{eq_jer_control} is really similar to Equation \eqref{e
 \mathcal A(\Rfam)= \left\{A\subseteq \Nm^*:  \forall k\in\mathcal K, |R_k\cap A| \leq \zeta_k \right\}.
 \label{eq_a}
 \end{equation}
-What says the JER control is that $\cH_0\in\mathcal A(\Rfam)$. We leverage this information with the following confidence bound construction:
+The JER control says that, with high probability, $\cH_0\in\mathcal A(\Rfam)$. We leverage this information with the following confidence bound construction:
 \begin{equation}
 \Vstar(S) = \max_{A\in\mathcal A(\Rfam)}|S\cap A|
 \label{eq-vstar}

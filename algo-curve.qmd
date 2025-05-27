@@ -356,7 +356,7 @@ Speaking of complexity, we have the following result regarding $m$, $|\cK|$ and 
 
 ::: {#prp-cardinals}
 
-For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure, we have $N\leq m$, $H\leq m$, $|\cK|\leq 2N-1$ and these three bounds can be achieved simultaneously. In particular, $|\cK|\leq 2m-1$.
+For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, we have $N\leq m$, $H\leq m$, $|\cK|\leq 2N-1$ and these three bounds can be achieved simultaneously. In particular, $|\cK|\leq 2m-1$.
 
 :::
 

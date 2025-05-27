@@ -1463,6 +1463,26 @@ This work has been supported by the research grants ANR-20-IDEES-0002 (PIA), ANR
 ::: {#refs}
 :::
 
+# Variant proof that $|\cK|\leq 2m-1$ {.appendix .unnumbered}
+
+We show by induction on $m\geq1$ that, for a family of subsets $(R_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, $|\cK|\leq 2m-1$. For $m=1$ it is trivial, the only subset possible is $\{1\}$. Now let $m\geq 1$ and assume that the result is true for $m$. Let $(R_k)_{k\in\cK}$ a family of non-empty and distinct subsets of $\mathbb N_{m+1}^*$ with a forest structure. 
+
+Let $k_1, \dotsc, k_D$, $D\leq H$, the indices of the regions including $m+1$ (possibly non-existent, in which case $D=0$), ordered such that $R_{k_1}\subsetneq\dotsb\subsetneq R_{k_D}$. Let $\widetilde{\cK}=\cK\setminus\{k_1, \dotsc, k_D\}$, and let $\cK'=\cK\setminus\{k_1, k_2\}=\widetilde{\cK}\cup\{k_3, \dotsc, k_D\}$. For $k\in \widetilde{\cK}$, we let $R'_k=R_k$, and for $k\in\{k_3, \dotsc, k_D\}$, we let $R'_k=R_k\setminus\{m+1\}$. The rest of the proof consists in proving that $(R'_k)_{k\in\cK'}$ is a family of non-empty and distinct subsets of $\Nm^*$ with a forest structure. Once this is proven, by induction hypothesis we will have $|\cK'|\leq 2m-1$, and finally $|\cK|\leq |\cK'|+2\leq 2m-1+2=2(m+1)-1$.
+
+First, any $R'_k$, $k\in\cK'$, is non-empty, because if $k\in\widetilde{\cK}$, $R_k'=R_k\neq\varnothing$, and if $k=k_d$ with $d\geq3$, $R_{k_1}\subsetneq R_{k_2}\subsetneq R_k$ so $|R_k|\geq 3$ and then $|R'_k|=|R_k\setminus\{m+1\}|\geq2$.
+
+To prove that $(R'_k)_{k\in\cK'}$ is a family of distinct subsets of $\Nm^*$ with a forest structure, we need to take $k, k'\in\cK'$, $k\neq k'$, and show that $R'_k\neq R'_{k'}$ and $R'_k\cap R'_{k'}\in\{\varnothing, R'_k, R'_{k'}\}$.
+
+If $|\widetilde{\cK}|\geq2$, let $k, k'\in\widetilde{\cK}$, $k\neq k'$. We have $R'_k=R_k$ and $R'_{k'}=R_{k'}$, so $R'_k\neq R'_{k'}$ and $R'_k\cap R'_{k'}\in\{\varnothing, R_k, R_{k'}\}=\{\varnothing, R'_k, R'_{k'}\}$.
+
+If $D\geq 4$, let $i, j\in\{3,\dotsc, D\}$, $i<j$. We have $R'_{k_i}=R_{k_i}\setminus\{m+1\}$ and $R'_{k_j}=R_{k_j}\setminus\{m+1\}$ with $R_{k_i}\subsetneq R_{k_j}$, so $R'_{k_i}\neq R'_{k_j}$ and $R'_{k_i}\cap R'_{k_j}=R_{k_j}\setminus\{m+1\}=R'_{k_j}$.
+
+If $D\geq 3$ and $|\widetilde{\cK}|\geq1$, let $i\in\{3,\dotsc, D\}$ and $k\in\widetilde{\cK}$. We have $R'_{k_i}=R_{k_i}\setminus\{m+1\}$ and $R'_k=R_k$. 
+\begin{align*}
+R'_{k_i}\cap R'_k&=(R_{k_i}\setminus\{m+1\})\cap R_k \\
+&=R_{k_i}\cap R_k \text{ because } m+1\not\in R_k
+\end{align*}
+
 # Session information {.appendix .unnumbered}
 
 ```{r session-info}

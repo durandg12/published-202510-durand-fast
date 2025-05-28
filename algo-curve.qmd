@@ -1480,8 +1480,16 @@ If $D\geq 4$, let $i, j\in\{3,\dotsc, D\}$, $i<j$. We have $R'_{k_i}=R_{k_i}\set
 If $D\geq 3$ and $|\widetilde{\cK}|\geq1$, let $i\in\{3,\dotsc, D\}$ and $k\in\widetilde{\cK}$. We have $R'_{k_i}=R_{k_i}\setminus\{m+1\}$ and $R'_k=R_k$. 
 \begin{align*}
 R'_{k_i}\cap R'_k&=(R_{k_i}\setminus\{m+1\})\cap R_k \\
-&=R_{k_i}\cap R_k \text{ because } m+1\not\in R_k
+&=R_{k_i}\cap R_k \text{ because } m+1\not\in R_k\\
+&\in\{\varnothing, R_{k_i}, R_k\} \text{ by the property of forest property}
 \end{align*}
+Given that $R'_{k_i}\subsetneq R_{k_i}$, $R'_{k_i}\cap R'_k=R_{k_i}$ is impossible, so $R'_{k_i}\cap R'_k\in\{\varnothing, R_k\}=\{\varnothing, R'_k\}$ so the only thing remaining to prove is that $R'_{k_i}$ and $R'_k$ are distinct. We prove that by showing that if $R'_k = R'_{k_i}$, there is a contradiction. Indeed, then $R_k = R_{k_i}\setminus\{m+1\}$, and we can study $R_{k_2}\cap R_k$. On the one hand, $R_{k_2}\cap R_k\in\{\varnothing, R_{k_2}, R_k\}=\{\varnothing, R_{k_2}, R_{k_i}\setminus\{m+1\}\}$ by forest property. On the other hand,
+\begin{align*}
+R_{k_2}\cap R_k&=(R_{k_2}\setminus\{m+1\})\cap R_k \text{ because }m+1\not\in R_k \\
+&=(R_{k_2}\setminus\{m+1\})\cap (R_{k_i}\setminus\{m+1\})\\
+&=R_{k_2}\setminus\{m+1\}.
+\end{align*}
+So $R_{k_2}\cap R_k=R_{k_2}$ is impossible. Furthermore, $R_{k_2}\cap R_k=R_{k}$ is also impossible because $R_{k_2}\subsetneq R_{k_i}$ and $m+1\in R_{k_2}$ hence $R_{k_2}\setminus\{m+1\}\subsetneq R_{k_i}\setminus\{m+1\}$. So  $R_{k_2}\cap R_k=\varnothing$, that is $R_{k_2}\setminus\{m+1\}=\varnothing$, so $R_{k_2}=\{m+1\}$ and the contradiciton is the following: $\{m\}\subseteq R_{k_1}\subsetneq R_{k_2}=\{m+1\}$.$\square$
 
 # Session information {.appendix .unnumbered}
 

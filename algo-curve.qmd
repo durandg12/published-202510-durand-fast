@@ -1407,7 +1407,7 @@ knitr::kable(summary_list[[i]], caption = paste0("Scenario ", i))
 #| fig-cap: "Computation times in each scenario, in seconds (using a logarithmic scale)"
 
 def_mar <- c(5, 4, 4, 2) + 0.1
-shift_fig <- c(0.33994, 0.33994, 0.33998, 0.33998)
+shift_fig <- c(0.33992, 0.33992, 0.33950, 0.33950)
 liminford <- c(1e-3, 1e-3, 1e-2, 1e-2)
 limsupord <- c(9, 9, 350, 350)
 par(mfrow = c(2, 2))

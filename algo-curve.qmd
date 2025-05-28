@@ -302,7 +302,7 @@ Speaking of complexity, we have the following result regarding $m$, $|\cK|$ and 
 
 ::: {#prp-cardinals}
 
-For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, we have $N\leq m$, $H\leq m$, $|\cK|\leq 2N-1$ and these three bounds can be achieved simultaneously. In particular, $|\cK|\leq 2m-1$.
+For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, we have $N\leq m$, $H\leq N$, $|\cK|\leq 2N-1$ and these three bounds can be achieved simultaneously. In particular, $|\cK|\leq 2m-1$.
 
 :::
 
@@ -310,7 +310,7 @@ For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure such 
 
 The $P_n$, $n\in \mathbb N_N^*$, form a partition of $\Nm^*$, so $N\leq m$.
 
-There is a sequence $R^{(1)}\subsetneq\dotsb\subsetneq R^{(H)}$ with $|R^{(1)}|\geq1$ so $|R^{(H)}|\geq H$, but, on the other end, $|R^{(H)}|\leq m$, so $H\leq m$.
+There is a sequence $R^{(H)}\subsetneq\dotsb\subsetneq R^{(1)}$. There exists $n_H\in\mathbb N_N^*$ such that $P_{n_H}\subseteq R^{(H)}$ and for $1\leq h \leq H-1$, there exists $n_h\in\mathbb N_N^*$ such that $P_{n_h}\subseteq R^{(h)}\setminus R^{(h+1)}$. For $h_1, h_2$ such that $1\leq h_1<h_2 \leq H$, we have $P_{n_{h_2}}\subseteq R^{(h_2)}$ and $P_{n_{h_1}}\subseteq R^{(h_1)}\setminus R^{(h_1+1)}\subseteq R^{(h_1)}\setminus R^{(h_2)}$ so $P_{n_{h_1}}\cap P_{n_{h_2}}=\varnothing$ and in particular $n_{h_1}\neq n_{h_2}$, so $h\mapsto n_h$ is an injection and $H\leq N$.
 
 To show that the three bounds can be achieved simultaneously, we let $P_i=\{i\}$ for all $i\in\Nm^*$, $\cK=\{(i,i), i\in\Nm^*\}\cup\{(1,i), i\in\Nm^*\}$, and, as usual, for $(i,j)\in\cK$, $R_{(i,j)}=P_{i:j}=\bigcup_{i\leq n\leq j}P_n$.
 

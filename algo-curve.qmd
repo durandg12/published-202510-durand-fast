@@ -50,6 +50,7 @@ format:
     natbiboptions: round
     keep-tex: true
     crossrefs-hover: false
+    pdf-engine: pdflatex
 ---
 
 ::: {.hidden}

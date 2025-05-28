@@ -379,6 +379,8 @@ $\tilde\jmath\geq\tilde\imath+1$. Let again $\cK^-=\cK\setminus\{(\tilde\imath, 
 In both cases, we have constructed a forest structure $(R_k)_{k\in\cK^-}$ with $N$ compatible leaves. By the induction hypothesis, $|\cK^-|\leq 2N-1$ and so $|\cK|\leq|\cK^-|+2\leq 2(N+1)-1$ which concludes. $\square$
 :::
 
+An alternative proof that $|\cK|\leq 2m-1$ is given in the [Appendix](#sec-variant).
+
 # New algorithms
 
 ## Pruning the forest {#sec-pruning}
@@ -1464,7 +1466,7 @@ This work has been supported by the research grants ANR-20-IDEES-0002 (PIA), ANR
 ::: {#refs}
 :::
 
-# Variant proof that $|\cK|\leq 2m-1$ {.appendix .unnumbered}
+# Variant proof that $|\cK|\leq 2m-1$ {#sec-variant .appendix .unnumbered}
 
 We show by induction on $m\geq1$ that, for a family of subsets $(R_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, $|\cK|\leq 2m-1$. For $m=1$ it is trivial, the only subset possible is $\{1\}$. Now let $m\geq 1$ and assume that the result is true for $m$. Let $(R_k)_{k\in\cK}$ a family of non-empty and distinct subsets of $\mathbb N_{m+1}^*$ with a forest structure. 
 

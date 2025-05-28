@@ -789,7 +789,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 ```
 :::
 
-It is easy to see that each step $t$ has a complexity in $O(|\cK|)$ hence the total complexity is in $O(m|\cK|)$. This is because, if the regions are carefully stocked in memory, especially if their bounds (in terms of hypothesis index) are stocked, then finding $\kth th$ has a complexity in $O(|\cK^h|)$ and checking if $i_t\in\bigcup_{k\in\cK^-_{t-1}}R_k$ has a complexity in $O(|\cK|)$.
+Stocking, for each $i_t$, the indices $k$ such that $i_t\in R_k$ is done by scanning the forest structure so it has complexity in $O(|\cK|)$. Once that is done, finding $\kth th$, updating $\cK^-$, and checking if $i_t\in\bigcup_{k\in\cK^-}R_k$ can all be one in $O(1)$. So each step of the \texttt{for} loop has complexity in $O(H)$ and finally the complexity of @alg-curve is in $O(mH+|\cK|)$, and even only $O(mH)$ after the first call stocking the necessary information.
 
 ## Illustration on a detailed example {#sec-example}
 

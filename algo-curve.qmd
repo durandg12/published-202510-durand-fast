@@ -1,57 +1,3 @@
----
-title: "A fast algorithm to compute a curve of confidence upper bounds for the False Discovery Proportion using a reference family with a forest structure"
-# subtitle: ""
-author:
-  - name: Guillermo Durand
-    corresponding: true
-    email: guillermo.durand@universite-paris-saclay.fr
-    url: https://durandg12.github.io/
-    orcid: 0000-0003-4056-5631
-    affiliations:
-      - name: Université Paris-Saclay, CNRS, Inria, 91405, Orsay, France
-        department: Laboratoire de Mathématiques d'Orsay
-        url: https://www.imo.universite-paris-saclay.fr/fr/
-date: last-modified
-date-modified: last-modified
-abstract: >+
-  This paper presents a new algorithm (and an additional trick) that allows to compute fastly an entire curve of post hoc bounds for the False Discovery Proportion when the underlying bound $V^*_{\mathfrak{R}}$ construction is based on a reference family $\mathfrak{R}$ with a forest structure à la @MR4178188. By an entire curve, we mean the values $V^*_{\mathfrak{R}}(S_1),\dotsc,V^*_{\mathfrak{R}}(S_m)$ computed on a path of increasing selection sets $S_1\subsetneq\dotsb\subsetneq S_m$, $|S_t|=t$. The new algorithm leverages the fact that going from $S_t$ to $S_{t+1}$ is done by adding only one hypothesis.
-keywords: [multiple testing, algorithmic, post hoc inference, false discovery proportion, confidence bound]
-citation:
-  type: article-journal
-  container-title: "Computo"
-  doi: "xxxx"
-  url: https://computo.sfds.asso.fr/algo-curve
-  publisher: "Société Française de Statistique"
-  issn: "2824-7795"
-bibliography: algo-curve.bib
-github-user: durandg12
-repo: "algo-curve"
-draft: true # set to false once the build is running
-published: false # will be set to true once accepted
-number-sections: true
-format:
-  computo-html: 
-    html-math-method: mathjax
-    include-in-header:
-      - text: |
-          <script>
-          window.MathJax = {
-            tex: {
-              tags: 'ams'
-            }
-          };
-          </script>
-    crossrefs-hover: false
-  computo-pdf: 
-    include-in-header:
-      - text: |
-          \usepackage{amsmath}
-    cite-method: natbib
-    natbiboptions: round
-    keep-tex: true
-    crossrefs-hover: false
----
-
 ::: {.hidden}
  \newcommand{\comp}[1]{{#1}^{\mathsf{c}}}
  \newcommand{\Pro}[1]{\mathbb{P}\left(#1\right)} 
@@ -128,7 +74,7 @@ With the formalism introduced in last section, a confidence upper bound is a fun
 \end{equation}
 In the remainder, the dependence in $(X,\alpha)$ will be dropped when there is no ambiguity and $\Vhat(X,\alpha)$ will simply be written $\Vhat$.
 
-As said in the Introduction, many constructions, ultimately theoretically equivalent but differing by the practical steps involved, exist, and in this paper we focus on the meta-construction of @MR4124323 based on reference families. A reference family is a family $\Rfam=\Rfam(X,\alpha)=(R_k,\zeta_k)_{k\in \mathcal K}$ with $|\mathcal K|\leq 2^m$, $R_k\subseteq\Nm^*$, $\zeta_k\in\left\{0,\dotsc,|R_k|\right\}$ where everything (that is, $\mathcal K$ and all the $R_k$ and $\zeta_k$) depends on $(X,\alpha)$ but the dependency is not explicitly written. The $R_k$ are all distinct. We also define the following error criterion for a reference family, named Joint Error Rate (JER):
+As said in the Introduction, many constructions, ultimately theoretically equivalent but differing by the practical steps involved, exist, and in this paper we focus on the meta-construction of @MR4124323 based on reference families. A reference family is a family $\Rfam=\Rfam(X,\alpha)=(R_k,\zeta_k)_{k\in \mathcal K}$ with $R_k\subseteq\Nm^*$, $\zeta_k\in\left\{0,\dotsc,|R_k|\right\}$ where everything (that is, $\mathcal K$ and all the $R_k$ and $\zeta_k$) depends on $(X,\alpha)$ but the dependency is not explicitly written. The $R_k$ are all distinct. We also define the following error criterion for a reference family, named Joint Error Rate (JER):
 \begin{equation}
 \JER(\Rfam) = \Pro{\exists k\in\mathcal K, |R_k\cap\cH_0| > \zeta_k } = \Pro{\exists k\in\mathcal K, V(R_k) > \zeta_k }.
 \label{eq_jer}
@@ -143,12 +89,18 @@ Note that Equation \eqref{eq_jer_control} is really similar to Equation \eqref{e
 \mathcal A(\Rfam)= \left\{A\subseteq \Nm^*:  \forall k\in\mathcal K, |R_k\cap A| \leq \zeta_k \right\}.
 \label{eq_a}
 \end{equation}
-What says the JER control is that $\cH_0\in\mathcal A(\Rfam)$. We leverage this information with the following confidence bound construction:
+The JER control says that, with high probability, $\cH_0\in\mathcal A(\Rfam)$. We leverage this information with the following confidence bound construction:
 \begin{equation}
 \Vstar(S) = \max_{A\in\mathcal A(\Rfam)}|S\cap A|
 \label{eq-vstar}
 \end{equation}
 which optimally uses the information provided by the JER control of the reference family, as proven by Proposition 2.1 of @MR4124323. Because of the $\max_{A\in\mathcal A(\Rfam)}$, the computation of $\Vstar(S)$ is generally intractable (see Proposition 2.2 of @MR4124323), but for specific structures of reference families, a polynomial computation can be derived. This is the topic of @MR4178188 and of next section.
+
+::: {#rem-zeta}
+
+The specific computation of the $R_k$'s and the $\zeta_k$'s such that Equation \eqref{eq_jer_control} holds is outside the scope of the present paper, but different constructions can be found in @MR4124323, @MR4178188 or @blain22notip, for example.
+
+:::
 
 ## Regions with a forest structure {#sec-forest-structure}
 
@@ -169,6 +121,7 @@ k & \mapsto & 1 + \left| \{k'\in\cK: R_k\subsetneq R_{k'} \} \right|   .
 \right.
 \label{eq-depth}
 \end{equation}
+In all the remainder, $H$ refers to the maximum depth in the structure: $H=\max_{k\in\cK}\phi(k)$.
 
 ::: {#exm-toy-forest}
 
@@ -205,7 +158,7 @@ The regions of @exm-toy-forest.
 
 :::
 
-Another tool of @MR4178188 that will be used is its Lemma 2, that is the identification of $\Rfam$ with a set $\mathcal C\subset \left\{(i,j)\in \left({\mathbb N_N}^*\right)^2 \: : i\leq j\right\}$ such that for $(i,j), (i',j')\in\mathcal C$, $\{i,\dotsc, j\}\cap\{i',\dotsc,j'\}\in\left\{\varnothing, \{i,\dotsc, j\},\{i',\dotsc j'\}  \right\}$. With this identification, each $R_k=R_{(i,j)}$ can be written as $P_{i:j}=\bigcup_{i\leq n\leq j}P_n$ where $(P_n)_{1\leq n \leq N}$ is a partition of $\Nm^*$. The $P_n$'s were called atoms in @MR4178188 because they have the thinnest granularity in the structure, but to continue the analogy with graphs, forests and trees, they can also be called leafs. See @exm-toy-leaves for a concrete example.
+Another tool of @MR4178188 that will be used is its Lemma 2, that is the identification of $\Rfam$ with a set $\mathcal C\subset \left\{(i,j)\in \left(\mathbb N_N^*\right)^2 \: : i\leq j\right\}$ such that for $(i,j), (i',j')\in\mathcal C$, $\{i,\dotsc, j\}\cap\{i',\dotsc,j'\}\in\left\{\varnothing, \{i,\dotsc, j\},\{i',\dotsc j'\}  \right\}$. With this identification, each $R_k=R_{(i,j)}$ can be written as $P_{i:j}=\bigcup_{i\leq n\leq j}P_n$ where $(P_n)_{1\leq n \leq N}$ is a partition of $\Nm^*$. The $P_n$'s were called atoms in @MR4178188 because they have the thinnest granularity in the structure, but to continue the analogy with graphs, forests and trees, they can also be called leafs. See @exm-toy-leaves for a concrete example.
 
 ::: {#exm-toy-leaves}
 
@@ -263,7 +216,7 @@ and, even better, in their Corollary 1 *(iii)* that:
 \end{equation}
 provided that the family is complete. Here, $\mathfrak P \subseteq \mathcal P(\cK)$ is the set of subsets of $\cK$ that realize a partition, that is, the set of $Q\subseteq\cK$ such that the $R_k$, $k\in Q$, form a partition of $\Nm^*$. So the minimum in Equation \eqref{eq_vstar_Qpartition} is over way less elements than in Equation \eqref{eq_vstar_Q}.
 
-Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a single $S\subseteq\Nm^*$, which we reproduce here in @alg-vstar. The family is assumed complete, otherwise the first step would be to complete it. In the original paper, $\cK^h$ used to designate the elements of $\cK$ at depth $h$ plus the atoms at depth $\leq h$. Actually one can realize that the last assumption is not needed for this algorithm to perform exactly the same, with the added benefit of not repeating computations at the atoms that don't have the maximal depth. The only change is that sometimes $Succ_k$ can be empty, in which case we simply let $newVec_k=\zeta_k\wedge|S\cap R_k|$. Thus, here in this paper, we define $\cK^h$ as only the elements of $\cK$ at depth $h$ (the previous intricate definition may still be necessary for the proof of Theorem 1 of @MR4178188): $\cK^h=\{ (i,j)\in\cK : \phi(i,j)=h      \}, \:\:\:h\geq 1.$ This is the only deviation from the notation of @MR4178188. Finally note that in the ongoing analogy with graph theory, the elements of $\cK^1$ are the roots of the different trees making up the forest.
+Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a single $S\subseteq\Nm^*$, which we reproduce here in @alg-vstar. The family is assumed complete, otherwise the first step would be to complete it. In the original paper, $\cK^h$ used to designate the elements of $\cK$ at depth $h$ plus the atoms at depth $\leq h$. Actually, including those atoms is not needed for this algorithm to perform exactly the same, and produces redundant computations. If we don't include them, the only difference is that sometimes $Succ_k$ can be empty, in which case we simply let $newVec_k=\zeta_k\wedge|S\cap R_k|$. Thus, here in this paper, we define $\cK^h$ as only the elements of $\cK$ at depth $h$ (the previous intricate definition may still be necessary for the proof of Theorem 1 of @MR4178188): $\cK^h=\{ (i,j)\in\cK : \phi(i,j)=h      \}, \:\:\:h\geq 1.$ This is the only deviation from the notation of @MR4178188. Finally note that in the ongoing analogy with graph theory, the elements of $\cK^1$ are the roots of the different trees making up the forest.
 
 ::: {.content-visible when-format="html"}
 ```pseudocode
@@ -276,7 +229,7 @@ Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a si
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Computation of a given $V^*_{\mathfrak{R}}(S)$}
+\caption{Computation of a given $V^*_{\mathfrak{R}}(S)$ with a complete family}
 \begin{algorithmic}
 \Procedure{Vstar}{S, $\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete}
   \State $ H \gets \max_{k\in\mathcal{K}} \phi(k)  $ \Comment{maximum depth}
@@ -310,7 +263,7 @@ Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a si
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Computation of a given $V^*_{\mathfrak{R}}(S)$}
+\caption{Computation of a given $V^*_{\mathfrak{R}}(S)$ with a complete family}
 \begin{algorithmic}
 \Procedure{Vstar}{S, $\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete}
   \State $ H \gets \max_{k\in\mathcal{K}} \phi(k)  $ \Comment{maximum depth}
@@ -334,18 +287,44 @@ Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a si
 ```
 :::
 
+The computation time of the algorithm is in $O(m|\cK|)$, which is fast for a single evaluation, but calling it repeatedly on a path of selection sets $(S_t)_{t\in\Nm^*}$ has complexity $O(m^2|\cK|)$ which is not desirable and makes computations difficult in practice, hence the need for a new, faster algorithm.
+
 ::: {.callout-tip}
 
 In the practical implementation of this algorithm (and of the following @alg-pruning), $Vec$ and $newVec$ are always of size $N$ (the number of leaves) instead of the cardinality of $\cK^h$. And the sum $\sum_{k'\in Succ_k} Vec_{k'}$ is really easy to compute: if $R_k= R_{(i_0,i_{p}-1)}= \bigcup_{ j=1}^{p} R_{(i_{ j-1}, i_{ j}-1)}=\bigcup_{i_0\leq n\leq i_{p}-1}P_n\in\cK^h$ for some $p\geq2$, a strictly increasing sequence $(i_0,\dotsc,i_{p})$ and $R_{(i_{ j-1}, i_{ j}-1)}\in\cK^{h+1}$ for all $1\leq j\leq p$, then we simply sum $Vec$ over the indices from $i_{0}$ to $i_{p}-1$. After that, the computed quantity is set in $newVec$ at index $i_0$. So actually computing $Succ_k$ is not needed and not done.
+
+Furthermore, computing $|S\cap R_k|$ for each $k$ is not necessary, it is sufficient to compute $|S\cap P_i|$ for each leaf $P_i$.
+
+By the two previous points, we can actually refine the complexity result of @alg-vstar: it is in $O(mN+|\cK|)\leq O(m|\cK|)$ because $N\leq|\cK|$ for a complete forest.
 :::
 
-The computation time of the algorithm is in $O(m|\cK|)$, which is fast for a single evaluation, but calling it repeatedly on a path of selection sets $(S_t)_{t\in\Nm^*}$ has complexity $O(m^2|\cK|)$ which is not desirable and makes computations difficult in practice, hence the need for a new, faster algorithm.
+Speaking of complexity, we have the following result regarding $m$, $|\cK|$ and $N$:
 
-::: {#rem-zeta}
+::: {#prp-cardinals}
 
-The specific computation of the $R_k$'s and the $\zeta_k$'s such that Equation \eqref{eq_jer_control} holds is outside the scope of the present paper, but different constructions can be found in @MR4124323, @MR4178188 or @blain22notip for example.
+For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, we have $N\leq m$, $H\leq N$, $|\cK|\leq 2N-1$ and these three bounds can be achieved simultaneously. In particular, $|\cK|\leq 2m-1$.
 
 :::
+
+::: {.proof}
+
+The $P_n$, $n\in \mathbb N_N^*$, form a partition of $\Nm^*$, so $N\leq m$.
+
+There is a sequence $R^{(H)}\subsetneq\dotsb\subsetneq R^{(1)}$. There exists $n_H\in\mathbb N_N^*$ such that $P_{n_H}\subseteq R^{(H)}$ and for $1\leq h \leq H-1$, there exists $n_h\in\mathbb N_N^*$ such that $P_{n_h}\subseteq R^{(h)}\setminus R^{(h+1)}$. For $h_1, h_2$ such that $1\leq h_1<h_2 \leq H$, we have $P_{n_{h_2}}\subseteq R^{(h_2)}$ and $P_{n_{h_1}}\subseteq R^{(h_1)}\setminus R^{(h_1+1)}\subseteq R^{(h_1)}\setminus R^{(h_2)}$ so $P_{n_{h_1}}\cap P_{n_{h_2}}=\varnothing$ and in particular $n_{h_1}\neq n_{h_2}$, so $h\mapsto n_h$ is an injection and $H\leq N$.
+
+To show that the three bounds can be achieved simultaneously, we let $P_i=\{i\}$ for all $i\in\Nm^*$, $\cK=\{(i,i), i\in\Nm^*\}\cup\{(1,i), i\in\Nm^*\}$, and, as usual, for $(i,j)\in\cK$, $R_{(i,j)}=P_{i:j}=\bigcup_{i\leq n\leq j}P_n$.
+
+Finally we show by induction over $N\geq1$ that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ leaves, $|\cK|\leq 2N-1$. For $N=1$ it is trivial, necessarily $P_1=\Nm^*$ and then the only possible set $R_k$ is also $\Nm^*$ so $|\cK|=1=2N-1$. Let $N\geq 1$. Assume that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ compatible leaves, $|\cK|\leq 2N-1$. Let $(R_k)_{k\in\cK}$ a forest structure with $N+1$ leaves, let $H$ its maximum depth, let $P_1, \dotsc P_{N+1}$ the leaves. If $H=1$, all the regions are two-by-two disjoint so there is an injection from the regions to the leaves and so $|\cK|\leq N+1\leq 2(N+1)-1$. From now on we assume $H\geq2$ and we distinguish two cases.
+
+In the first case, assume that there exists $\hat k$ of depth $H$, that is $\phi(\hat k)=H$, such that $R_{\hat k}$ is comprised of at least two leaves: there exist $\tilde\imath$ and $\tilde\jmath$ with $\tilde\jmath\geq\tilde\imath+1$ such that $R_{\hat k}=\bigcup_{\tilde\imath\leq n\leq \tilde\jmath}P_n$. Let $\cK^-=\cK\setminus\{(\tilde\imath, \tilde\imath), (\tilde\imath+1, \tilde\imath+1)\}$, $(R_k)_{k\in\cK^-}$ has also a forest structure, and we show that $P_1,\dotsc,P_{\tilde\imath-1}, P_{\tilde\imath}\cup P_{\tilde\imath+1},P_{\tilde\imath+2},\dotsc,P_{N+1}$ is a sequence of $N$ leaves that are compatible with this family. First note that they well define a partition of $\Nm^*$. Let $k\in\cK^-$, we just have to prove that if $P_{\tilde\imath}\subseteq R_k$ or $P_{\tilde\imath+1}\subseteq R_k$, then $P_{\tilde\imath}\cup P_{\tilde\imath+1}\subseteq R_k$. If that's the case, then $R_k\cap R_{\hat k}\neq\varnothing$, and by the forest structure property of $\cK$, $R_k\subsetneq R_{\hat k}$ or $R_{\hat k}\subseteq R_k$, but actually $R_k\subsetneq R_{\hat k}$ is impossible because $\phi(\hat k)=H$ which is the maximal depth. So $R_{\hat k}\subseteq R_k$, noticing that $P_{\tilde\imath}\cup P_{\tilde\imath+1}\subseteq R_{\hat k}$, we get the desired result.
+
+On the contrary, in the second case, assume that for all $k\in\cK$ of height $H$, $R_k$ is a leaf. Let $\hat k\in\cK$ of depth $H$, that is $\phi(\hat k)=H$, and let $\tilde k\in\cK$ the element of depth $H-1$ such that $R_{\hat k}\subsetneq R_{\tilde k}$. $\tilde k$ exists because $H\geq2$. Identify $\tilde k$ to $(\tilde\imath, \tilde\jmath)\in \left(\mathbb N_N^* \right)^2$ such that $R_{\tilde k}=\bigcup_{\tilde\imath\leq n\leq \tilde\jmath}P_n$. If $\tilde\jmath=\tilde\imath$, then $R_{\tilde k}=P_{\tilde\imath}$, then we have also $R_{\hat k}=P_{\tilde\imath}$, and there is a contradiction with the fact that $R_{\hat k}\subsetneq R_{\tilde k}$. So
+$\tilde\jmath\geq\tilde\imath+1$. Let again $\cK^-=\cK\setminus\{(\tilde\imath, \tilde\imath), (\tilde\imath+1, \tilde\imath+1)\}$, and let us show again that $P_1,\dotsc,P_{\tilde\imath-1}, P_{\tilde\imath}\cup P_{\tilde\imath+1},P_{\tilde\imath+2},\dotsc,P_{N+1}$ is a sequence of $N$ leaves that are compatible with $(R_k)_{k\in\cK^-}$. The reasoning is the same as in the first case, but working with $\tilde k$ instead of $\hat k$. Let $k\in\cK^-$, such that $P_{\tilde\imath}\subseteq R_k$ or $P_{\tilde\imath+1}\subseteq R_k$. Then $R_k\cap R_{\tilde k}\neq\varnothing$, and by the forest structure property of $\cK$, $R_k\subsetneq R_{\tilde k}$ or $R_{\tilde k}\subseteq R_k$. But actually $R_k\subsetneq R_{\tilde k}$ is impossible, because this implies that $\phi(k)=H$, so $R_k$ is a leaf, so necessarily $R_k=P_{\tilde\imath}$ or $R_k=P_{\tilde\imath+1}$, but $k\in\cK^-$ so $k\neq(\tilde\imath, \tilde\imath)$ and $k\neq(\tilde\imath+1, \tilde\imath+1)$, hence a contradiction. So $R_{\tilde k}\subseteq R_k$, noticing that $P_{\tilde\imath}\cup P_{\tilde\imath+1}\subseteq R_{\tilde k}$, we get the desired result.
+
+In both cases, we have constructed a forest structure $(R_k)_{k\in\cK^-}$ with $N$ compatible leaves. By the induction hypothesis, $|\cK^-|\leq 2N-1$ and so $|\cK|\leq|\cK^-|+2\leq 2(N+1)-1$ which concludes. $\square$
+:::
+
+An alternative proof that $|\cK|\leq 2m-1$ is given in the [Appendix](#sec-variant).
 
 # New algorithms
 
@@ -415,7 +394,7 @@ We minimize over all $Q$ to get that $\Vstar(S)\geq V^*_{\Rfam^{\pr}}(S)$. $\squ
 
 This gives a practical way to speed up computations by first pruning the family before computing any $\Vstar(S)$, because $\cK^{\pr}$ is smaller than $\cK$, and by the above Proposition there is no theoretical loss in doing so. 
 
-Furthermore, pruning can be done really simply by following @alg-vstar for $S=\Nm^*$, and pruning when appropriate. This gives the following @alg-pruning, assuming, for simplicity, that the family is complete. The computation time of the algorithm is the same as @alg-vstar, that is $O(m|\cK|)$. Note that the only differences between @alg-pruning and @alg-vstar are the pruning step and $\zeta_k$ replacing $\zeta_k\wedge|S\cap R_k|$, because $\zeta_k\leq|R_k|$ and here $S=\Nm^*$, so $\zeta_k\wedge|\Nm^*\cap R_k|=\zeta_k$. Also note that the algorithm returns $\Vstar(\Nm^*)$ as a by-product. The following proposition states that @alg-pruning indeed produces the pruned region as in @def-pruning. 
+Furthermore, pruning can be done really simply by following @alg-vstar for $S=\Nm^*$, and pruning when appropriate. This gives the following @alg-pruning, assuming, for simplicity, that the family is complete. Note that the only differences between @alg-pruning and @alg-vstar are the pruning step and $\zeta_k$ replacing $\zeta_k\wedge|S\cap R_k|$, because $\zeta_k\leq|R_k|$ and $S=\Nm^*$ here, so $\zeta_k\wedge|\Nm^*\cap R_k|=\zeta_k$. 
 
 ::: {.content-visible when-format="html"}
 ```pseudocode
@@ -428,7 +407,7 @@ Furthermore, pruning can be done really simply by following @alg-vstar for $S=\N
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Pruning of $\mathfrak{R}$}
+\caption{Pruning of a complete $\mathfrak{R}$}
 \begin{algorithmic}
 \Procedure{Pruning}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete}
   \State $\mathcal{L}\gets\mathcal{K}$
@@ -466,7 +445,7 @@ Furthermore, pruning can be done really simply by following @alg-vstar for $S=\N
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Pruning of $\mathfrak{R}$}
+\caption{Pruning of a complete $\mathfrak{R}$}
 \begin{algorithmic}
 \Procedure{Pruning}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete}
   \State $\mathcal{L}\gets\mathcal{K}$
@@ -494,6 +473,8 @@ Furthermore, pruning can be done really simply by following @alg-vstar for $S=\N
 ```
 :::
 
+Also note that the algorithm returns $\Vstar(\Nm^*)$ as a by-product. The following proposition states that @alg-pruning indeed produces the pruned region as in @def-pruning.
+
 ::: {#prp-pruning-correct}
 
 The final $\mathcal{L}$ returned by @alg-pruning is equal to $\cK^{\pr}$: $\mathcal{L}=\cK^{\pr}$.
@@ -506,6 +487,11 @@ First, $\cK\setminus\mathcal{L}\subseteq\cK\setminus\cK^{\pr}$ is trivial: a $k$
 Now let $(i,i')\in \cK\setminus\cK^{\pr}$ an element that is pruned by @def-pruning, so there exists $p\geq2$ and integers $i_1,\dotsc,i_{p-1}$ such that, when setting $i_0=i$ and $i_{p}=i'+1$, the sequence $(i_0,\dotsc,i_{p})$ is strictly increasing, $(i_{j-1},i_{j}-1)\in\cK$ for all $1\leq j\leq p$ and finally $\zeta_{(i,i')}=\zeta_{(i_0,i_{p}-1)}\geq \sum_{j=1}^{p} \zeta_{(i_{j-1}, i_{j}-1)}$. Then by the proof of Theorem 1 of @MR4178188 but applied to $S=R_{(i,i')}$ we have that $\sum_{j=1}^{p} \zeta_{(i_{j-1}, i_{j}-1)}\geq  \sum_{k'\in Succ_{(i,i')}} Vec_{k'}$ (see the unnumbered line just above Equation (A4) in that paper) and so $\zeta_{(i,i')}\geq \sum_{k'\in Succ_{(i,i')}} Vec_{k'}$ hence $(i,i')$ is pruned by @alg-pruning and $\cK\setminus\cK^{\pr}\subseteq\cK\setminus\mathcal{L}$.
 
 In the end, $\cK\setminus\cK^{\pr}=\cK\setminus\mathcal{L}$ so $\cK^{\pr}=\mathcal{L}$. $\square$
+:::
+
+::: {.callout-tip}
+
+We saw that @alg-vstar has $O(mN+|\cK|)$ complexity, the $mN$ term coming from the evaluation of $|S\cap P_i|$. Here, $|S\cap P_i|=|\Nm^*\cap P_i|=|P_i|$ can be accessed in $O(1)$, and $N\leq |\cK|$ for a complete family, so @alg-pruning simply has $O(|\cK|)$ complexity.
 :::
 
 
@@ -536,7 +522,7 @@ Now we can finally present the new algorithm and the proof that it computes the 
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
+\caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $\mathcal{P}^0\gets\{(i,i): 1\leq i \leq n\}$ \Comment{the set of all atoms indices}
@@ -585,7 +571,7 @@ Now we can finally present the new algorithm and the proof that it computes the 
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
+\caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $\mathcal{P}^0\gets\{(i,i): 1\leq i \leq n\}$ \Comment{the set of all atoms indices}
@@ -678,7 +664,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
+\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $V_0\gets 0$
@@ -718,7 +704,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
+\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $V_0\gets 0$
@@ -748,7 +734,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 ```
 :::
 
-It is easy to see that each step $t$ has a complexity in $O(|\cK|)$ hence the total complexity is in $O(m|\cK|)$. This is because, if the regions are carefully stocked in memory, especially if their bounds (in terms of hypothesis index) are stocked, then finding $\kth th$ has a complexity in $O(|\cK^h|)$ and checking if $i_t\in\bigcup_{k\in\cK^-_{t-1}}R_k$ has a complexity in $O(|\cK|)$.
+Stocking, for each $i_t$, the indices $k$ such that $i_t\in R_k$, is done by scanning the forest structure so it has complexity in $O(|\cK|)$. Once this information is available, finding $\kth th$ and updating $\cK^-$ can be done in $O(1)$. Then each step $t$ of the `for` loop consists in two successive scans of the $\kth th$, $1\leq h\leq H$, the first to check if $i_t\in\bigcup_{k\in\cK^-}R_k$, and the second to update the $\eta_{\kth th}$ if $i_t\not\in\bigcup_{k\in\cK^-}R_k$. So each step has complexity in $O(H)$ and finally the complexity of @alg-curve is in $O(mH+|\cK|)$, and even only $O(mH)$ after the first call if the necessary information has been stocked.
 
 ## Illustration on a detailed example {#sec-example}
 
@@ -1294,7 +1280,7 @@ The functions `dyadic.from.leaf_list`, `dyadic.from.window.size`, and `dyadic.fr
 
 In this Section, we present some numerical experiments aiming to demonstrate the impact of the pruning of @alg-pruning (using the `delete.gaps` option mentioned in @sec-implementation) and of the fast @alg-curve, in terms of computation time, compared to the only previously available method to compute a curve of confidence bounds. As mentioned in @sec-forest-structure and @sec-implementation, this naive method simply consisted in a `for` loop repeatedly applying @alg-vstar.
 
-To compare the computation time, we use the `R` package `microbenchmark` version 1.5.0 [@microbenchmark] with `R` version 4.4.0 (2024-04-24) and `sanssouci` version 0.13.0, on a MacBook Air M1 (2020) running macOS 15.1.1. The package `microbenchmark` allows to run code snippets a given number `n_repl` of times, and to compute summary statistics on the computation time. The script executing the computation can be found in the same repository as this manuscript.
+To compare the computation time, we use the `R` package `microbenchmark` version 1.5.0 [@microbenchmark] with `R` version 4.4.0 (2024-04-24) and `sanssouci` version 0.14.1, on a MacBook Air M1 (2020) running macOS 15.1.1. The package `microbenchmark` allows to run code snippets a given number `n_repl` of times, and to compute summary statistics on the computation time. The script executing the computation can be found in the same repository as this manuscript.
 
 Four scenarios are studied, all based on a common setting which we first describe. A number $m$ of hypotheses is tested. We use a reference family $(R_k,\zeta_k)$ such that the $R_k$'s have a forest structure of maximal depth $H=10$. The graph of the inclusion relations between the $R_k$'s is a binary tree, hence there are $2^H-1=1023$ $R_k$'s and in particular $2^{H-1}=512$ atoms. $P$-values are generated in a gaussian one-sided fashion where $\Hoi= \{ \mathcal N(\boldsymbol{\mu}, \mathrm{Id})  :\mu_i=0 \}$, $H_{1,i}=\{ \mathcal N(\boldsymbol{\mu}, \mathrm{Id}) :\mu_i=4 \}$, and $p_i(X)=1-\Phi(X_i)$. $\cH_1$ is comprised of the leafs 1, 5, 9 and 10, that is $\cH_1=P_1\cup P_5\cup P_9\cup P_{10}$. For each scenario, the curve $\left(\Vstar(\{1,\dotsc,t \})\right)_{t\in\Nm^*}$ is computed. For the experiments including pruning, the pruning is done once before the `n_repl` replications, to mimick the practice where pruning only needs to be done once and for all, while the user may be interested in computing multiple bounds and curves after that.
 
@@ -1314,7 +1300,7 @@ Differences between the scenarios
 
 For the trivial $\zeta_k$ computation of scenarios 1 and 3, the pruning obviously deletes all non-atom regions so $|\cK^{\pr}|=512$. Whereas, for the particular instance $\omega\in\Omega$ in the experiments, $|\cK^{\pr}|=541$ for scenario 2, and $|\cK^{\pr}|=573$ for scenario 4. Those results alone illustrate the benefits of pruning with respect to the reduction of the cardinality of the reference family: the regions above atoms with no signal (or no detectable signal in the trivial scenarios) are pruned. The fact that the regions above atoms with detectable signal are not pruned means that they are relevant for the confidences bounds (which had already been demonstrated in the simulation study of @MR4178188).
 
-The summary statistics of the computation time in each scenario are presented in @tbl-benchmark01, @tbl-benchmark02, @tbl-benchmark03, and @tbl-benchmark04, and they are also presented as boxplots in @fig-benchmark01. The time unit is the second (in logarithmic scale in the boxplots).
+The summary statistics of the computation time in each scenario are presented in @tbl-benchmark01, @tbl-benchmark02, @tbl-benchmark03, and @tbl-benchmark04, and they are also presented as boxplots in @fig-benchmark01. The time unit is the second.
 
 ```{r loading, echo=FALSE}
 library(microbenchmark)
@@ -1366,12 +1352,12 @@ knitr::kable(summary_list[[i]], caption = paste0("Scenario ", i))
 #| label: fig-benchmark01
 #| message: false
 #| warning: false
-#| fig-cap: "Computation times in scenario, in log seconds"
+#| fig-cap: "Computation times in each scenario, in seconds (using a logarithmic scale)"
 
 def_mar <- c(5, 4, 4, 2) + 0.1
-
-shift_fig <- c(0.307, 0.310, 0.13, 0.145)
-
+shift_fig <- c(0.33992, 0.33992, 0.33950, 0.33950)
+liminford <- c(1e-3, 1e-3, 1e-2, 1e-2)
+limsupord <- c(9, 9, 350, 350)
 par(mfrow = c(2, 2))
 
 for (i in 1:4) {
@@ -1380,9 +1366,9 @@ for (i in 1:4) {
   bp <- boxplot(
     time ~ expr,
     data = loaded_list[[i]],
-    ylab = "log seconds",
+    ylab = "seconds",
     xlab = "",
-    ylim = NULL,
+    ylim = c(liminford[i], limsupord[i]),
     horizontal = F,
     main = paste0("Comp. time, scenario ", i),
     xaxt = "n",
@@ -1398,11 +1384,11 @@ for (i in 1:4) {
 }
 ```
 
-On each scenario, using the fast algorithm is much faster than the naive approach, while pruning always gives a slight improvement over not pruning. 
+In each scenario, using the fast algorithm is much faster than the naive approach, with a speed factor of at least 1000. Using the naive approach, pruning always gives a slight improvement over not pruning. Using the fast algorithm, the benefits of pruning are significant, with a speed factor of at least 2, and sometimes 3.
 
-Comparing scenarios 1 and 2 first, we see that, as expected, there is no significant change in computation time for `naive.not.pruned`, while `naive.pruned` is faster in scenario 1, given that we prune more. But, on the other hand, `fast.not.pruned` and `fast.pruned` are both faster in scenario 2, even if we prune less. This is because, for the regions with signal, said signal is detected and so those regions are quickly saturated, in the sense that we quickly have $\eta_k^t=\zeta_k$ and $k$ added to $\cK^-_k$, which saves a lot of time. 
+Comparing scenarios 1 and 2 first, we see that, as expected, there is no significant change in computation time for `naive.not.pruned`. Methods `naive.pruned` and `fast.pruned` are faster in scenario 1, given that we prune more. But, on the other hand, `fast.not.pruned` is slightly faster in scenario 2. This is because, for the regions with signal, said signal is detected and so those regions are quickly saturated, in the sense that we quickly have $\eta_k^t=\zeta_k$ and $k$ added to $\cK^-_k$, which saves a lot of time. 
 
-The comparison between scenarios 3 and 4 is similar, except that this time we prune even less in scenario 4 and so the effect of the saturation is not enough to compensate. Although, with only `n_repl=10`, the statistics seem less accurate, this can be confirmed with additional experiments (`n_repl` can also be set to 100 without problem is we don't include `naive` methods).
+The comparison between scenarios 3 and 4 is similar. Although, with only `n_repl=10`, the statistics seem less accurate, this can be confirmed with additional experiments (`n_repl` can also be set to 100 without problem if we don't include `naive` methods).
 
 Finally, comparing scenarios 3 & 4 with scenarios 1 & 2, we see that multiplying the number of hypotheses by 10 effectively multiplies the computation time by $\sim10$ when using @alg-curve and by $\sim100$ when using @alg-vstar naively, which illustrates the stated complexities of $O(m|\cK|)$ and $O(m^2|\cK|)$, respectively.
 
@@ -1416,14 +1402,42 @@ A lot of work remains to be done on the `sanssouci` package. For example, to mak
 
 Other current works include the development of new reference families with theoretical JER control that could better account for realistic models, such as models with dependence between the $p$-values, see for example @perrot2023selective, or models with discreteness.
 
-# Acknowledgements
+# Acknowledgements {.appendix .unnumbered}
 
-This work has been supported by ANR-20-IDEES-0002 (PIA), ANR-19-CHIA-0021 (BISCOTTE), ANR-23-CE40-0018 (BACKUP) and ANR-21-CE23-0035 (ASCAI). Thanks to Romain Périer for being the first to extensively use the new implemented algorithms. Thanks to Pierre Neuvial for his valuable feedback.
+This work has been supported by the research grants ANR-20-IDEES-0002 (PIA), ANR-19-CHIA-0021 (BISCOTTE), ANR-23-CE40-0018 (BACKUP) and ANR-21-CE23-0035 (ASCAI). Thanks to Romain Périer for being the first to extensively use the new implemented algorithms. Thanks to Pierre Neuvial for his valuable feedback.
 
-# References {.unnumbered}
+# References {.appendix .unnumbered}
 
 ::: {#refs}
 :::
+
+# Variant proof that $|\cK|\leq 2m-1$ {#sec-variant .appendix .unnumbered}
+
+We show by induction on $m\geq1$ that, for a family of subsets $(R_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, $|\cK|\leq 2m-1$. For $m=1$ it is trivial, the only subset possible is $\{1\}$. Now let $m\geq 1$ and assume that the result is true for $m$. Let $(R_k)_{k\in\cK}$ a family of non-empty and distinct subsets of $\mathbb N_{m+1}^*$ with a forest structure. 
+
+Let $k_1, \dotsc, k_D$, $D\leq H$, the indices of the regions including $m+1$ (possibly non-existent, in which case $D=0$), ordered such that $R_{k_1}\subsetneq\dotsb\subsetneq R_{k_D}$. Let $\widetilde{\cK}=\cK\setminus\{k_1, \dotsc, k_D\}$, and let $\cK'=\cK\setminus\{k_1, k_2\}=\widetilde{\cK}\cup\{k_3, \dotsc, k_D\}$. For $k\in \widetilde{\cK}$, we let $R'_k=R_k$, and for $k\in\{k_3, \dotsc, k_D\}$, we let $R'_k=R_k\setminus\{m+1\}$. The rest of the proof consists in proving that $(R'_k)_{k\in\cK'}$ is a family of non-empty and distinct subsets of $\Nm^*$ with a forest structure. Once this is proven, by induction hypothesis we will have $|\cK'|\leq 2m-1$, and finally $|\cK|\leq |\cK'|+2\leq 2m-1+2=2(m+1)-1$.
+
+First, any $R'_k$, $k\in\cK'$, is non-empty, because if $k\in\widetilde{\cK}$, $R_k'=R_k\neq\varnothing$, and if $k=k_d$ with $d\geq3$, $R_{k_1}\subsetneq R_{k_2}\subsetneq R_k$ so $|R_k|\geq 3$ and then $|R'_k|=|R_k\setminus\{m+1\}|\geq2$.
+
+To prove that $(R'_k)_{k\in\cK'}$ is a family of distinct subsets of $\Nm^*$ with a forest structure, we need to take $k, k'\in\cK'$, $k\neq k'$, and show that $R'_k\neq R'_{k'}$ and $R'_k\cap R'_{k'}\in\{\varnothing, R'_k, R'_{k'}\}$.
+
+If $|\widetilde{\cK}|\geq2$, let $k, k'\in\widetilde{\cK}$, $k\neq k'$. We have $R'_k=R_k$ and $R'_{k'}=R_{k'}$, so $R'_k\neq R'_{k'}$ and $R'_k\cap R'_{k'}\in\{\varnothing, R_k, R_{k'}\}=\{\varnothing, R'_k, R'_{k'}\}$.
+
+If $D\geq 4$, let $i, j\in\{3,\dotsc, D\}$, $i<j$. We have $R'_{k_i}=R_{k_i}\setminus\{m+1\}$ and $R'_{k_j}=R_{k_j}\setminus\{m+1\}$ with $R_{k_i}\subsetneq R_{k_j}$, so $R'_{k_i}\neq R'_{k_j}$ and $R'_{k_i}\cap R'_{k_j}=R_{k_j}\setminus\{m+1\}=R'_{k_j}$.
+
+If $D\geq 3$ and $|\widetilde{\cK}|\geq1$, let $i\in\{3,\dotsc, D\}$ and $k\in\widetilde{\cK}$. We have $R'_{k_i}=R_{k_i}\setminus\{m+1\}$ and $R'_k=R_k$. 
+\begin{align*}
+R'_{k_i}\cap R'_k&=(R_{k_i}\setminus\{m+1\})\cap R_k \\
+&=R_{k_i}\cap R_k \text{ because } m+1\not\in R_k\\
+&\in\{\varnothing, R_{k_i}, R_k\} \text{ by the property of forest property}
+\end{align*}
+Given that $R'_{k_i}\subsetneq R_{k_i}$, $R'_{k_i}\cap R'_k=R_{k_i}$ is impossible, so $R'_{k_i}\cap R'_k\in\{\varnothing, R_k\}=\{\varnothing, R'_k\}$ so the only thing remaining to prove is that $R'_{k_i}$ and $R'_k$ are distinct. We prove that by showing that if $R'_k = R'_{k_i}$, there is a contradiction. Indeed, then $R_k = R_{k_i}\setminus\{m+1\}$, and we can study $R_{k_2}\cap R_k$. On the one hand, $R_{k_2}\cap R_k\in\{\varnothing, R_{k_2}, R_k\}=\{\varnothing, R_{k_2}, R_{k_i}\setminus\{m+1\}\}$ by forest property. On the other hand,
+\begin{align*}
+R_{k_2}\cap R_k&=(R_{k_2}\setminus\{m+1\})\cap R_k \text{ because }m+1\not\in R_k \\
+&=(R_{k_2}\setminus\{m+1\})\cap (R_{k_i}\setminus\{m+1\})\\
+&=R_{k_2}\setminus\{m+1\}.
+\end{align*}
+So $R_{k_2}\cap R_k=R_{k_2}$ is impossible. Furthermore, $R_{k_2}\cap R_k=R_{k}$ is also impossible because $R_{k_2}\subsetneq R_{k_i}$ and $m+1\in R_{k_2}$ hence $R_{k_2}\setminus\{m+1\}\subsetneq R_{k_i}\setminus\{m+1\}$. So  $R_{k_2}\cap R_k=\varnothing$, that is $R_{k_2}\setminus\{m+1\}=\varnothing$, so $R_{k_2}=\{m+1\}$ and the contradiciton is the following: $\{m\}\subseteq R_{k_1}\subsetneq R_{k_2}=\{m+1\}$.$\square$
 
 # Session information {.appendix .unnumbered}
 

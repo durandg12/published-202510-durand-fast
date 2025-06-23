@@ -521,7 +521,21 @@ Assume that the reference family of @exm-toy-forest has been labeled as in @exm-
 
 We will now present the new algorithm and the proof that it computes the curve $(\Vstar(S_t))_{t\in\Nm}$. We present two versions of the algorithm (strictly equivalent): one very formal (@alg-formal-curve), to introduce additional notation used in the proof of @thm-curve-path, and, later, a simpler version that is the one actually implemented (@alg-curve). Recall that a detailed illustration of the steps of the algorithms will be provided in @sec-example.
 
-In addition to the computation of all $\Vstar(S_t)$, @alg-formal-curve also computes partitions $\cP^t$ that realize the minimum in \eqref{eq_vstar_Qpartition} for $\Vstar(S_t)$.
+In addition to the computation of all $\Vstar(S_t)$, @alg-formal-curve also computes partitions $\cP^t$ that realize the minimum in \eqref{eq_vstar_Qpartition} for $\Vstar(S_t)$. The initialization of $\cP^t$ has to be done carefully, for that we let $\cK_0^-=\{k\in\cK : \zeta_k=0  \}$ and
+\begin{equation}
+E=\left\{k\in\cK_0^-:\forall k'\in \cK_0^-, R_k\subseteq R_{k'}\Rightarrow k'=k \right\},
+\label{E}
+\end{equation}
+\begin{equation}
+F=\left\{(i,i), 1\leq i\leq n:\forall k\in \cK_0^-, R_{(i,i)}\not\subseteq R_k  \right\},
+\label{F}
+\end{equation}
+and finally
+\begin{equation}
+\cP^0=E\cup F.
+\label{P0_init}
+\end{equation}
+$E$ is the set of indices of the maximal elements $k$ such that $\zeta_k=0$, $F$ is the set of indices of all leaves that are not a subset of a region indexed by $E$. $\cP^0$ is the disjoint union of the two.
 
 ::: {.content-visible when-format="html"}
 ```pseudocode
@@ -537,7 +551,7 @@ In addition to the computation of all $\Vstar(S_t)$, @alg-formal-curve also comp
 \caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
-  \State $\mathcal{P}^0\gets\{(i,i): 1\leq i \leq n\}$ \Comment{the set of all atoms indices}
+  \State $\mathcal{P}^0\gets E\cup F$ \Comment{see (16) and (17)}
   \State $\mathcal{K}^-_0\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta^0_k\gets0$ for all $k\in\mathcal{K}$
   \For{$t=1,\dotsc, m$}
@@ -586,7 +600,7 @@ In addition to the computation of all $\Vstar(S_t)$, @alg-formal-curve also comp
 \caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
-  \State $\mathcal{P}^0\gets\{(i,i): 1\leq i \leq n\}$ \Comment{the set of all atoms indices}
+  \State $\mathcal{P}^0\gets E\cup F$ \Comment{see \eqref{E} and \eqref{F}} 
   \State $\mathcal{K}^-_0\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta^0_k\gets0$ for all $k\in\mathcal{K}$
   \For{$t=1,\dotsc, m$}

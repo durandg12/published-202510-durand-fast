@@ -1124,7 +1124,7 @@ We then show that $\cP^t\in\mathfrak P$ by recursion. We just showed that $\cP^0
 \begin{equation}\label{eq_rel_rec_p}
 \cP^{t+1}=\left(\cP^t \setminus\{k\in\cP^t, R_k\subseteq R_{  \kth {t+1}{h^f_{t+1}}   }   \}  \right)\cup \{ \kth {t+1}{h^f_{t+1}} \}.
 \end{equation}
-Note that this imply that $i_{t+1}\not\in\bigcup_{\kappa \in \cK^-_t} R_{\kappa}$ (see line 6 and 10).
+Note that this imply that $i_{t+1}\not\in\bigcup_{\kappa \in \cK^-_t} R_{\kappa}$ (see lines 6 and 10).
 
 To prove that $\cP^{t+1}\in\mathfrak P$, by the recursion hypothesis, it is sufficient to prove that there are no $k'\in\cP^t$ such that $R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq  R_{k'}$. If that was the case, because of the strict inclusion, we would have $k'\not\in F$ because $R_{k'}$ could not be an atom, so we would have either $k'\in E\subseteq \cK^-_0 \subseteq \cK^-_t$ or $k'\in\cP^t\setminus\cP^0$. In the second case, $k'$ would have been added to $\cP^{t'}$ at a previous step $t'\leq t$ of the algorithm, but in that case it would also have been added to $\cK_{t'}^-\subseteq \cK_{t}^-$ (see lines 17 and 18). So in the end, in both cases, we would have
 \begin{equation*}

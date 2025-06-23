@@ -647,6 +647,8 @@ The elements of $\cK_t$ index the regions of the forest that ``are above'' the r
 
 ## Fast curve computation
 
+Assume that $\Rfam$ is complete in the sense of @sec-forest-structure.
+
 Let any $t\in\Nm$. Then, $\cP^t\in\mathfrak P$, and for all $k\in\cK_t$, we have
 \begin{equation}
 \Vstar(S_t\cap R_k) = \eta_k^t
@@ -669,6 +671,8 @@ The proof of this Theorem is postponed to @sec-proof. The first equality of Equa
 ::: {#cor-easy-impl}
 
 ## Easy computation
+
+Assume that $\Rfam$ is complete in the sense of @sec-forest-structure.
 
 For $t\in\{0,\dotsc, m-1 \}$, $V^*_{\Rfam}(S_{t+1})=V^*_{\Rfam}(S_{t})$ if $i_{t+1}\in \bigcup_{k\in\cK^-_t}R_k$, and  $V^*_{\Rfam}(S_{t+1})=V^*_{\Rfam}(S_{t}) + 1$ if not.
 

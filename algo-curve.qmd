@@ -1122,7 +1122,7 @@ The $R_k, k\in \cP^0$ are disjoint, non-empty (see @rem-distinct), and cover $\N
 
 We show the remainder of the statements with a strong recursion over $t$. We have $\cP^0\in\mathfrak P$ by previous section, and given that $S_0=\varnothing$ and $\eta^0_k=0$ for all $k\in\cK$ (recall that $\cK_0=\cK$), everything is equal to 0 in \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}.
 
-So we let $t\in\{ 0,\dotsc,m-1\}$, and assume that $\cP^{t'}\in\mathfrak P$ and that \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition} hold for all $t'\leq t$. In all the following, $\bar k$ is the element of $\cP^t$ such that $i_{t+1}\in R_{\bar k}$. We will distinguish two cases: if $i_{t+1}\in\bigcup_{k\in\cK^-_{t}}R_k$ or not. First we show an inequality that will be used in both cases. We have, for all $k\in\cK_t$,
+So we let $t\in\{ 0,\dotsc,m-1\}$, and assume that $\cP^{t'}\in\mathfrak P$ and that \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition} hold for all $t'\leq t$. In all the following, $\bar k$ is the element of $\cP^t$ such that $i_{t+1}\in R_{\bar k}$. We will distinguish two cases: if $i_{t+1}\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$ or not. First we show an inequality that will be used in both cases. We have, for all $k\in\cK_t$,
 \begin{align}
 \Vstar(S_{t+1}\cap R_k)&\leq \sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}|.\label{eq_ineq_both_cases}
 \end{align}
@@ -1132,7 +1132,7 @@ Indeed, by \eqref{eq_vstar_Qpartition},
 \end{align*}
 For any $k'\in\cP^{t}$, we have either $R_{k'}\cap R_k=\varnothing$, in which case $|S_{t+1}\cap R_k \cap R_{k'}|=0$, either $R_{k'}\subseteq R_k$, in which case $|S_{t+1}\cap R_k \cap R_{k'}|=|S_{t+1} \cap R_{k'}|$, but $R_{k}\subsetneq R_{k'}$ is impossible. Indeed, by definition of $\cK_t$, there exists $\tilde k\in \cP^t$ such that $R_{\tilde k}\subseteq R_k$, so $R_{k}\subsetneq R_{k'}$ would entail $R_{\tilde k}\subsetneq R_{k'}$ which is impossible since $k', \tilde k\in \cP^t\in\mathfrak P$ and so $R_{\tilde k}$ and $R_{k'}$ are part of a partition of $\Nm^*$. This gives \eqref{eq_ineq_both_cases}.
 
-#### First case: $i_{t+1}\in\bigcup_{k\in\cK^-_{t}}R_k$
+#### First case: $i_{t+1}\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$
 
 In this case, $\cP^{t+1}=\cP^t$ and $\cK_{t+1}=\cK_t$. For any $k\in\cK_{t+1}$ such that $i_{t+1}\not\in R_k$ (or, equivalently, such that $S_{t+1}\cap R_k=S_t\cap R_k$),
 \begin{align*}
@@ -1147,7 +1147,7 @@ Now we let $k\in\cK_{t+1}$ such that $i_{t+1}\in R_k$ or, equivalently, such tha
 
 ##### First subcase: $\bar k$ has never been added during the process of line 17
 
-Then $\bar k\in\cP^0$ and $R_{\bar k}$ is an atom, so $i_{t+1}\in\bigcup_{k'\in\cK^-_{t}}R_{k'}$ implies that $R_{\bar k}\subseteq \bigcup_{k'\in\cK^-_{t}}R_{k'}$ (because of the forest structure). Let $k'_{\max}$ such that
+Then $\bar k\in\cP^0$ and $R_{\bar k}$ is an atom, so $i_{t+1}\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$ implies that $R_{\bar k}\subseteq \bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$ (because of the forest structure). Let $k'_{\max}$ such that
 \begin{equation*}
 R_{k'_{\max}}=\max\{ R_{k'}\telque k'\in\cK^-_t, R_{\bar k}\subseteq R_{k'}  \}
 \end{equation*}
@@ -1184,7 +1184,7 @@ But on the other hand, $S_t\subseteq S_{t+1}$ and so \eqref{eq_vstar_Qpartition}
 \end{equation*}
 which concludes this first case.
 
-#### Second case: $i_{t+1}\not\in\bigcup_{k\in\cK^-_{t}}R_k$
+#### Second case: $i_{t+1}\not\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$
 
 We first prove that $\cP^{t+1}\in\mathfrak P$ whether it came form the adjustment in line 17 or not. If it didn't, it stayed equal to $\cP^t\in\mathfrak P$. If it did, we have
 \begin{equation}\label{eq_rel_rec_p}
@@ -1192,7 +1192,7 @@ We first prove that $\cP^{t+1}\in\mathfrak P$ whether it came form the adjustmen
 \end{equation}
 To prove that $\cP^{t+1}\in\mathfrak P$ in that case, it suffices to prove there are no $k'\in\cP^t$ such that $R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq  R_{k'}$. If it was the case, because of the strict inclusion, we would have $k'\not\in\cP^0$, so $k'$ would have been added to $\cP^{t'}$ at a previous step $t'\leq t$ of the algorithm, but in that case it would also have been added to $\cK_{t'}^-\subseteq \cK_{t}^-$. So in the end we would have
 \begin{equation*}
-i_{t+1}\in R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq R_{k'} \subseteq \bigcup_{k\in\cK^-_{t}}R_k
+i_{t+1}\in R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq R_{k'} \subseteq \bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}
 \end{equation*}
 which is a contradiction and so $\cP^{t+1}\in\mathfrak P$.
 
@@ -1221,7 +1221,7 @@ Also, similarly to the first case, for all $k\in\cK_{t+1}$ such that $i_{t+1}\in
 &=\Vstar(S_t\cap R_k) +1  \text{ by \eqref{eq_Pt_good_partition}}.\label{eq_ineq_}
 \end{align}
 
-Note that by the joint construction of $\cK^-_t$ and $\cP^t$ on lines 17 and 18, the fact that $i_{t+1}\not\in\bigcup_{k\in\cK^-_{t}}R_k$ implies that $\bar k$ is the index of an atom, so actually $h_{\max}(t+1)=\phi(\bar k)$, $\bar k = \kth{t+1}{\phi(\bar k)}$ and the $R_k$, $k\in\cK_{t}$, such that $R_{\bar k}\subseteq R_k$ are nested and are exactly indexed by the $\kth{t+1}{h}$, $1\leq h\leq \phi(\bar k)$. We now prove that for all of them, $\Vstar(S_{t+1}\cap R_k)\geq \Vstar(S_{t}\cap R_k)+1$, which will be true in particular for the ones that are in $\cK_{t+1}$, given that $\cK_{t+1}\subseteq \cK_t$. We do that by constructing some sets $A_h$ with good properties with a descending recursion on $h$, starting from $\phi(\bar k)$. We only give the first two steps of the construction, because every other step is exactly the same as the second one, which contains the recursive arguments. We go back to the real definition of $\Vstar$ to do so, for any $S\subseteq \Nm$:
+Note that by the joint construction of $\cK^-_t$ and $\cP^t$ on lines 17 and 18, the fact that $i_{t+1}\not\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$ implies that $\bar k\in F$, so $\bar k$ is the index of an atom, so actually $h_{\max}(t+1)=\phi(\bar k)$, $\bar k = \kth{t+1}{\phi(\bar k)}$ and the $R_k$, $k\in\cK_{t}$, such that $R_{\bar k}\subseteq R_k$ are nested and are exactly indexed by the $\kth{t+1}{h}$, $1\leq h\leq \phi(\bar k)$. We now prove that for all of them, $\Vstar(S_{t+1}\cap R_k)\geq \Vstar(S_{t}\cap R_k)+1$, which will be true in particular for the ones that are in $\cK_{t+1}$, given that $\cK_{t+1}\subseteq \cK_t$. We do that by constructing some sets $A_h$ with good properties with a descending recursion on $h$, starting from $\phi(\bar k)$. We only give the first two steps of the construction, because every other step is exactly the same as the second one, which contains the recursive arguments. We go back to the real definition of $\Vstar$ to do so, for any $S\subseteq \Nm$:
 \begin{equation}
 \label{eq_Vstar_au_max} \Vstar(S)=\max_{\substack{A\subseteq \Nm\\\forall k'\in\cK, |A\cap R_{k'}|\leq \zeta_{k'}}} |A\cap S| =\max_{\substack{A\subseteq S\\\forall k'\in\cK, |A\cap R_{k'}|\leq \zeta_{k'}}} |A|  . 
 \end{equation}
@@ -1235,7 +1235,7 @@ So we construct $A_{\phi(\bar k)-1}$ by taking the disjoint union of $A_{\phi(\b
 \end{align*}
 by construction of $A_{\phi(\bar k)}$. Finally, for all $k'$ such that $R_{\kth{t+1}{\phi(\bar k)-1}}\subseteq R_{k'}$, $|A_{\phi(\bar k)-1}\cap R_{k'}|=|A_{\phi(\bar k)-1}|=\Vstar(S_t \cap R_{\kth{t+1}{\phi(\bar k)-1}})=|B|$ with the previously defined $B$, in particular $|B\cap R_{k'}|\leq \zeta_{k'}$, but given that $B\subseteq S_t \cap R_{\kth{t+1}{\phi(\bar k)-1}}$, $|B\cap R_{k'}|=|B|$. Wrapping all those equalities, it comes that $|A_{\phi(\bar k)-1}\cap R_{k'}|\leq \zeta_{k'}$. In the end, $|A_{\phi(\bar k)-1}\cap R_{k'}|\leq \zeta_{k'}$ for all $k'\in\cK$, so $A_{\phi(\bar k)-1}$ realizes the maximum in \eqref{eq_Vstar_au_max} for $S_t \cap R_{\kth{t+1}{\phi(\bar k)-1}}$.
 
-By applying exactly the same method, we recursively construct a non-increasing sequence $A_{\phi(\bar k)}\subseteq\dotsb\subseteq A_1$ such that for all $\ell\in\{1,\dotsc, \phi(\bar k)\}$ and $k'\in\cK$, $A_\ell\subseteq S_t\cap R_{\kth{t+1}{\ell}}$, $\Vstar(S_t\cap R_{\kth{t+1}{\ell}})=|A_\ell|$, and $|A_\ell\cap R_{k'}|\leq \zeta_{k'}$. Furthermore for $\ell'>\ell$, $A_{\ell}\setminus A_{\ell'}\subseteq S_t\cap R_{\kth{t+1}{\ell}}\setminus S_t\cap R_{\kth{t+1}{\ell'}}$. Also note that the fact that $i_{t+1}\not\in\bigcup_{k\in\cK^-_{t}}R_k$ implies that $\eta^t_{\kth{t+1}{\ell}}<\zeta_{\kth{t+1}{\ell}}$ for all $\ell\in\{1,\dotsc, \phi(\bar k)\}$. So by \eqref{eq_vstar_inter_Rk_equal_eta}, $|A_\ell|<\zeta_{\kth{t+1}{\ell}}$.
+By applying exactly the same method, we recursively construct a non-increasing sequence $A_{\phi(\bar k)}\subseteq\dotsb\subseteq A_1$ such that for all $\ell\in\{1,\dotsc, \phi(\bar k)\}$ and $k'\in\cK$, $A_\ell\subseteq S_t\cap R_{\kth{t+1}{\ell}}$, $\Vstar(S_t\cap R_{\kth{t+1}{\ell}})=|A_\ell|$, and $|A_\ell\cap R_{k'}|\leq \zeta_{k'}$. Furthermore for $\ell'>\ell$, $A_{\ell}\setminus A_{\ell'}\subseteq S_t\cap R_{\kth{t+1}{\ell}}\setminus S_t\cap R_{\kth{t+1}{\ell'}}$. Also note that the fact that $i_{t+1}\not\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$ implies that $\eta^t_{\kth{t+1}{\ell}}<\zeta_{\kth{t+1}{\ell}}$ for all $\ell\in\{1,\dotsc, \phi(\bar k)\}$. So by \eqref{eq_vstar_inter_Rk_equal_eta}, $|A_\ell|<\zeta_{\kth{t+1}{\ell}}$.
 
 Let, for any $\ell\in\{1,\dotsc, \phi(\bar k)\}$, $\widetilde A_\ell=A_\ell \cup \{ i_{t+1}\}$. Given that $A_\ell\subseteq S_t\cap R_{\kth{t+1}{\ell}}$ and that $i_{t+1}\in S_{t+1}\setminus S_t$, $\widetilde A_\ell\subseteq S_{t+1}\cap R_{\kth{t+1}{\ell}}$, $|\widetilde A_\ell|=| A_\ell|+1$, and for all $\ell'\in\{1,\dotsc, \phi(\bar k)\}$, $|\widetilde A_\ell \cap R_{\kth{t+1}{\ell'}} |=| A_\ell\cap R_{\kth{t+1}{\ell'}}|+1$. Note that if, furthermore, $\ell\geq \ell'$, then $A_\ell\subseteq A_{\ell'}$, so
 \begin{align*}

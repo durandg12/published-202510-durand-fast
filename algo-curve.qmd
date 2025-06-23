@@ -1112,7 +1112,7 @@ So we proved that $\Vstar(S_t)= \sum_{k\in\cP^t} \zeta_{k}\wedge |S_t\cap R_{k}|
 
 ### Proof that $\cP^0\in\mathfrak P$
 
-By completeness, $F\subseteq \cK$ and so $\cP^0\subseteq \cK$.
+By completeness, $F\subseteq \cK$ and so $\cP^0\subseteq \cK$. First we show that $\Nm^*=\bigcup_{k\in\cP^0}R_k$. Let $j\in\Nm^*$ and $i\leq N$ such that $j\in R_{(i,i)}$.
 
 ### Proof of \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}
 

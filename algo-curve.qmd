@@ -1112,7 +1112,8 @@ So we proved that $\Vstar(S_t)= \sum_{k\in\cP^t} \zeta_{k}\wedge |S_t\cap R_{k}|
 
 ### Proof that $\cP^0\in\mathfrak P$
 
-By completeness, $F\subseteq \cK$ and so $\cP^0\subseteq \cK$. First we show that $\Nm^*=\bigcup_{k\in\cP^0}R_k$. Let $j\in\Nm^*$ and $i\leq N$ such that $j\in R_{(i,i)}$.
+By completeness, $F\subseteq \cK$ and so $\cP^0\subseteq \cK$. First we show that $\Nm^*=\bigcup_{k\in\cP^0}R_k$. Let $j\in\Nm^*$ and $i\in \mathbb{N}_N^*$ such that $j\in R_{(i,i)}$. Let $G=\left\{k\in\cK_0^-: j\in R_k\right\}$. If $G=\varnothing$, for any $k\in\cK_0^-$, $R_{(i,i)}\subseteq R_k$ would imply that $j\in R_k$ and $k\in G$, hence a contradiction, and so $(i,i)\in F$ and $j\in \bigcup_{k\in\cP^0}R_k$. If $G\neq\varnothing$, for any $k,k'\in G$, $j\in R_{k}\cap R_{k'}$ so, by forest structure, $R_{k}\subseteq R_{k'}$ or $R_{k'}\subseteq R_{k}$, hence $\subseteq$ is a total order on the finite, non-empty set $\{R_k : k\in G\}$, so the latter has a maximum and there exists a unique $k^*\in G$ such that $R_{k^*}=\max_{k\in G}R_k$. Let us show that, as an element of $\cK_0^-$, $k^*$ is maximal, which will imply that $k^*\in E$ and that $j\in \bigcup_{k\in\cP^0}R_k$. Let any $k'\in \cK_0^-$ such that $R_{k^*}\subseteq R_{k'}$, then $j\in R_{k'}$, so $k'\in G$ and so $R_{k'}\subseteq \max_{k\in G}R_k=R_{k^*}$. Hence $R_{k^*}= R_{k'}$ and $k^*=k'$ (see @rem-distinct), $k^*$ is indeed maximal, $k^*\in E$ and $j\in \bigcup_{k\in\cP^0}R_k$. This proves that $\Nm^*=\bigcup_{k\in\cP^0}R_k$.
+
 
 ### Proof of \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}
 

@@ -527,7 +527,7 @@ E=\left\{k\in\cK_0^-:\forall k'\in \cK_0^-, R_k\subseteq R_{k'}\Rightarrow k'=k 
 \label{E}
 \end{equation}
 \begin{equation}
-F=\left\{(i,i), 1\leq i\leq n:\forall k\in \cK_0^-, R_{(i,i)}\not\subseteq R_k  \right\},
+F=\left\{(i,i), 1\leq i\leq N:\forall k\in \cK_0^-, R_{(i,i)}\not\subseteq R_k  \right\},
 \label{F}
 \end{equation}
 and finally

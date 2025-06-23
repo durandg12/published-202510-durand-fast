@@ -1159,7 +1159,7 @@ We write the following chain of claims:
 &=\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k\\ k'\neq\bar k}} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| + \zeta_{\bar k}\wedge |S_{t+1}\cap R_{\bar k}| \\
 &=\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k\\ k'\neq\bar k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}| + \zeta_{\bar k}\wedge( |S_{t}\cap R_{\bar k}| +1)\\
 &=\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k\\ k'\neq\bar k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}| + \zeta_{\bar k}\wedge|S_{t}\cap R_{\bar k}|\text{ because $\zeta_{\bar k}\leq |S_t\cap R_{\bar k}|$}\\
-&=\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}| \\
+&=\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}|=\sum_{\substack{k'\in\cP^{t+1}\\R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}| \\
 &=\Vstar(S_t\cap R_k)  \text{ by~\eqref{eq_Pt_good_partition}} \\
 &= \eta_k^t  \text{ by~\eqref{eq_vstar_inter_Rk_equal_eta}} \\
 &= \eta_k^{t+1}.\\

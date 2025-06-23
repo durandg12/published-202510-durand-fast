@@ -74,7 +74,7 @@ With the formalism introduced in last section, a confidence upper bound is a fun
 \end{equation}
 In the remainder, the dependence in $(X,\alpha)$ will be dropped when there is no ambiguity and $\Vhat(X,\alpha)$ will simply be written $\Vhat$.
 
-As said in the Introduction, many constructions, ultimately theoretically equivalent but differing by the practical steps involved, exist, and in this paper we focus on the meta-construction of @MR4124323 based on reference families. A reference family is a family $\Rfam=\Rfam(X,\alpha)=(R_k,\zeta_k)_{k\in \mathcal K}$ with $R_k\subseteq\Nm^*$, $\zeta_k\in\left\{0,\dotsc,|R_k|\right\}$ where everything (that is, $\mathcal K$ and all the $R_k$ and $\zeta_k$) depends on $(X,\alpha)$ but the dependency is not explicitly written. The $R_k$ are all distinct. We also define the following error criterion for a reference family, named Joint Error Rate (JER):
+As said in the Introduction, many constructions, ultimately theoretically equivalent but differing by the practical steps involved, exist, and in this paper we focus on the meta-construction of @MR4124323 based on reference families. A reference family is a finite family $\Rfam=\Rfam(X,\alpha)=(R_k,\zeta_k)_{k\in \mathcal K}$ with $R_k\subseteq\Nm^*$, $\zeta_k\in\left\{0,\dotsc,|R_k|\right\}$ where everything (that is, $\mathcal K$ and all the $R_k$ and $\zeta_k$) depends on $(X,\alpha)$ but the dependency is not explicitly written. The $R_k$ are all distinct almost surely (see @rem-distinct). We also define the following error criterion for a reference family, named Joint Error Rate (JER):
 \begin{equation}
 \JER(\Rfam) = \Pro{\exists k\in\mathcal K, |R_k\cap\cH_0| > \zeta_k } = \Pro{\exists k\in\mathcal K, V(R_k) > \zeta_k }.
 \label{eq_jer}
@@ -99,6 +99,12 @@ which optimally uses the information provided by the JER control of the referenc
 ::: {#rem-zeta}
 
 The specific computation of the $R_k$'s and the $\zeta_k$'s such that Equation \eqref{eq_jer_control} holds is outside the scope of the present paper, but different constructions can be found in @MR4124323, @MR4178188 or @blain22notip, for example.
+
+:::
+
+::: {#rem-distinct}
+
+Some reference family constructions can yield $R_k=R_{k'}$ for $k\neq k'$, for example in the setting of @JMLR:v25:23-1025 with discrete $p$-values. But in that scenario we can always prune the duplicate and keep only one index so that $k\mapsto R_k$ is injective. We implicitly consider that this operation is always done in practice and in the remainder of this article. Of course, if $R_k=R_{k'}$ with $k\neq k'$, we keep the index with the lower value of $\zeta$, that is we keep $\tilde k\in\arg\min_{\ell\in\{k,k'\}}\zeta_{\ell}$ (not doing so would change the bound defined by \eqref{eq-vstar} and decrease its power in terms of type-II error).
 
 :::
 

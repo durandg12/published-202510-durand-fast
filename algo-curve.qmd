@@ -1126,11 +1126,13 @@ We then show that $\cP^t\in\mathfrak P$ by recursion. We just showed that $\cP^0
 \end{equation}
 Note that this imply that $i_{t+1}\not\in\bigcup_{\kappa \in \cK^-_t} R_{\kappa}$ (see lines 6 and 10).
 
-To prove that $\cP^{t+1}\in\mathfrak P$, by the recursion hypothesis and the forest structure, it is sufficient to prove that there are no $k'\in\cP^t$ such that $R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq  R_{k'}$. If that was the case, because of the strict inclusion, we would have $k'\not\in F$ because $R_{k'}$ could not be an atom, so we would have either $k'\in E\subseteq \cK^-_0 \subseteq \cK^-_t$ or $k'\in\cP^t\setminus\cP^0$. In the second case, $k'$ would have been added to $\cP^{t'}$ at a previous step $t'\leq t$ of the algorithm, but in that case it would also have been added to $\cK_{t'}^-\subseteq \cK_{t}^-$ (see lines 17 and 18). So in the end, in both cases, we would have
+Let $j\in\Nm^*$ and $k\in\cP^t$ such that $j\in R_k$. If $R_k\subseteq R_{  \kth {t+1}{h^f_{t+1}}   }$, then $j\in R_{  \kth {t+1}{h^f_{t+1}}   }\subseteq \bigcup_{\kappa\in \cP^{t+1}} R_{\kappa}$, and if not, $k\in\cP^{t+1}$ and again $j\in \bigcup_{\kappa\in \cP^{t+1}} R_{\kappa}$.
+
+Now let $k,k'\in\cP^{t+1}$, $k\neq k'$. If both are different from $\kth {t+1}{h^f_{t+1}}$, then they are both in $\cP^t\in\mathfrak P$ so $R_k\cap R_{k'}=\varnothing$. Assume that $k'=\kth {t+1}{h^f_{t+1}}$. By the forest structure, $R_k\cap R_{k'}=\varnothing$, or $R_{\kth {t+1}{h^f_{t+1}}}$, or $R_k$. By \eqref{eq_rel_rec_p}, the latter is impossible. It remains to show that $R_k\cap R_{k'}=R_{  \kth {t+1}{h^f_{t+1}}}$ is also not possible, in other words that we can't have $R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq  R_{k}$. If that was the case, because of the strict inclusion, we would have $k\not\in F$ because $R_{k}$ could not be an atom, so we would have either $k\in E\subseteq \cK^-_0 \subseteq \cK^-_t$ or $k\in\cP^t\setminus\cP^0$. In the second case, $k$ would have been added to $\cP^{t'}$ at a previous step $t'\leq t$ of the algorithm, but in that case it would also have been added to $\cK_{t'}^-\subseteq \cK_{t}^-$ (see lines 17 and 18). So in the end, in both cases, we would have
 \begin{equation*}
-i_{t+1}\in R_{  \kth {t+1}{h^f_{t+1}}} \subseteq \bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}
+i_{t+1}\in R_{  \kth {t+1}{h^f_{t+1}}}  \subsetneq  R_{k} \subseteq \bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}
 \end{equation*}
-which is a contradiction with the fact that $i_{t+1}\not\in\bigcup_{\kappa \in \cK^-_t} R_{\kappa}$, and so $\cP^{t+1}\in\mathfrak P$.
+which is a contradiction with the fact that $i_{t+1}\not\in\bigcup_{\kappa \in \cK^-_t} R_{\kappa}$, and so $R_k\cap R_{k'}=\varnothing$, and finally $\cP^{t+1}\in\mathfrak P$.
 
 ### Proof of \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}
 

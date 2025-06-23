@@ -1085,6 +1085,8 @@ We move on to the remaining steps. $i_7=19\in P_{4:5}$, $i_8=22\in P_{7}$ and $i
 
 ## Proof of @thm-curve-path {#sec-proof}
 
+In this section, every reference to a line is a reference to a line of @alg-formal-curve.
+
 ### Derivation of \eqref{eq_vstar_equal_sum_eta}
 
 We first derive \eqref{eq_vstar_equal_sum_eta} from \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}. First note that for all $Q\in\mathfrak P$, 

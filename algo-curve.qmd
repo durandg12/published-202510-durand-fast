@@ -1110,9 +1110,13 @@ Because $\cK^1\subseteq\cK_t$, by \eqref{eq_Pt_good_partition}, $\Vstar(S_t\cap 
 \end{align*}
 So we proved that $\Vstar(S_t)= \sum_{k\in\cP^t} \zeta_{k}\wedge |S_t\cap R_{k}|= \sum_{k\in\cK^1} \Vstar(S_t\cap R_k)$ and finally $\Vstar(S_t)=\sum_{k\in\cK^1} \Vstar(S_t\cap R_k)= \sum_{k\in\cK^1}  \eta_k^t$ by \eqref{eq_vstar_inter_Rk_equal_eta}, again because $\cK^1\subseteq\cK_t$. Every equality in \eqref{eq_vstar_equal_sum_eta} is proven.
 
+### Proof that $\cP^0\in\mathfrak P$
+
+By completeness, $F\subseteq \cK$ and so $\cP^0\subseteq \cK$.
+
 ### Proof of \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}
 
-We show the remainder of the statements by a strong recursion over $t$. We have $\cP^0\in\mathfrak P$ by definition, and given that $S_0=\varnothing$ and $\eta^0_k=0$ for all $k\in\cK$ (recall that $\cK_0=\cK$), everything is equal to 0 in \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}.
+We show the remainder of the statements by a strong recursion over $t$. We have $\cP^0\in\mathfrak P$ by previous section, and given that $S_0=\varnothing$ and $\eta^0_k=0$ for all $k\in\cK$ (recall that $\cK_0=\cK$), everything is equal to 0 in \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}.
 
 So we let $t\in\{ 0,\dotsc,m-1\}$, and assume that $\cP^{t'}\in\mathfrak P$ and that \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition} hold for all $t'\leq t$. In all the following, $\bar k$ is the element of $\cP^t$ such that $i_{t+1}\in R_{\bar k}$. We will distinguish two cases: if $i_{t+1}\in\bigcup_{k\in\cK^-_{t}}R_k$ or not. First we show an inequality that will be used in both cases. We have, for all $k\in\cK_t$,
 \begin{align}

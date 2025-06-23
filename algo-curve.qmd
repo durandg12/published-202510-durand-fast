@@ -1126,7 +1126,7 @@ We then show that $\cP^t\in\mathfrak P$ by recursion. We just showed that $\cP^0
 \end{equation}
 Note that this imply that $i_{t+1}\not\in\bigcup_{\kappa \in \cK^-_t} R_{\kappa}$ (see lines 6 and 10).
 
-To prove that $\cP^{t+1}\in\mathfrak P$, by the recursion hypothesis, it is sufficient to prove that there are no $k'\in\cP^t$ such that $R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq  R_{k'}$. If that was the case, because of the strict inclusion, we would have $k'\not\in F$ because $R_{k'}$ could not be an atom, so we would have either $k'\in E\subseteq \cK^-_0 \subseteq \cK^-_t$ or $k'\in\cP^t\setminus\cP^0$. In the second case, $k'$ would have been added to $\cP^{t'}$ at a previous step $t'\leq t$ of the algorithm, but in that case it would also have been added to $\cK_{t'}^-\subseteq \cK_{t}^-$ (see lines 17 and 18). So in the end, in both cases, we would have
+To prove that $\cP^{t+1}\in\mathfrak P$, by the recursion hypothesis and the forest structure, it is sufficient to prove that there are no $k'\in\cP^t$ such that $R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq  R_{k'}$. If that was the case, because of the strict inclusion, we would have $k'\not\in F$ because $R_{k'}$ could not be an atom, so we would have either $k'\in E\subseteq \cK^-_0 \subseteq \cK^-_t$ or $k'\in\cP^t\setminus\cP^0$. In the second case, $k'$ would have been added to $\cP^{t'}$ at a previous step $t'\leq t$ of the algorithm, but in that case it would also have been added to $\cK_{t'}^-\subseteq \cK_{t}^-$ (see lines 17 and 18). So in the end, in both cases, we would have
 \begin{equation*}
 i_{t+1}\in R_{  \kth {t+1}{h^f_{t+1}}} \subseteq \bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}
 \end{equation*}
@@ -1157,7 +1157,7 @@ In this case, $\cP^{t+1}=\cP^t$ and $\cK_{t+1}=\cK_t$. For any $k\in\cK_{t+1}$ s
 \end{align*}
 because $\eta_k^t=\eta_k^{t+1}$ for all $k\in\cK$. Furthermore $S_{t+1}\cap R_k=S_t\cap R_k$ so $V^*_{\Rfam}(S_{t+1}\cap R_k)=V^*_{\Rfam}(S_t\cap R_k)$. So everything is proved for such a $k$.
 
-Now we let $k\in\cK_{t+1}$ such that $i_{t+1}\in R_k$ or, equivalently, such that $R_{\bar k}\subseteq R_k$. We first need to show that $\zeta_{\bar k}\leq |S_t\cap R_{\bar k}|$, and for that we need to distinguish two subcases: if $\bar k$ has been added to $\cP^t$ during a previous step of the algorithm (see line 17), or if not. Note that $\bar k$ being added to $\cP^t$ during a previous step means that there exists $t'$, $1\leq t'\leq t$, such that $h^f_{t'}$ is defined and $\bar k= \kth{t'}{h^f_{t'}}$. The contrary means that for all $t'$, $1\leq t'\leq t$ such that $h^f_{t'}$ is defined, $\bar k\neq \kth{t'}{h^f_{t'}}$.
+Now we let $k\in\cK_{t+1}$ such that $i_{t+1}\in R_k$ or, equivalently, such that $R_{\bar k}\subseteq R_k$. We first need to show that $\zeta_{\bar k}\leq |S_t\cap R_{\bar k}|$, and for that we need to distinguish two subcases: if $\bar k$ has been added to $\cP^t$ during a previous step of the algorithm (see line 17), or if not. Note that $\bar k$ being added to $\cP^t$ during a previous step means that there exists $t'$, $1\leq t'\leq t$, such that $h^f_{t'}$ is defined and $\bar k= \kth{t'}{h^f_{t'}}$. The contrary means that for all $t'$, $1\leq t'\leq t$ such that $h^f_{t'}$ is defined, $\bar k\neq \kth{t'}{h^f_{t'}}$, and also that $\bar k\in\cP^{t'}$ for all $t'\in\{0,\dotsc,t\}$.
 
 ##### First subcase: $\bar k$ has never been added during the process of line 17
 

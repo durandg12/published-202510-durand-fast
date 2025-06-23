@@ -1110,13 +1110,15 @@ Because $\cK^1\subseteq\cK_t$, by \eqref{eq_Pt_good_partition}, $\Vstar(S_t\cap 
 \end{align*}
 So we proved that $\Vstar(S_t)= \sum_{k\in\cP^t} \zeta_{k}\wedge |S_t\cap R_{k}|= \sum_{k\in\cK^1} \Vstar(S_t\cap R_k)$ and finally $\Vstar(S_t)=\sum_{k\in\cK^1} \Vstar(S_t\cap R_k)= \sum_{k\in\cK^1}  \eta_k^t$ by \eqref{eq_vstar_inter_Rk_equal_eta}, again because $\cK^1\subseteq\cK_t$. Every equality in \eqref{eq_vstar_equal_sum_eta} is proven.
 
-### Proof that $\cP^0\in\mathfrak P$
+### Proof that $\cP^t\in\mathfrak P$
 
 By completeness, $F\subseteq \cK$ and so $\cP^0\subseteq \cK$. First we show that $\Nm^*=\bigcup_{k\in\cP^0}R_k$. Let $j\in\Nm^*$ and $i\in \mathbb{N}_N^*$ such that $j\in R_{(i,i)}$. Let $G=\left\{k\in\cK_0^-: j\in R_k\right\}$. If $G=\varnothing$, for any $k\in\cK_0^-$, $R_{(i,i)}\subseteq R_k$ would imply that $j\in R_k$ and $k\in G$, hence a contradiction, and so $(i,i)\in F$ and $j\in \bigcup_{k\in\cP^0}R_k$. If $G\neq\varnothing$, for any $k,k'\in G$, $j\in R_{k}\cap R_{k'}$ so, by forest structure, $R_{k}\subseteq R_{k'}$ or $R_{k'}\subseteq R_{k}$, hence $\subseteq$ is a total order on the finite, non-empty set $\{R_k : k\in G\}$, so the latter has a maximum and there exists a unique $k^*\in G$ such that $R_{k^*}=\max_{k\in G}R_k$. Let us show that, as an element of $\cK_0^-$, $k^*$ is maximal, which will imply that $k^*\in E$ and that $j\in \bigcup_{k\in\cP^0}R_k$. Let any $k'\in \cK_0^-$ such that $R_{k^*}\subseteq R_{k'}$, then $j\in R_{k'}$, so $k'\in G$ and so $R_{k'}\subseteq \max_{k\in G}R_k=R_{k^*}$. Hence $R_{k^*}= R_{k'}$ and $k^*=k'$ (see @rem-distinct), $k^*$ is indeed maximal, $k^*\in E$ and $j\in \bigcup_{k\in\cP^0}R_k$. This proves that $\Nm^*=\bigcup_{k\in\cP^0}R_k$.
 
 Now let us prove that the elements $\cP^0$ index disjoints sets. Let $k, k'\in \cP^0$ such that there exists $j\in R_{k}\in R_{k'}$. By forest structure, $R_{k}\subseteq R_{k'}$ or $R_{k'}\subseteq R_{k}$. Now we separate four cases. The case $k\in F, k'\in E$ is impossible, because $k$ would be the index of an atom, so we would imperatively have $R_{k}\subseteq R_{k'}$, which would contradict the definition of $F$. Similarly, $k\in F', k\in E$ is impossible. If $k, k'\in E$, then $k=k'$ by the very definition of $E$. Finally, if $k\in F, k'\in F$, $R_k$ and $R_{k'}$ are both atoms, and because the atoms realize a partition of $\Nm^*$, then $k=k'$. In all cases, $k=k'$ which concludes.
 
 The $R_k, k\in \cP^0$ are disjoint, non-empty (see @rem-distinct), and cover $\Nm^*$, so they form a partition of $\Nm^*$, in other words, $\cP^0\in\mathfrak P$.
+
+We then show that $\cP^t\in\mathfrak P$ by recursion. We just showed that $\cP^0\in\mathfrak P$. Let $t\in\{ 0,\dotsc,m-1\}$ and assume that $\cP^t\in\mathfrak P$.
 
 ### Proof of \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}
 

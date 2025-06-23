@@ -1153,7 +1153,7 @@ Let $t'\leq t$ be this step. This means that $\bar k = \kth{t'}{h^f_{t'}}$ and t
 
 This concludes the two subcases dichotomy: $\zeta_{\bar k}\leq |S_t\cap R_{\bar k}|$ and we can go back to our $k\in\cK_{t+1}$ such that $i_{t+1}\in R_k$ and $R_{\bar k}\subseteq R_k$.
 
-We write the following chain:
+We write the following chain of claims:
 \begin{align*}
 \Vstar(S_{t+1}\cap R_k)&\leq \sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}|\text{ by~\eqref{eq_ineq_both_cases} and }\cK_{t+1}\subseteq\cK_t\\
 &=\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k\\ k'\neq\bar k}} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| + \zeta_{\bar k}\wedge |S_{t+1}\cap R_{\bar k}| \\

@@ -104,7 +104,7 @@ The specific computation of the $R_k$'s and the $\zeta_k$'s such that Equation \
 
 ::: {#rem-distinct}
 
-Some reference family constructions can yield $R_k=R_{k'}$ for $k\neq k'$, for example in the setting of @JMLR:v25:23-1025 with discrete $p$-values. But in that scenario we can always prune the duplicate and keep only one index so that $k\mapsto R_k$ is injective. We implicitly consider that this operation is always done in practice and in the remainder of this article. Of course, if $R_k=R_{k'}$ with $k\neq k'$, we keep the index with the lower value of $\zeta$, that is we keep $\tilde k\in\arg\min_{\ell\in\{k,k'\}}\zeta_{\ell}$ (not doing so would change the bound defined by \eqref{eq-vstar} and decrease its power in terms of type-II error).
+Some reference family constructions can yield $R_k=R_{k'}$ for $k\neq k'$, for example in the setting of @JMLR:v25:23-1025 with discrete $p$-values. But in that scenario we can always prune the duplicate and keep only one index so that $k\mapsto R_k$ is injective. We implicitly consider that this operation is always done in practice and in the remainder of this article. Of course, if $R_k=R_{k'}$ with $k\neq k'$, we keep the index with the lower value of $\zeta$, that is we keep $\tilde k\in\arg\min_{\ell\in\{k,k'\}}\zeta_{\ell}$ (not doing so would change the bound defined by \eqref{eq-vstar} and decrease its power in terms of type-II error). Similarly, some constructions can yield empty regions, which can always be pruned without changing the bound. This will also be assumed to be the case in the following.
 
 :::
 
@@ -308,11 +308,13 @@ Speaking of complexity, we have the following result regarding $m$, $|\cK|$ and 
 
 ::: {#prp-cardinals}
 
-For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, we have $N\leq m$, $H\leq N$, $|\cK|\leq 2N-1$ and these three bounds can be achieved simultaneously. In particular, $|\cK|\leq 2m-1$.
+For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure, we have $N\leq m$, $H\leq N$, $|\cK|\leq 2N-1$ and these three bounds can be achieved simultaneously. In particular, $|\cK|\leq 2m-1$.
 
 :::
 
 ::: {.proof}
+
+Recall that the $R_k$ are assumed to be all non-empty and distinct by @rem-distinct. 
 
 The $P_n$, $n\in \mathbb N_N^*$, form a partition of $\Nm^*$, so $N\leq m$.
 

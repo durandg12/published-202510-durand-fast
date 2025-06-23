@@ -127,6 +127,8 @@ k & \mapsto & 1 + \left| \{k'\in\cK: R_k\subsetneq R_{k'} \} \right|   .
 \right.
 \label{eq-depth}
 \end{equation}
+This definition matches the intuition of depth because we assumed the $R_k$ are distinct, see @rem-distinct.
+
 In all the remainder, $H$ refers to the maximum depth in the structure: $H=\max_{k\in\cK}\phi(k)$.
 
 ::: {#exm-toy-forest}

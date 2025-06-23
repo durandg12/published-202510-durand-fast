@@ -1118,7 +1118,17 @@ Now let us prove that the elements $\cP^0$ index disjoints sets. Let $k, k'\in \
 
 The $R_k, k\in \cP^0$ are disjoint, non-empty (see @rem-distinct), and cover $\Nm^*$, so they form a partition of $\Nm^*$, in other words, $\cP^0\in\mathfrak P$.
 
-We then show that $\cP^t\in\mathfrak P$ by recursion. We just showed that $\cP^0\in\mathfrak P$. Let $t\in\{ 0,\dotsc,m-1\}$ and assume that $\cP^t\in\mathfrak P$.
+We then show that $\cP^t\in\mathfrak P$ by recursion. We just showed that $\cP^0\in\mathfrak P$. Let $t\in\{ 0,\dotsc,m-1\}$ and assume that $\cP^t\in\mathfrak P$. In many cases, $\cP^{t+1}=\cP^t$ and so $\cP^{t+1}\in\mathfrak P$ by the recursion hypothesis. Otherwise, $\cP^{t+1}$ is given by the adjustment in line 17, in which case we have
+\begin{equation}\label{eq_rel_rec_p}
+\cP^{t+1}=\left(\cP^t \setminus\{k\in\cP^t, R_k\subseteq R_{  \kth {t+1}{h^f_{t+1}}   }   \}  \right)\cup \{ \kth {t+1}{h^f_{t+1}} \}.
+\end{equation}
+Note that this imply that $i_{t+1}\not\in\bigcup_{\kappa \in \cK^-_t} R_{\kappa}$ (see line 6 and 10).
+
+To prove that $\cP^{t+1}\in\mathfrak P$, it is sufficient to prove there are no $k'\in\cP^t$ such that $R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq  R_{k'}$. If it was the case, because of the strict inclusion, we would have $k'\not\in\cP^0$, so $k'$ would have been added to $\cP^{t'}$ at a previous step $t'\leq t$ of the algorithm, but in that case it would also have been added to $\cK_{t'}^-\subseteq \cK_{t}^-$. So in the end we would have
+\begin{equation*}
+i_{t+1}\in R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq R_{k'} \subseteq \bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}
+\end{equation*}
+which is a contradiction and so $\cP^{t+1}\in\mathfrak P$.
 
 ### Proof of \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}
 
@@ -1187,16 +1197,6 @@ But on the other hand, $S_t\subseteq S_{t+1}$ and so \eqref{eq_vstar_Qpartition}
 which concludes this first case.
 
 #### Second case: $i_{t+1}\not\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$
-
-We first prove that $\cP^{t+1}\in\mathfrak P$ whether it came form the adjustment in line 17 or not. If it didn't, it stayed equal to $\cP^t\in\mathfrak P$. If it did, we have
-\begin{equation}\label{eq_rel_rec_p}
-\cP^{t+1}=\left(\cP^t \setminus\{k\in\cP^t, R_k\subseteq R_{  \kth {t+1}{h^f_{t+1}}   }   \}  \right)\cup \{ \kth {t+1}{h^f_{t+1}} \}.
-\end{equation}
-To prove that $\cP^{t+1}\in\mathfrak P$ in that case, it suffices to prove there are no $k'\in\cP^t$ such that $R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq  R_{k'}$. If it was the case, because of the strict inclusion, we would have $k'\not\in\cP^0$, so $k'$ would have been added to $\cP^{t'}$ at a previous step $t'\leq t$ of the algorithm, but in that case it would also have been added to $\cK_{t'}^-\subseteq \cK_{t}^-$. So in the end we would have
-\begin{equation*}
-i_{t+1}\in R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq R_{k'} \subseteq \bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}
-\end{equation*}
-which is a contradiction and so $\cP^{t+1}\in\mathfrak P$.
 
 Like in the first case, considering a $k\in\cK_{t+1}\subseteq \cK_t$ such that $i_{t+1}\not\in R_k$ is not problematic, because in that case $k$ is not visited at all by the algorithm at step $t+1$ : $\eta^{t+1}_k=\eta^{t}_k$, $\{k'\in\cP^{t+1}\telque R_{k'}\subseteq R_k\}=\{k'\in\cP^{t}\telque R_{k'}\subseteq R_k\}$, and for all $k'\in \cK$ such that $R_{k'}\subseteq R_k$, $S_{t+1}\cap R_{k'}=S_{t}\cap R_{k'}$. Hence, from 
 \begin{equation*}

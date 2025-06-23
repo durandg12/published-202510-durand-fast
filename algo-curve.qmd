@@ -1134,7 +1134,7 @@ For any $k'\in\cP^{t}$, we have either $R_{k'}\cap R_k=\varnothing$, in which ca
 
 #### First case: $i_{t+1}\in\bigcup_{k\in\cK^-_{t}}R_k$
 
-In this case, $\cP^{t+1}=\cP^t\in\mathfrak P$ and $\cK_{t+1}=\cK_t$. For any $k\in\cK_{t+1}$ such that $i_{t+1}\not\in R_k$ (or, equivalently, such that $S_{t+1}\cap R_k=S_t\cap R_k$),
+In this case, $\cP^{t+1}=\cP^t$ and $\cK_{t+1}=\cK_t$. For any $k\in\cK_{t+1}$ such that $i_{t+1}\not\in R_k$ (or, equivalently, such that $S_{t+1}\cap R_k=S_t\cap R_k$),
 \begin{align*}
 \sum_{\substack{k'\in\cP^{t+1} \\ R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}|&=\sum_{\substack{k'\in\cP^{t} \\ R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}| \\
 &=V^*_{\Rfam}(S_t\cap R_k) \text{ by~\eqref{eq_Pt_good_partition}}\\

@@ -555,7 +555,7 @@ $E$ is the set of indices of the maximal elements $k$ such that $\zeta_k=0$, $F$
   \State $\mathcal{K}^-_0\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta^0_k\gets0$ for all $k\in\mathcal{K}$
   \For{$t=1,\dotsc, m$}
-    \If{$i_t\in\bigcup_{k\in\mathcal{K}^-_{t-1}}R_k$}
+    \If{$i_t\in\bigcup_{\kappa\in\mathcal{K}^-_{t-1}}R_{\kappa}$}
       \State $\mathcal{P}^t \gets \mathcal{P}^{t-1}$
       \State $\mathcal{K}^-_t \gets \mathcal{K}^-_{t-1}$
       \State $\eta^t_k\gets\eta^{t-1}_k$ for all $k\in\mathcal{K}$
@@ -604,7 +604,7 @@ $E$ is the set of indices of the maximal elements $k$ such that $\zeta_k=0$, $F$
   \State $\mathcal{K}^-_0\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta^0_k\gets0$ for all $k\in\mathcal{K}$
   \For{$t=1,\dotsc, m$}
-    \If{$i_t\in\bigcup_{k\in\mathcal{K}^-_{t-1}}R_k$}
+    \If{$i_t\in\bigcup_{\kappa\in\mathcal{K}^-_{t-1}}R_{\kappa}$}
       \State $\mathcal{P}^t \gets \mathcal{P}^{t-1}$
       \State $\mathcal{K}^-_t \gets \mathcal{K}^-_{t-1}$
       \State $\eta^t_k\gets\eta^{t-1}_k$ for all $k\in\mathcal{K}$
@@ -701,7 +701,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
   \State $\mathcal{K}^-\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta_k\gets 0$ for all $k\in\mathcal{K}$
   \For{$t=1,\dotsc, m$}
-    \If{$i_t\in\bigcup_{k\in\mathcal{K}^-}R_k$}
+    \If{$i_t\in\bigcup_{\kappa\in\mathcal{K}^-}R_{\kappa}$}
       \State $V_{t}\gets V_{t-1}$
     \Else
       \For{$h=1,\dotsc,h_{\max}(t)$}
@@ -741,7 +741,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
   \State $\mathcal{K}^-\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta_k\gets 0$ for all $k\in\mathcal{K}$
   \For{$t=1,\dotsc, m$}
-    \If{$i_t\in\bigcup_{k\in\mathcal{K}^-}R_k$}
+    \If{$i_t\in\bigcup_{\kappa\in\mathcal{K}^-}R_{\kappa}$}
       \State $V_{t}\gets V_{t-1}$
     \Else
       \For{$h=1,\dotsc,h_{\max}(t)$}

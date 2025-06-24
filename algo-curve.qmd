@@ -334,7 +334,7 @@ $\tilde\jmath\geq\tilde\imath+1$. Let again $\cK^-=\cK\setminus\{(\tilde\imath, 
 In both cases, we have constructed a forest structure $(R_k)_{k\in\cK^-}$ with $N$ compatible leaves. By the induction hypothesis, $|\cK^-|\leq 2N-1$ and so $|\cK|\leq|\cK^-|+2\leq 2(N+1)-1$ which concludes. $\square$
 :::
 
-An alternative proof that $|\cK|\leq 2m-1$ is given in the [Appendix](#sec-variant).
+A direct, alternative proof that $|\cK|\leq 2m-1$ is given in the [Appendix](#sec-variant).
 
 # New algorithms
 
@@ -1463,7 +1463,7 @@ This work has been supported by the research grants ANR-20-IDEES-0002 (PIA), ANR
 ::: {#refs}
 :::
 
-# Variant proof that $|\cK|\leq 2m-1$ {#sec-variant .appendix .unnumbered}
+# Direct proof that $|\cK|\leq 2m-1$ {#sec-variant .appendix .unnumbered}
 
 We show by induction on $m\geq1$ that, for a family of subsets $(R_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, $|\cK|\leq 2m-1$. For $m=1$ it is trivial, the only subset possible is $\{1\}$. Now let $m\geq 1$ and assume that the result is true for $m$. Let $(R_k)_{k\in\cK}$ a family of non-empty and distinct subsets of $\mathbb N_{m+1}^*$ with a forest structure. 
 
@@ -1475,21 +1475,21 @@ To prove that $(R'_k)_{k\in\cK'}$ is a family of distinct subsets of $\Nm^*$ wit
 
 If $|\widetilde{\cK}|\geq2$, let $k, k'\in\widetilde{\cK}$, $k\neq k'$. We have $R'_k=R_k$ and $R'_{k'}=R_{k'}$, so $R'_k\neq R'_{k'}$ and $R'_k\cap R'_{k'}\in\{\varnothing, R_k, R_{k'}\}=\{\varnothing, R'_k, R'_{k'}\}$.
 
-If $D\geq 4$, let $i, j\in\{3,\dotsc, D\}$, $i<j$. We have $R'_{k_i}=R_{k_i}\setminus\{m+1\}$ and $R'_{k_j}=R_{k_j}\setminus\{m+1\}$ with $R_{k_i}\subsetneq R_{k_j}$, so $R'_{k_i}\neq R'_{k_j}$ and $R'_{k_i}\cap R'_{k_j}=R_{k_j}\setminus\{m+1\}=R'_{k_j}$.
+If $D\geq 4$, let $i, j\in\{3,\dotsc, D\}$, $i<j$. We have $R'_{k_i}=R_{k_i}\setminus\{m+1\}$ and $R'_{k_j}=R_{k_j}\setminus\{m+1\}$ with $R_{k_i}\subsetneq R_{k_j}$, so $R'_{k_i}\neq R'_{k_j}$ and $R'_{k_i}\cap R'_{k_j}=R_{k_i}\setminus\{m+1\}=R'_{k_i}$.
 
 If $D\geq 3$ and $|\widetilde{\cK}|\geq1$, let $i\in\{3,\dotsc, D\}$ and $k\in\widetilde{\cK}$. We have $R'_{k_i}=R_{k_i}\setminus\{m+1\}$ and $R'_k=R_k$. 
 \begin{align*}
 R'_{k_i}\cap R'_k&=(R_{k_i}\setminus\{m+1\})\cap R_k \\
 &=R_{k_i}\cap R_k \text{ because } m+1\not\in R_k\\
-&\in\{\varnothing, R_{k_i}, R_k\} \text{ by the property of forest property}
+&\in\{\varnothing, R_{k_i}, R_k\} \text{ by the property of forest structure}
 \end{align*}
-Given that $R'_{k_i}\subsetneq R_{k_i}$, $R'_{k_i}\cap R'_k=R_{k_i}$ is impossible, so $R'_{k_i}\cap R'_k\in\{\varnothing, R_k\}=\{\varnothing, R'_k\}$ so the only thing remaining to prove is that $R'_{k_i}$ and $R'_k$ are distinct. We prove that by showing that if $R'_k = R'_{k_i}$, there is a contradiction. Indeed, then $R_k = R_{k_i}\setminus\{m+1\}$, and we can study $R_{k_2}\cap R_k$. On the one hand, $R_{k_2}\cap R_k\in\{\varnothing, R_{k_2}, R_k\}=\{\varnothing, R_{k_2}, R_{k_i}\setminus\{m+1\}\}$ by forest property. On the other hand,
+Given that $R'_{k_i}\subsetneq R_{k_i}$, $R'_{k_i}\cap R'_k=R_{k_i}$ is impossible, so $R'_{k_i}\cap R'_k\in\{\varnothing, R_k\}=\{\varnothing, R'_k\}$ so the only thing remaining to prove is that $R'_{k_i}$ and $R'_k$ are distinct. We prove that by showing that if $R'_k = R'_{k_i}$, there is a contradiction. Indeed, then $R_k = R_{k_i}\setminus\{m+1\}$, and we can study $R_{k_2}\cap R_k$. On the one hand, $R_{k_2}\cap R_k\in\{\varnothing, R_{k_2}, R_k\}=\{\varnothing, R_{k_2}, R_{k_i}\setminus\{m+1\}\}$ by forest structure. On the other hand,
 \begin{align*}
 R_{k_2}\cap R_k&=(R_{k_2}\setminus\{m+1\})\cap R_k \text{ because }m+1\not\in R_k \\
 &=(R_{k_2}\setminus\{m+1\})\cap (R_{k_i}\setminus\{m+1\})\\
 &=R_{k_2}\setminus\{m+1\}.
 \end{align*}
-So $R_{k_2}\cap R_k=R_{k_2}$ is impossible. Furthermore, $R_{k_2}\cap R_k=R_{k}$ is also impossible because $R_{k_2}\subsetneq R_{k_i}$ and $m+1\in R_{k_2}$ hence $R_{k_2}\setminus\{m+1\}\subsetneq R_{k_i}\setminus\{m+1\}$. So  $R_{k_2}\cap R_k=\varnothing$, that is $R_{k_2}\setminus\{m+1\}=\varnothing$, so $R_{k_2}=\{m+1\}$ and the contradiciton is the following: $\{m\}\subseteq R_{k_1}\subsetneq R_{k_2}=\{m+1\}$.$\square$
+So $R_{k_2}\cap R_k=R_{k_2}$ is impossible. Furthermore, $R_{k_2}\cap R_k=R_{k}$ is also impossible because $R_{k_2}\subsetneq R_{k_i}$ and $m+1\in R_{k_2}$ hence $R_{k_2}\setminus\{m+1\}\subsetneq R_{k_i}\setminus\{m+1\}$. So  $R_{k_2}\cap R_k=\varnothing$, that is $R_{k_2}\setminus\{m+1\}=\varnothing$, so $R_{k_2}=\{m+1\}$ and the contradiction is the following: $\{m+1\}\subseteq R_{k_1}\subsetneq R_{k_2}=\{m+1\}$.$\square$
 
 # Session information {.appendix .unnumbered}
 

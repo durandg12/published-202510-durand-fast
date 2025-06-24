@@ -1163,7 +1163,9 @@ Now we let $k\in\cK_{t+1}$ such that $i_{t+1}\in R_k$ or, equivalently, such tha
 
 ##### First subcase: $\bar k$ has never been added during the process of line 17
 
+As remarked just above, $\bar k\in\cP^{0}=E\cup F$. Our goal is to show that $\bar k\not\in F$. This will imply that $\bar k\in E\subseteq \cK_0^-$ and so that $\zeta_{\bar k}=0\leq| S_{t}\cap R_{\bar k} |$ as desired.
 
+Let us assume that $\bar k\in F$ and find a contradiction. $\bar k$ is then the index of an atom that contains $i_{t+1}$, and $i_{t+1}\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$, so there exists $k'\in\cK^-_{t}$ such that $i_{t+1}\in R_{k'}$ and then, by atomicity, $R_{\bar k}\subseteq R_{k'}$. By definition of $F$, $k'$ cannot be in $\cK_0^-$, so there exists $t'\in\{1,\dotsc,t\}$ such that $k'$ has been added to $\cK^-_{t'}$ by the process of line 18, and so, by lines 16 and 17, $k'=\kth{t'}{h^f_{t'}}$ and $k'\in\cP^{t'}$. But we also have $\bar k\in\cP^{t'}$, and so by $\cP^{t'}$ realizing a partition, the inclusion $R_{\bar k}\subseteq R_{k'}$ is actually an egality, so $\bar k = k' = \kth{t'}{h^f_{t'}}$, which is not possible by assumption of this first subcase.
 
 ##### Second subcase: $\bar k$ has been added to $\cP^t$ at a previous step
 

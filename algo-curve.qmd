@@ -1300,6 +1300,7 @@ Let us show that
 \eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }= \zeta_{ \kth {t+1}{h^f_{t+1}}}.
 \label{zeta_equal_eta}
 \end{equation}
+Due to $h^f_{t+1}$ existing, we broke the loop in line 19, so the condition in line 13 was false, so $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }\geq \zeta_{ \kth {t+1}{h^f_{t+1}}}$. 
 
 Also note that, because \eqref{eq_vstar_inter_Rk_equal_eta} holds at $t+1$, $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }=\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Finally, by applying \eqref{eq_Pt_instead} to $\kth {t+1}{h^f_{t+1}}\in\cP^{t+1}\subseteq\cK_{t+1}$, we get that $\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq  R_{  \kth {t+1}{h^f_{t+1}}} }} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| = \Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Wrapping all these assertions:
 \begin{align*}

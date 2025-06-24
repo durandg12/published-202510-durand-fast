@@ -74,7 +74,7 @@ With the formalism introduced in last section, a confidence upper bound is a fun
 \end{equation}
 In the remainder, the dependence in $(X,\alpha)$ will be dropped when there is no ambiguity and $\Vhat(X,\alpha)$ will simply be written $\Vhat$.
 
-As said in the Introduction, many constructions, ultimately theoretically equivalent but differing by the practical steps involved, exist, and in this paper we focus on the meta-construction of @MR4124323 based on reference families. A reference family is a family $\Rfam=\Rfam(X,\alpha)=(R_k,\zeta_k)_{k\in \mathcal K}$ with $R_k\subseteq\Nm^*$, $\zeta_k\in\left\{0,\dotsc,|R_k|\right\}$ where everything (that is, $\mathcal K$ and all the $R_k$ and $\zeta_k$) depends on $(X,\alpha)$ but the dependency is not explicitly written. The $R_k$ are all distinct. We also define the following error criterion for a reference family, named Joint Error Rate (JER):
+As said in the Introduction, many constructions, ultimately theoretically equivalent but differing by the practical steps involved, exist, and in this paper we focus on the meta-construction of @MR4124323 based on reference families. A reference family is a finite family $\Rfam=\Rfam(X,\alpha)=(R_k,\zeta_k)_{k\in \mathcal K}$ with $R_k\subseteq\Nm^*$, $\zeta_k\in\left\{0,\dotsc,|R_k|\right\}$ where everything (that is, $\mathcal K$ and all the $R_k$ and $\zeta_k$) depends on $(X,\alpha)$ but the dependency is not explicitly written. The $R_k$ are all distinct almost surely (see @rem-distinct). We also define the following error criterion for a reference family, named Joint Error Rate (JER):
 \begin{equation}
 \JER(\Rfam) = \Pro{\exists k\in\mathcal K, |R_k\cap\cH_0| > \zeta_k } = \Pro{\exists k\in\mathcal K, V(R_k) > \zeta_k }.
 \label{eq_jer}
@@ -102,6 +102,12 @@ The specific computation of the $R_k$'s and the $\zeta_k$'s such that Equation \
 
 :::
 
+::: {#rem-distinct}
+
+Some reference family constructions can yield $R_k=R_{k'}$ for $k\neq k'$, for example in the setting of @JMLR:v25:23-1025 with discrete $p$-values. But in that scenario we can always prune the duplicate and keep only one index so that $k\mapsto R_k$ is injective. We implicitly consider that this operation is always done in practice and in the remainder of this article. Of course, if $R_k=R_{k'}$ with $k\neq k'$, we keep the index with the lower value of $\zeta$, that is we keep $\tilde k\in\arg\min_{\ell\in\{k,k'\}}\zeta_{\ell}$ (not doing so would change the bound defined by \eqref{eq-vstar} and decrease its power in terms of type-II error). Similarly, some constructions can yield empty regions, which can always be pruned without changing the bound. This will also be assumed to be the case in the following.
+
+:::
+
 ## Regions with a forest structure {#sec-forest-structure}
 
 The core concept of this section is to assume that the regions $R_k$'s of the reference family are what we called in @MR4178188 a forest structure, that is two regions are either disjoint or nested:
@@ -121,6 +127,8 @@ k & \mapsto & 1 + \left| \{k'\in\cK: R_k\subsetneq R_{k'} \} \right|   .
 \right.
 \label{eq-depth}
 \end{equation}
+This definition matches the intuition of depth because we assumed the $R_k$ are distinct, see @rem-distinct.
+
 In all the remainder, $H$ refers to the maximum depth in the structure: $H=\max_{k\in\cK}\phi(k)$.
 
 ::: {#exm-toy-forest}
@@ -214,7 +222,7 @@ and, even better, in their Corollary 1 *(iii)* that:
 \Vstar(S) = \min_{Q\in \mathfrak P}\sum_{k'\in Q}\zeta_{k'}\wedge|S\cap R_{k'}|,
 \label{eq_vstar_Qpartition}
 \end{equation}
-provided that the family is complete. Here, $\mathfrak P \subseteq \mathcal P(\cK)$ is the set of subsets of $\cK$ that realize a partition, that is, the set of $Q\subseteq\cK$ such that the $R_k$, $k\in Q$, form a partition of $\Nm^*$. So the minimum in Equation \eqref{eq_vstar_Qpartition} is over way less elements than in Equation \eqref{eq_vstar_Q}.
+provided that the family is complete. Here, $\mathfrak P \subseteq \mathcal P(\cK)$ is the set of subsets of $\cK$ that realize a partition, that is, the set of elements $Q\subseteq\cK$ such that the $R_k$, $k\in Q$, form a partition of $\Nm^*$. So the minimum in Equation \eqref{eq_vstar_Qpartition} is over way less elements than in Equation \eqref{eq_vstar_Q}.
 
 Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a single $S\subseteq\Nm^*$, which we reproduce here in @alg-vstar. The family is assumed complete, otherwise the first step would be to complete it. In the original paper, $\cK^h$ used to designate the elements of $\cK$ at depth $h$ plus the atoms at depth $\leq h$. Actually, including those atoms is not needed for this algorithm to perform exactly the same, and produces redundant computations. If we don't include them, the only difference is that sometimes $Succ_k$ can be empty, in which case we simply let $newVec_k=\zeta_k\wedge|S\cap R_k|$. Thus, here in this paper, we define $\cK^h$ as only the elements of $\cK$ at depth $h$ (the previous intricate definition may still be necessary for the proof of Theorem 1 of @MR4178188): $\cK^h=\{ (i,j)\in\cK : \phi(i,j)=h      \}, \:\:\:h\geq 1.$ This is the only deviation from the notation of @MR4178188. Finally note that in the ongoing analogy with graph theory, the elements of $\cK^1$ are the roots of the different trees making up the forest.
 
@@ -302,11 +310,13 @@ Speaking of complexity, we have the following result regarding $m$, $|\cK|$ and 
 
 ::: {#prp-cardinals}
 
-For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, we have $N\leq m$, $H\leq N$, $|\cK|\leq 2N-1$ and these three bounds can be achieved simultaneously. In particular, $|\cK|\leq 2m-1$.
+For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure, we have $N\leq m$, $H\leq N$, $|\cK|\leq 2N-1$ and these three bounds can be achieved simultaneously. In particular, $|\cK|\leq 2m-1$.
 
 :::
 
 ::: {.proof}
+
+Recall that the $R_k$ are assumed to be all non-empty and distinct by @rem-distinct. 
 
 The $P_n$, $n\in \mathbb N_N^*$, form a partition of $\Nm^*$, so $N\leq m$.
 
@@ -324,7 +334,7 @@ $\tilde\jmath\geq\tilde\imath+1$. Let again $\cK^-=\cK\setminus\{(\tilde\imath, 
 In both cases, we have constructed a forest structure $(R_k)_{k\in\cK^-}$ with $N$ compatible leaves. By the induction hypothesis, $|\cK^-|\leq 2N-1$ and so $|\cK|\leq|\cK^-|+2\leq 2(N+1)-1$ which concludes. $\square$
 :::
 
-An alternative proof that $|\cK|\leq 2m-1$ is given in the [Appendix](#sec-variant).
+A direct, alternative proof that $|\cK|\leq 2m-1$ is given in the [Appendix](#sec-variant).
 
 # New algorithms
 
@@ -509,7 +519,22 @@ Assume that the reference family of @exm-toy-forest has been labeled as in @exm-
 
 :::
 
-Now we can finally present the new algorithm and the proof that it computes the curve $(\Vstar(S_t))_{t\in\Nm}$. We present two versions of the algorithm (strictly equivalent): one very formal (@alg-formal-curve), to introduce additional notation used in the proof of @thm-curve-path, and, later, a simpler version that is the one actually implemented (@alg-curve). Recall that a detailed illustration of the steps of the algorithms will be provided in @sec-example.
+We will now present the new algorithm and the proof that it computes the curve $(\Vstar(S_t))_{t\in\Nm}$. We present two versions of the algorithm (strictly equivalent): one very formal (@alg-formal-curve), to introduce additional notation used in the proof of @thm-curve-path, and, later, a simpler version that is the one actually implemented (@alg-curve). Recall that a detailed illustration of the steps of the algorithms will be provided in @sec-example.
+
+In addition to the computation of all $\Vstar(S_t)$, @alg-formal-curve also computes partitions $\cP^t$ that realize the minimum in \eqref{eq_vstar_Qpartition} for $\Vstar(S_t)$. The initialization of $\cP^t$ has to be done carefully, for that we let $\cK_0^-=\{k\in\cK : \zeta_k=0  \}$ and
+\begin{equation}
+E=\left\{k\in\cK_0^-:\forall k'\in \cK_0^-, R_k\subseteq R_{k'}\Rightarrow k'=k \right\},
+\label{E}
+\end{equation}
+\begin{equation}
+F=\left\{(i,i), 1\leq i\leq N:\forall k\in \cK_0^-, R_{(i,i)}\not\subseteq R_k  \right\},
+\label{F}
+\end{equation}
+and finally
+\begin{equation*}
+\cP^0=E\cup F.
+\end{equation*}
+$E$ is the set of indices of the maximal elements $k$ such that $\zeta_k=0$, $F$ is the set of indices of all leaves that are not a subset of a region indexed by $E$. $\cP^0$ is the disjoint union of the two.
 
 ::: {.content-visible when-format="html"}
 ```pseudocode
@@ -525,11 +550,11 @@ Now we can finally present the new algorithm and the proof that it computes the 
 \caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
-  \State $\mathcal{P}^0\gets\{(i,i): 1\leq i \leq n\}$ \Comment{the set of all atoms indices}
+  \State $\mathcal{P}^0\gets E\cup F$ \Comment{see (16) and (17)}
   \State $\mathcal{K}^-_0\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta^0_k\gets0$ for all $k\in\mathcal{K}$
   \For{$t=1,\dotsc, m$}
-    \If{$i_t\in\bigcup_{k\in\mathcal{K}^-_{t-1}}R_k$}
+    \If{$i_t\in\bigcup_{\kappa\in\mathcal{K}^-_{t-1}}R_{\kappa}$}
       \State $\mathcal{P}^t \gets \mathcal{P}^{t-1}$
       \State $\mathcal{K}^-_t \gets \mathcal{K}^-_{t-1}$
       \State $\eta^t_k\gets\eta^{t-1}_k$ for all $k\in\mathcal{K}$
@@ -574,11 +599,11 @@ Now we can finally present the new algorithm and the proof that it computes the 
 \caption{Formal computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
-  \State $\mathcal{P}^0\gets\{(i,i): 1\leq i \leq n\}$ \Comment{the set of all atoms indices}
+  \State $\mathcal{P}^0\gets E\cup F$ \Comment{see \eqref{E} and \eqref{F}} 
   \State $\mathcal{K}^-_0\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta^0_k\gets0$ for all $k\in\mathcal{K}$
   \For{$t=1,\dotsc, m$}
-    \If{$i_t\in\bigcup_{k\in\mathcal{K}^-_{t-1}}R_k$}
+    \If{$i_t\in\bigcup_{\kappa\in\mathcal{K}^-_{t-1}}R_{\kappa}$}
       \State $\mathcal{P}^t \gets \mathcal{P}^{t-1}$
       \State $\mathcal{K}^-_t \gets \mathcal{K}^-_{t-1}$
       \State $\eta^t_k\gets\eta^{t-1}_k$ for all $k\in\mathcal{K}$
@@ -621,6 +646,8 @@ The elements of $\cK_t$ index the regions of the forest that ``are above'' the r
 
 ## Fast curve computation
 
+Assume that $\Rfam$ is complete in the sense of @sec-forest-structure.
+
 Let any $t\in\Nm$. Then, $\cP^t\in\mathfrak P$, and for all $k\in\cK_t$, we have
 \begin{equation}
 \Vstar(S_t\cap R_k) = \eta_k^t
@@ -638,11 +665,13 @@ Furthermore,
 \end{equation}
 :::
 
-The proof of this Theorem is postponed to @sec-proof. The first equality of Equation \eqref{eq_vstar_equal_sum_eta} states that the minimum in \eqref{eq_vstar_Qpartition} is realized on the partition $\cP^t$, and the last equality of the same Equation is the basis of the following light corollary.
+The proof of this Theorem is postponed to @sec-proof. The first equality of Equation \eqref{eq_vstar_equal_sum_eta} states that the minimum in \eqref{eq_vstar_Qpartition} is indeed realized on the partition $\cP^t$, and the last equality of the same Equation is the basis of the following light corollary.
 
 ::: {#cor-easy-impl}
 
 ## Easy computation
+
+Assume that $\Rfam$ is complete in the sense of @sec-forest-structure.
 
 For $t\in\{0,\dotsc, m-1 \}$, $V^*_{\Rfam}(S_{t+1})=V^*_{\Rfam}(S_{t})$ if $i_{t+1}\in \bigcup_{k\in\cK^-_t}R_k$, and  $V^*_{\Rfam}(S_{t+1})=V^*_{\Rfam}(S_{t}) + 1$ if not.
 
@@ -651,7 +680,7 @@ For $t\in\{0,\dotsc, m-1 \}$, $V^*_{\Rfam}(S_{t+1})=V^*_{\Rfam}(S_{t})$ if $i_{t
 From \eqref{eq_vstar_equal_sum_eta}, $V^*_{\Rfam}(S_{t+1})=\sum_{k\in\cK^1} \eta_k^{t+1}$ and $V^*_{\Rfam}(S_{t})=\sum_{k\in\cK^1} \eta_k^{t}$. If $i_{t+1}\in \bigcup_{k\in\cK^-_t}R_k$, $\eta_k^{t+1}=\eta_k^{t}$ for all $k\in\cK^1$. If not, $\eta_k^{t+1}=\eta_k^{t}$ for all $k\in\cK^1$, $k\neq \kth{t+1}{1}$, whereas for $k= \kth{t+1}{1}$, $\eta_k^{t+1}=\eta_k^{t}+1$. $\square$
 :::
 
-We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested in the computation of the curve $\left(V^*_{\Rfam}(S_{t})\right)_{1\leq t\leq m}$, tracking $\cP^t$ is actually useless, what is important is to track and update $\cK^-_t$ correctly. Hence the simpler, alternative  @alg-curve. Note that @alg-curve is less formal than @alg-formal-curve: as in @alg-vstar and @alg-pruning, it recycles notation (mimicking the actual code implementation) so the $t$ subscript or superscript is dropped from the $\cK^-_t$ and the $\eta_k^t$. In @alg-curve, the notation $V_t$ is actually equal to $V^*_{\Rfam}(S_{t})$ by @cor-easy-impl.
+We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested in the computation of the curve $\left(V^*_{\Rfam}(S_{t})\right)_{1\leq t\leq m}$, tracking $\cP^t$ is actually useless, what is important is to track and update $\cK^-_t$ correctly. Hence the simpler, alternative  @alg-curve. Note that @alg-curve is less formal than @alg-formal-curve: as in @alg-vstar and @alg-pruning, it recycles notation (mimicking the actual code implementation) so the $t$ subscript or superscript is dropped from all $\cK^-_t$ and $\eta_k^t$. In @alg-curve, the notation $V_t$ is actually equal to $V^*_{\Rfam}(S_{t})$ by @cor-easy-impl.
 
 ::: {.content-visible when-format="html"}
 ```pseudocode
@@ -671,7 +700,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
   \State $\mathcal{K}^-\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta_k\gets 0$ for all $k\in\mathcal{K}$
   \For{$t=1,\dotsc, m$}
-    \If{$i_t\in\bigcup_{k\in\mathcal{K}^-}R_k$}
+    \If{$i_t\in\bigcup_{\kappa\in\mathcal{K}^-}R_{\kappa}$}
       \State $V_{t}\gets V_{t-1}$
     \Else
       \For{$h=1,\dotsc,h_{\max}(t)$}
@@ -711,7 +740,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
   \State $\mathcal{K}^-\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta_k\gets 0$ for all $k\in\mathcal{K}$
   \For{$t=1,\dotsc, m$}
-    \If{$i_t\in\bigcup_{k\in\mathcal{K}^-}R_k$}
+    \If{$i_t\in\bigcup_{\kappa\in\mathcal{K}^-}R_{\kappa}$}
       \State $V_{t}\gets V_{t-1}$
     \Else
       \For{$h=1,\dotsc,h_{\max}(t)$}
@@ -1055,6 +1084,8 @@ We move on to the remaining steps. $i_7=19\in P_{4:5}$, $i_8=22\in P_{7}$ and $i
 
 ## Proof of @thm-curve-path {#sec-proof}
 
+In this section, every reference to a line is a reference to a line of @alg-formal-curve.
+
 ### Derivation of \eqref{eq_vstar_equal_sum_eta}
 
 We first derive \eqref{eq_vstar_equal_sum_eta} from \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}. First note that for all $Q\in\mathfrak P$, 
@@ -1080,11 +1111,33 @@ Because $\cK^1\subseteq\cK_t$, by \eqref{eq_Pt_good_partition}, $\Vstar(S_t\cap 
 \end{align*}
 So we proved that $\Vstar(S_t)= \sum_{k\in\cP^t} \zeta_{k}\wedge |S_t\cap R_{k}|= \sum_{k\in\cK^1} \Vstar(S_t\cap R_k)$ and finally $\Vstar(S_t)=\sum_{k\in\cK^1} \Vstar(S_t\cap R_k)= \sum_{k\in\cK^1}  \eta_k^t$ by \eqref{eq_vstar_inter_Rk_equal_eta}, again because $\cK^1\subseteq\cK_t$. Every equality in \eqref{eq_vstar_equal_sum_eta} is proven.
 
+### Proof that $\cP^t\in\mathfrak P$
+
+By completeness, $F\subseteq \cK$ and so $\cP^0\subseteq \cK$. First we show that $\Nm^*=\bigcup_{k\in\cP^0}R_k$. Let $j\in\Nm^*$ and $i\in \mathbb{N}_N^*$ such that $j\in R_{(i,i)}$. Let $G=\left\{k\in\cK_0^-: j\in R_k\right\}$. If $G=\varnothing$, for any $k\in\cK_0^-$, $R_{(i,i)}\subseteq R_k$ would imply that $j\in R_k$ and $k\in G$, hence a contradiction, and so $(i,i)\in F$ and $j\in \bigcup_{k\in\cP^0}R_k$. If $G\neq\varnothing$, for any $k,k'\in G$, $j\in R_{k}\cap R_{k'}$ so, by forest structure, $R_{k}\subseteq R_{k'}$ or $R_{k'}\subseteq R_{k}$, hence $\subseteq$ is a total order on the finite, non-empty set $\{R_k : k\in G\}$, so the latter has a maximum and there exists a unique $k^*\in G$ such that $R_{k^*}=\max_{k\in G}R_k$. Let us show that, as an element of $\cK_0^-$, $k^*$ is maximal, which will imply that $k^*\in E$ and that $j\in \bigcup_{k\in\cP^0}R_k$. Let any $k'\in \cK_0^-$ such that $R_{k^*}\subseteq R_{k'}$, then $j\in R_{k'}$, so $k'\in G$ and so $R_{k'}\subseteq \max_{k\in G}R_k=R_{k^*}$. Hence $R_{k^*}= R_{k'}$ and $k^*=k'$ (see @rem-distinct), $k^*$ is indeed maximal, $k^*\in E$ and $j\in \bigcup_{k\in\cP^0}R_k$. This proves that $\Nm^*=\bigcup_{k\in\cP^0}R_k$.
+
+Now let us prove that the elements $\cP^0$ index disjoints sets. Let $k, k'\in \cP^0$ such that there exists $j\in R_{k}\in R_{k'}$. By forest structure, $R_{k}\subseteq R_{k'}$ or $R_{k'}\subseteq R_{k}$. Now we separate four cases. The case $k\in F, k'\in E$ is impossible, because $k$ would be the index of an atom, so we would imperatively have $R_{k}\subseteq R_{k'}$, which would contradict the definition of $F$. Similarly, $k\in F', k\in E$ is impossible. If $k, k'\in E$, then $k=k'$ by the very definition of $E$. Finally, if $k\in F, k'\in F$, $R_k$ and $R_{k'}$ are both atoms, and because the atoms realize a partition of $\Nm^*$, then $k=k'$. In all cases, $k=k'$ which concludes.
+
+The $R_k, k\in \cP^0$, are disjoint, non-empty (see @rem-distinct), and cover $\Nm^*$, so they form a partition of $\Nm^*$, in other words, $\cP^0\in\mathfrak P$.
+
+We then show that $\cP^t\in\mathfrak P$ by recursion. We just showed that $\cP^0\in\mathfrak P$. Let $t\in\{ 0,\dotsc,m-1\}$ and assume that $\cP^t\in\mathfrak P$. In many cases, $\cP^{t+1}=\cP^t$ and so $\cP^{t+1}\in\mathfrak P$ by the recursion hypothesis. Otherwise, $\cP^{t+1}$ is given by the adjustment in line 17, in which case we have
+\begin{equation}\label{eq_rel_rec_p}
+\cP^{t+1}=\left(\cP^t \setminus\{k\in\cP^t, R_k\subseteq R_{  \kth {t+1}{h^f_{t+1}}   }   \}  \right)\cup \{ \kth {t+1}{h^f_{t+1}} \}.
+\end{equation}
+Note that this imply that $i_{t+1}\not\in\bigcup_{\kappa \in \cK^-_t} R_{\kappa}$ (see lines 6 and 10).
+
+Let $j\in\Nm^*$ and $k\in\cP^t$ such that $j\in R_k$. If $R_k\subseteq R_{  \kth {t+1}{h^f_{t+1}}   }$, then $j\in R_{  \kth {t+1}{h^f_{t+1}}   }\subseteq \bigcup_{\kappa\in \cP^{t+1}} R_{\kappa}$, and if not, $k\in\cP^{t+1}$ and again $j\in \bigcup_{\kappa\in \cP^{t+1}} R_{\kappa}$.
+
+Now let $k,k'\in\cP^{t+1}$, $k\neq k'$. If both are different from $\kth {t+1}{h^f_{t+1}}$, then they are both in $\cP^t\in\mathfrak P$ so $R_k\cap R_{k'}=\varnothing$. Assume that $k'=\kth {t+1}{h^f_{t+1}}$. By the forest structure, $R_k\cap R_{k'}=\varnothing$, or $R_{\kth {t+1}{h^f_{t+1}}}$, or $R_k$. By \eqref{eq_rel_rec_p}, the latter is impossible. It remains to show that $R_k\cap R_{k'}=R_{  \kth {t+1}{h^f_{t+1}}}$ is also not possible, in other words that we can't have $R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq  R_{k}$. If that was the case, because of the strict inclusion, we would have $k\not\in F$ because $R_{k}$ could not be an atom, so we would have either $k\in E\subseteq \cK^-_0 \subseteq \cK^-_t$ or $k\in\cP^t\setminus\cP^0$. In the second case, $k$ would have been added to $\cP^{t'}$ at a previous step $t'\leq t$ of the algorithm, but in that case it would also have been added to $\cK_{t'}^-\subseteq \cK_{t}^-$ (see lines 17 and 18). So in the end, in both cases, we would have
+\begin{equation*}
+i_{t+1}\in R_{  \kth {t+1}{h^f_{t+1}}}  \subsetneq  R_{k} \subseteq \bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}
+\end{equation*}
+which is a contradiction with the fact that $i_{t+1}\not\in\bigcup_{\kappa \in \cK^-_t} R_{\kappa}$, and so $R_k\cap R_{k'}=\varnothing$, and finally $\cP^{t+1}\in\mathfrak P$.
+
 ### Proof of \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}
 
-We show the remainder of the statements by a strong recursion over $t$. We have $\cP^0\in\mathfrak P$ by definition, and given that $S_0=\varnothing$ and $\eta^0_k=0$ for all $k\in\cK$ (recall that $\cK_0=\cK$), everything is equal to 0 in \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}.
+We show the remainder of the statements with a strong recursion over $t$. We have $\cP^0\in\mathfrak P$ by previous section, and given that $S_0=\varnothing$ and $\eta^0_k=0$ for all $k\in\cK$ (recall that $\cK_0=\cK$), everything is equal to 0 in \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition}.
 
-So we let $t\in\{ 0,\dotsc,m-1\}$, and assume that $\cP^{t'}\in\mathfrak P$ and that \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition} hold for all $t'\leq t$. In all the following, $\bar k$ is the element of $\cP^t$ such that $i_{t+1}\in R_{\bar k}$. We will distinguish two cases: if $i_{t+1}\in\bigcup_{k\in\cK^-_{t}}R_k$ or not. First we show an inequality that will be used in both cases. We have, for all $k\in\cK_t$,
+So we let $t\in\{ 0,\dotsc,m-1\}$, and assume that $\cP^{t'}\in\mathfrak P$ and that \eqref{eq_vstar_inter_Rk_equal_eta} and \eqref{eq_Pt_good_partition} hold for all $t'\leq t$. In all the following, $\bar k$ is the element of $\cP^t$ such that $i_{t+1}\in R_{\bar k}$. We will distinguish two cases: if $i_{t+1}\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$ or not. First we show an inequality that will be used in both cases. We have, for all $k\in\cK_t$,
 \begin{align}
 \Vstar(S_{t+1}\cap R_k)&\leq \sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}|.\label{eq_ineq_both_cases}
 \end{align}
@@ -1094,9 +1147,9 @@ Indeed, by \eqref{eq_vstar_Qpartition},
 \end{align*}
 For any $k'\in\cP^{t}$, we have either $R_{k'}\cap R_k=\varnothing$, in which case $|S_{t+1}\cap R_k \cap R_{k'}|=0$, either $R_{k'}\subseteq R_k$, in which case $|S_{t+1}\cap R_k \cap R_{k'}|=|S_{t+1} \cap R_{k'}|$, but $R_{k}\subsetneq R_{k'}$ is impossible. Indeed, by definition of $\cK_t$, there exists $\tilde k\in \cP^t$ such that $R_{\tilde k}\subseteq R_k$, so $R_{k}\subsetneq R_{k'}$ would entail $R_{\tilde k}\subsetneq R_{k'}$ which is impossible since $k', \tilde k\in \cP^t\in\mathfrak P$ and so $R_{\tilde k}$ and $R_{k'}$ are part of a partition of $\Nm^*$. This gives \eqref{eq_ineq_both_cases}.
 
-#### First case: $i_{t+1}\in\bigcup_{k\in\cK^-_{t}}R_k$
+#### First case: $i_{t+1}\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$
 
-In this case, $\cP^{t+1}=\cP^t\in\mathfrak P$ and $\cK_{t+1}=\cK_t$. For any $k\in\cK_{t+1}$ such that $i_{t+1}\not\in R_k$ (or, equivalently, such that $S_{t+1}\cap R_k=S_t\cap R_k$),
+In this case, $\cP^{t+1}=\cP^t$ and $\cK_{t+1}=\cK_t$. For any $k\in\cK_{t+1}$ such that $i_{t+1}\not\in R_k$ (or, equivalently, such that $S_{t+1}\cap R_k=S_t\cap R_k$),
 \begin{align*}
 \sum_{\substack{k'\in\cP^{t+1} \\ R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}|&=\sum_{\substack{k'\in\cP^{t} \\ R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}| \\
 &=V^*_{\Rfam}(S_t\cap R_k) \text{ by~\eqref{eq_Pt_good_partition}}\\
@@ -1105,35 +1158,35 @@ In this case, $\cP^{t+1}=\cP^t\in\mathfrak P$ and $\cK_{t+1}=\cK_t$. For any $k\
 \end{align*}
 because $\eta_k^t=\eta_k^{t+1}$ for all $k\in\cK$. Furthermore $S_{t+1}\cap R_k=S_t\cap R_k$ so $V^*_{\Rfam}(S_{t+1}\cap R_k)=V^*_{\Rfam}(S_t\cap R_k)$. So everything is proved for such a $k$.
 
-Now we let $k\in\cK_{t+1}$ such that $i_{t+1}\in R_k$ or, equivalently, such that $R_{\bar k}\subseteq R_k$. We first need to show that $\zeta_{\bar k}\leq |S_t\cap R_{\bar k}|$, and for that we need to distinguish two subcases: if $\bar k$ has been added to $\cP^t$ during a previous step of the algorithm, of if not.
+Now we let $k\in\cK_{t+1}$ such that $i_{t+1}\in R_k$ or, equivalently, such that $R_{\bar k}\subseteq R_k$. We first need to show that $\zeta_{\bar k}\leq |S_t\cap R_{\bar k}|$, and for that we need to distinguish two subcases: if $\bar k$ has been added to $\cP^t$ during a previous step of the algorithm (see line 17), or if not. Note that $\bar k$ being added to $\cP^t$ during a previous step means that there exists $t'$, $1\leq t'\leq t$, such that $h^f_{t'}$ is defined and $\bar k= \kth{t'}{h^f_{t'}}$. The contrary means that for all $t'$, $1\leq t'\leq t$ such that $h^f_{t'}$ is defined, $\bar k\neq \kth{t'}{h^f_{t'}}$, and also that $\bar k\in\cP^{t'}$ for all $t'\in\{0,\dotsc,t\}$.
 
 ##### First subcase: $\bar k$ has never been added during the process of line 17
 
-Then $\bar k\in\cP^0$ and $R_{\bar k}$ is an atom, so $i_{t+1}\in\bigcup_{k'\in\cK^-_{t}}R_{k'}$ implies that $R_{\bar k}\subseteq \bigcup_{k'\in\cK^-_{t}}R_{k'}$ (because of the forest structure). Let $k'_{\max}$ such that
-\begin{equation*}
-R_{k'_{\max}}=\max\{ R_{k'}\telque k'\in\cK^-_t, R_{\bar k}\subseteq R_{k'}  \}
-\end{equation*}
-(this a maximum for the inclusion relation, and it is well defined thanks to the forest structure). By reductio ad absurdum we show that $k'_{\max}=\bar k$. If that wasn't the case, by the joint construction of $\cP^t$ and $\cK^-_t$ during the algorithm we would have $k'_{\max}\in\cP^t$ and a contradiction with the fact that $\cP^t\in\mathfrak P$: we can't have both $\bar k\in\cP^t$ and $k'_{\max}\in\cP^t$ if they are distinct. So $k'_{\max}=\bar k$, so $\bar k\in  \cK^-_t$, but it cannot have been added to $\cK^-_t$ during a previous step of the algorithm, otherwise it would have been added to $\cP^t$, too. Hence $\bar k\in \cK^-_0$ which means that $\zeta_{\bar k}=0$ and $\zeta_{\bar k}=0\leq |S_t\cap R_{\bar k}|$.
+As remarked just above, $\bar k\in\cP^{0}=E\cup F$. Our goal is to show that $\bar k\not\in F$. This will imply that $\bar k\in E\subseteq \cK_0^-$ and so that $\zeta_{\bar k}=0\leq| S_{t}\cap R_{\bar k} |$ as desired.
+
+Let us assume that $\bar k\in F$ and find a contradiction. $\bar k$ is then the index of an atom that contains $i_{t+1}$, and $i_{t+1}\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$, so there exists $k'\in\cK^-_{t}$ such that $i_{t+1}\in R_{k'}$ and then, by atomicity, $R_{\bar k}\subseteq R_{k'}$. By definition of $F$, $k'$ cannot be in $\cK_0^-$, so there exists $t'\in\{1,\dotsc,t\}$ such that $k'$ has been added to $\cK^-_{t'}$ by the process of line 18, and so, by lines 16 and 17, $k'=\kth{t'}{h^f_{t'}}$ and $k'\in\cP^{t'}$. But we also have $\bar k\in\cP^{t'}$, and so by $\cP^{t'}$ realizing a partition, the inclusion $R_{\bar k}\subseteq R_{k'}$ is actually an egality, so $\bar k = k' = \kth{t'}{h^f_{t'}}$, which is not possible by assumption of this first subcase.
 
 ##### Second subcase: $\bar k$ has been added to $\cP^t$ at a previous step
 
-Let $t'\leq t$ be this step. This means that $\bar k = \kth{t'}{h^f_{t'}}$ and that at that step $\eta^{t'}_{\bar k}=\zeta_{\bar k}$. Indeed, the if condition in line 13 failed so $\eta^{t'}_{\bar k}\geq\zeta_{\bar k}$, but for all $t''<t'$ we had $\eta^{t''}_{\bar k}\leq\zeta_{\bar k}$ which implies equality. Also $\bar k\in \cP^{t'}$ so $\bar k\in \cK_{t'}$ so we can write 
+Let $t'\leq t$ be this step. This means that $\bar k = \kth{t'}{h^f_{t'}}$ and that at that step $\eta^{t'}_{\bar k}\geq \zeta_{\bar k}$, because the if condition in line 13 failed. Also $\bar k\in \cP^{t'}$ so $\bar k\in \cK_{t'}$ so we can write 
 \begin{align*}
-\zeta_{\bar k}&=\eta^{t'}_{\bar k}\\
-&=\Vstar(S_{t'}\cap R_{\bar k})  \text{ by~\eqref{eq_vstar_inter_Rk_equal_eta}} \\
-&\leq | S_{t'}\cap R_{\bar k} |\\
-&\leq  | S_{t}\cap R_{\bar k} |.\\
+\zeta_{\bar k}&\leq\eta^{t'}_{\bar k}\\
+&\quad=\Vstar(S_{t'}\cap R_{\bar k})  \text{ by~\eqref{eq_vstar_inter_Rk_equal_eta}} \\
+&\quad\leq | S_{t'}\cap R_{\bar k} |\\
+&\quad\leq  | S_{t}\cap R_{\bar k} |.\\
 \end{align*}
 
 This concludes the two subcases dichotomy: $\zeta_{\bar k}\leq |S_t\cap R_{\bar k}|$ and we can go back to our $k\in\cK_{t+1}$ such that $i_{t+1}\in R_k$ and $R_{\bar k}\subseteq R_k$.
 
-We write the following chain:
+##### End of the first case
+
+We write the following chain of claims:
 \begin{align*}
 \Vstar(S_{t+1}\cap R_k)&\leq \sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}|\text{ by~\eqref{eq_ineq_both_cases} and }\cK_{t+1}\subseteq\cK_t\\
 &=\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k\\ k'\neq\bar k}} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| + \zeta_{\bar k}\wedge |S_{t+1}\cap R_{\bar k}| \\
 &=\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k\\ k'\neq\bar k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}| + \zeta_{\bar k}\wedge( |S_{t}\cap R_{\bar k}| +1)\\
 &=\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k\\ k'\neq\bar k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}| + \zeta_{\bar k}\wedge|S_{t}\cap R_{\bar k}|\text{ because $\zeta_{\bar k}\leq |S_t\cap R_{\bar k}|$}\\
-&=\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}| \\
+&=\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}|=\sum_{\substack{k'\in\cP^{t+1}\\R_{k'}\subseteq R_k}} \zeta_{k'}\wedge |S_{t}\cap R_{k'}| \\
 &=\Vstar(S_t\cap R_k)  \text{ by~\eqref{eq_Pt_good_partition}} \\
 &= \eta_k^t  \text{ by~\eqref{eq_vstar_inter_Rk_equal_eta}} \\
 &= \eta_k^{t+1}.\\
@@ -1144,17 +1197,7 @@ But on the other hand, $S_t\subseteq S_{t+1}$ and so \eqref{eq_vstar_Qpartition}
 \end{equation*}
 which concludes this first case.
 
-#### Second case: $i_{t+1}\not\in\bigcup_{k\in\cK^-_{t}}R_k$
-
-We first prove that $\cP^{t+1}\in\mathfrak P$ whether it came form the adjustment in line 17 or not. If it didn't, it stayed equal to $\cP^t\in\mathfrak P$. If it did, we have
-\begin{equation}\label{eq_rel_rec_p}
-\cP^{t+1}=\left(\cP^t \setminus\{k\in\cP^t, R_k\subseteq R_{  \kth {t+1}{h^f_{t+1}}   }   \}  \right)\cup \{ \kth {t+1}{h^f_{t+1}} \}.
-\end{equation}
-To prove that $\cP^{t+1}\in\mathfrak P$ in that case, it suffices to prove there are no $k'\in\cP^t$ such that $R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq  R_{k'}$. If it was the case, because of the strict inclusion, we would have $k'\not\in\cP^0$, so $k'$ would have been added to $\cP^{t'}$ at a previous step $t'\leq t$ of the algorithm, but in that case it would also have been added to $\cK_{t'}^-\subseteq \cK_{t}^-$. So in the end we would have
-\begin{equation*}
-i_{t+1}\in R_{  \kth {t+1}{h^f_{t+1}}} \subsetneq R_{k'} \subseteq \bigcup_{k\in\cK^-_{t}}R_k
-\end{equation*}
-which is a contradiction and so $\cP^{t+1}\in\mathfrak P$.
+#### Second case: $i_{t+1}\not\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$
 
 Like in the first case, considering a $k\in\cK_{t+1}\subseteq \cK_t$ such that $i_{t+1}\not\in R_k$ is not problematic, because in that case $k$ is not visited at all by the algorithm at step $t+1$ : $\eta^{t+1}_k=\eta^{t}_k$, $\{k'\in\cP^{t+1}\telque R_{k'}\subseteq R_k\}=\{k'\in\cP^{t}\telque R_{k'}\subseteq R_k\}$, and for all $k'\in \cK$ such that $R_{k'}\subseteq R_k$, $S_{t+1}\cap R_{k'}=S_{t}\cap R_{k'}$. Hence, from 
 \begin{equation*}
@@ -1181,7 +1224,7 @@ Also, similarly to the first case, for all $k\in\cK_{t+1}$ such that $i_{t+1}\in
 &=\Vstar(S_t\cap R_k) +1  \text{ by \eqref{eq_Pt_good_partition}}.\label{eq_ineq_}
 \end{align}
 
-Note that by the joint construction of $\cK^-_t$ and $\cP^t$ on lines 17 and 18, the fact that $i_{t+1}\not\in\bigcup_{k\in\cK^-_{t}}R_k$ implies that $\bar k$ is the index of an atom, so actually $h_{\max}(t+1)=\phi(\bar k)$, $\bar k = \kth{t+1}{\phi(\bar k)}$ and the $R_k$, $k\in\cK_{t}$, such that $R_{\bar k}\subseteq R_k$ are nested and are exactly indexed by the $\kth{t+1}{h}$, $1\leq h\leq \phi(\bar k)$. We now prove that for all of them, $\Vstar(S_{t+1}\cap R_k)\geq \Vstar(S_{t}\cap R_k)+1$, which will be true in particular for the ones that are in $\cK_{t+1}$, given that $\cK_{t+1}\subseteq \cK_t$. We do that by constructing some sets $A_h$ with good properties with a descending recursion on $h$, starting from $\phi(\bar k)$. We only give the first two steps of the construction, because every other step is exactly the same as the second one, which contains the recursive arguments. We go back to the real definition of $\Vstar$ to do so, for any $S\subseteq \Nm$:
+Note that by the joint construction of $\cK^-_t$ and $\cP^t$ on lines 17 and 18, the fact that $i_{t+1}\not\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$ implies that $\bar k\in F$, so $\bar k$ is the index of an atom, so actually $h_{\max}(t+1)=\phi(\bar k)$, $\bar k = \kth{t+1}{\phi(\bar k)}$ and the $R_k$, $k\in\cK_{t}$, such that $R_{\bar k}\subseteq R_k$ are nested and are exactly indexed by the $\kth{t+1}{h}$, $1\leq h\leq \phi(\bar k)$. We now prove that for all of them, $\Vstar(S_{t+1}\cap R_k)\geq \Vstar(S_{t}\cap R_k)+1$, which will be true in particular for the ones that are in $\cK_{t+1}$, given that $\cK_{t+1}\subseteq \cK_t$. We do that by constructing some sets $A_h$ with good properties with a descending recursion on $h$, starting from $\phi(\bar k)$. We only give the first two steps of the construction, because every other step is exactly the same as the second one, which contains the recursive arguments. We go back to the real definition of $\Vstar$ to do so, for any $S\subseteq \Nm$:
 \begin{equation}
 \label{eq_Vstar_au_max} \Vstar(S)=\max_{\substack{A\subseteq \Nm\\\forall k'\in\cK, |A\cap R_{k'}|\leq \zeta_{k'}}} |A\cap S| =\max_{\substack{A\subseteq S\\\forall k'\in\cK, |A\cap R_{k'}|\leq \zeta_{k'}}} |A|  . 
 \end{equation}
@@ -1195,7 +1238,7 @@ So we construct $A_{\phi(\bar k)-1}$ by taking the disjoint union of $A_{\phi(\b
 \end{align*}
 by construction of $A_{\phi(\bar k)}$. Finally, for all $k'$ such that $R_{\kth{t+1}{\phi(\bar k)-1}}\subseteq R_{k'}$, $|A_{\phi(\bar k)-1}\cap R_{k'}|=|A_{\phi(\bar k)-1}|=\Vstar(S_t \cap R_{\kth{t+1}{\phi(\bar k)-1}})=|B|$ with the previously defined $B$, in particular $|B\cap R_{k'}|\leq \zeta_{k'}$, but given that $B\subseteq S_t \cap R_{\kth{t+1}{\phi(\bar k)-1}}$, $|B\cap R_{k'}|=|B|$. Wrapping all those equalities, it comes that $|A_{\phi(\bar k)-1}\cap R_{k'}|\leq \zeta_{k'}$. In the end, $|A_{\phi(\bar k)-1}\cap R_{k'}|\leq \zeta_{k'}$ for all $k'\in\cK$, so $A_{\phi(\bar k)-1}$ realizes the maximum in \eqref{eq_Vstar_au_max} for $S_t \cap R_{\kth{t+1}{\phi(\bar k)-1}}$.
 
-By applying exactly the same method, we recursively construct a non-increasing sequence $A_{\phi(\bar k)}\subseteq\dotsb\subseteq A_1$ such that for all $\ell\in\{1,\dotsc, \phi(\bar k)\}$ and $k'\in\cK$, $A_\ell\subseteq S_t\cap R_{\kth{t+1}{\ell}}$, $\Vstar(S_t\cap R_{\kth{t+1}{\ell}})=|A_\ell|$, and $|A_\ell\cap R_{k'}|\leq \zeta_{k'}$. Furthermore for $\ell'>\ell$, $A_{\ell}\setminus A_{\ell'}\subseteq S_t\cap R_{\kth{t+1}{\ell}}\setminus S_t\cap R_{\kth{t+1}{\ell'}}$. Also note that the fact that $i_{t+1}\not\in\bigcup_{k\in\cK^-_{t}}R_k$ implies that $\eta^t_{\kth{t+1}{\ell}}<\zeta_{\kth{t+1}{\ell}}$ for all $\ell\in\{1,\dotsc, \phi(\bar k)\}$. So by \eqref{eq_vstar_inter_Rk_equal_eta}, $|A_\ell|<\zeta_{\kth{t+1}{\ell}}$.
+By applying exactly the same method, we recursively construct a non-increasing sequence $A_{\phi(\bar k)}\subseteq\dotsb\subseteq A_1$ such that for all $\ell\in\{1,\dotsc, \phi(\bar k)\}$ and $k'\in\cK$, $A_\ell\subseteq S_t\cap R_{\kth{t+1}{\ell}}$, $\Vstar(S_t\cap R_{\kth{t+1}{\ell}})=|A_\ell|$, and $|A_\ell\cap R_{k'}|\leq \zeta_{k'}$. Furthermore for $\ell'>\ell$, $A_{\ell}\setminus A_{\ell'}\subseteq S_t\cap R_{\kth{t+1}{\ell}}\setminus S_t\cap R_{\kth{t+1}{\ell'}}$. Also note that the fact that $i_{t+1}\not\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$ implies that $\eta^t_{\kth{t+1}{\ell}}<\zeta_{\kth{t+1}{\ell}}$ for all $\ell\in\{1,\dotsc, \phi(\bar k)\}$. So by \eqref{eq_vstar_inter_Rk_equal_eta}, $|A_\ell|<\zeta_{\kth{t+1}{\ell}}$.
 
 Let, for any $\ell\in\{1,\dotsc, \phi(\bar k)\}$, $\widetilde A_\ell=A_\ell \cup \{ i_{t+1}\}$. Given that $A_\ell\subseteq S_t\cap R_{\kth{t+1}{\ell}}$ and that $i_{t+1}\in S_{t+1}\setminus S_t$, $\widetilde A_\ell\subseteq S_{t+1}\cap R_{\kth{t+1}{\ell}}$, $|\widetilde A_\ell|=| A_\ell|+1$, and for all $\ell'\in\{1,\dotsc, \phi(\bar k)\}$, $|\widetilde A_\ell \cap R_{\kth{t+1}{\ell'}} |=| A_\ell\cap R_{\kth{t+1}{\ell'}}|+1$. Note that if, furthermore, $\ell\geq \ell'$, then $A_\ell\subseteq A_{\ell'}$, so
 \begin{align*}
@@ -1250,14 +1293,23 @@ Given the two previously made splits, it remains to prove that
 \begin{equation*}
 \sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq  R_{  \kth {t+1}{h^f_{t+1}}} }} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| =  \zeta_{ \kth {t+1}{h^f_{t+1}}}\wedge |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|.
 \end{equation*}
-Interestingly, this does not depend  on $k$ anymore. By \eqref{eq_Pt_instead}, the left-hand side  is equal to $\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Because we are breaking the loop at step  $h^f_{t+1}$, $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }= \zeta_{ \kth {t+1}{h^f_{t+1}}}$. Finally, because \eqref{eq_vstar_inter_Rk_equal_eta} holds at $t+1$, $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }=\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Wrapping all these assertions:
+Interestingly, this does not depend  on $k$ anymore. 
+
+Let us show that 
+\begin{equation}
+\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }= \zeta_{ \kth {t+1}{h^f_{t+1}}}.
+\label{zeta_equal_eta}
+\end{equation}
+Due to $h^f_{t+1}$ existing, we broke the loop in line 19, so the condition in line 13 was false, so $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }\geq \zeta_{ \kth {t+1}{h^f_{t+1}}}$. We show by recursion over $t'\in\{0,\dotsc,t\}$ that $\eta^{t'}_{\kth {t+1}{h^f_{t+1}} }< \zeta_{ \kth {t+1}{h^f_{t+1}}}$. Given that $i_{t+1}\not\in\bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$ and $i_{t+1}\in R_{\kth {t+1}{h^f_{t+1}}}$, $\kth {t+1}{h^f_{t+1}} \not\in \cK^-_{t}$ and in particular $\kth {t+1}{h^f_{t+1}} \not\in \cK^-_{0}$ so $\eta^{0}_{\kth {t+1}{h^f_{t+1}} }=0< \zeta_{ \kth {t+1}{h^f_{t+1}}}$. Now let $t'<t$ and assume that $\eta^{t'}_{\kth {t+1}{h^f_{t+1}} }< \zeta_{ \kth {t+1}{h^f_{t+1}}}$. We distinguish two cases. If $i_{t'+1}\not\in R_{\kth {t+1}{h^f_{t+1}}}$, $\kth {t+1}{h^f_{t+1}}$ is not visited at step $t'+1$ of the algorithm, so $\eta^{t'+1}_{\kth {t+1}{h^f_{t+1}} }=\eta^{t'}_{\kth {t+1}{h^f_{t+1}} }< \zeta_{ \kth {t+1}{h^f_{t+1}}}$ by the recursion hypothesis. If $i_{t'+1}\in R_{\kth {t+1}{h^f_{t+1}}}$, all $\kth{t'+1}{h}$, $h\leq h^f_{t+1}$, are visited, and for all of them the condition in line 13 is true, otherwise we would have, for some $h\leq h^f_{t+1}$, $\kth{t'+1}{h}\in\cK^-_{t'+1}\subseteq\cK^-_{t}$. Noting that, necessarily, $\kth{t'+1}{h}=\kth{t+1}{h}$, we would finally have $i_{t+1}\in R_{\kth {t+1}{h^f_{t+1}}}\subseteq R_{\kth {t+1}{h}}\subseteq \bigcup_{\kappa\in\cK^-_{t}}R_{\kappa}$ which is a contradiction. This completes the recursion. Specifically for $t'=t$, $\eta^{t}_{\kth {t+1}{h^f_{t+1}} }\leq \zeta_{ \kth {t+1}{h^f_{t+1}}}-1$ and so $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }\leq\eta^{t}_{\kth {t+1}{h^f_{t+1}} }+1\leq \zeta_{ \kth {t+1}{h^f_{t+1}}}$ and so \eqref{zeta_equal_eta} holds.
+
+Also note that $\kth {t+1}{h^f_{t+1}}\in\cP^{t+1}\subseteq\cK_{t+1}$, which implies two things. Firstly, because \eqref{eq_vstar_inter_Rk_equal_eta} holds at $t+1$, $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }=\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Secondly, by applying \eqref{eq_Pt_instead}, we get that $\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq  R_{  \kth {t+1}{h^f_{t+1}}} }} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| = \Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Wrapping all these assertions:
 \begin{align*}
 \sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq  R_{  \kth {t+1}{h^f_{t+1}}} }} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| &= \Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )\\
 &=\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )\wedge  |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|\\
 &=\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }\wedge  |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|\\
-&=  \zeta_{ \kth {t+1}{h^f_{t+1}}}\wedge |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|,
+&=  \zeta_{ \kth {t+1}{h^f_{t+1}}}\wedge |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}| \text{ by \eqref{zeta_equal_eta}},
 \end{align*}
-which achieves the second case and so the proof. $\square$
+which achieves the second case and so the proof of @thm-curve-path. $\square$
 
 # Implementation {#sec-implementation}
 
@@ -1411,7 +1463,7 @@ This work has been supported by the research grants ANR-20-IDEES-0002 (PIA), ANR
 ::: {#refs}
 :::
 
-# Variant proof that $|\cK|\leq 2m-1$ {#sec-variant .appendix .unnumbered}
+# Direct proof that $|\cK|\leq 2m-1$ {#sec-variant .appendix .unnumbered}
 
 We show by induction on $m\geq1$ that, for a family of subsets $(R_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, $|\cK|\leq 2m-1$. For $m=1$ it is trivial, the only subset possible is $\{1\}$. Now let $m\geq 1$ and assume that the result is true for $m$. Let $(R_k)_{k\in\cK}$ a family of non-empty and distinct subsets of $\mathbb N_{m+1}^*$ with a forest structure. 
 
@@ -1423,21 +1475,21 @@ To prove that $(R'_k)_{k\in\cK'}$ is a family of distinct subsets of $\Nm^*$ wit
 
 If $|\widetilde{\cK}|\geq2$, let $k, k'\in\widetilde{\cK}$, $k\neq k'$. We have $R'_k=R_k$ and $R'_{k'}=R_{k'}$, so $R'_k\neq R'_{k'}$ and $R'_k\cap R'_{k'}\in\{\varnothing, R_k, R_{k'}\}=\{\varnothing, R'_k, R'_{k'}\}$.
 
-If $D\geq 4$, let $i, j\in\{3,\dotsc, D\}$, $i<j$. We have $R'_{k_i}=R_{k_i}\setminus\{m+1\}$ and $R'_{k_j}=R_{k_j}\setminus\{m+1\}$ with $R_{k_i}\subsetneq R_{k_j}$, so $R'_{k_i}\neq R'_{k_j}$ and $R'_{k_i}\cap R'_{k_j}=R_{k_j}\setminus\{m+1\}=R'_{k_j}$.
+If $D\geq 4$, let $i, j\in\{3,\dotsc, D\}$, $i<j$. We have $R'_{k_i}=R_{k_i}\setminus\{m+1\}$ and $R'_{k_j}=R_{k_j}\setminus\{m+1\}$ with $R_{k_i}\subsetneq R_{k_j}$, so $R'_{k_i}\neq R'_{k_j}$ and $R'_{k_i}\cap R'_{k_j}=R_{k_i}\setminus\{m+1\}=R'_{k_i}$.
 
 If $D\geq 3$ and $|\widetilde{\cK}|\geq1$, let $i\in\{3,\dotsc, D\}$ and $k\in\widetilde{\cK}$. We have $R'_{k_i}=R_{k_i}\setminus\{m+1\}$ and $R'_k=R_k$. 
 \begin{align*}
 R'_{k_i}\cap R'_k&=(R_{k_i}\setminus\{m+1\})\cap R_k \\
 &=R_{k_i}\cap R_k \text{ because } m+1\not\in R_k\\
-&\in\{\varnothing, R_{k_i}, R_k\} \text{ by the property of forest property}
+&\in\{\varnothing, R_{k_i}, R_k\} \text{ by the property of forest structure}
 \end{align*}
-Given that $R'_{k_i}\subsetneq R_{k_i}$, $R'_{k_i}\cap R'_k=R_{k_i}$ is impossible, so $R'_{k_i}\cap R'_k\in\{\varnothing, R_k\}=\{\varnothing, R'_k\}$ so the only thing remaining to prove is that $R'_{k_i}$ and $R'_k$ are distinct. We prove that by showing that if $R'_k = R'_{k_i}$, there is a contradiction. Indeed, then $R_k = R_{k_i}\setminus\{m+1\}$, and we can study $R_{k_2}\cap R_k$. On the one hand, $R_{k_2}\cap R_k\in\{\varnothing, R_{k_2}, R_k\}=\{\varnothing, R_{k_2}, R_{k_i}\setminus\{m+1\}\}$ by forest property. On the other hand,
+Given that $R'_{k_i}\subsetneq R_{k_i}$, $R'_{k_i}\cap R'_k=R_{k_i}$ is impossible, so $R'_{k_i}\cap R'_k\in\{\varnothing, R_k\}=\{\varnothing, R'_k\}$ so the only thing remaining to prove is that $R'_{k_i}$ and $R'_k$ are distinct. We prove that by showing that if $R'_k = R'_{k_i}$, there is a contradiction. Indeed, then $R_k = R_{k_i}\setminus\{m+1\}$, and we can study $R_{k_2}\cap R_k$. On the one hand, $R_{k_2}\cap R_k\in\{\varnothing, R_{k_2}, R_k\}=\{\varnothing, R_{k_2}, R_{k_i}\setminus\{m+1\}\}$ by forest structure. On the other hand,
 \begin{align*}
 R_{k_2}\cap R_k&=(R_{k_2}\setminus\{m+1\})\cap R_k \text{ because }m+1\not\in R_k \\
 &=(R_{k_2}\setminus\{m+1\})\cap (R_{k_i}\setminus\{m+1\})\\
 &=R_{k_2}\setminus\{m+1\}.
 \end{align*}
-So $R_{k_2}\cap R_k=R_{k_2}$ is impossible. Furthermore, $R_{k_2}\cap R_k=R_{k}$ is also impossible because $R_{k_2}\subsetneq R_{k_i}$ and $m+1\in R_{k_2}$ hence $R_{k_2}\setminus\{m+1\}\subsetneq R_{k_i}\setminus\{m+1\}$. So  $R_{k_2}\cap R_k=\varnothing$, that is $R_{k_2}\setminus\{m+1\}=\varnothing$, so $R_{k_2}=\{m+1\}$ and the contradiciton is the following: $\{m\}\subseteq R_{k_1}\subsetneq R_{k_2}=\{m+1\}$.$\square$
+So $R_{k_2}\cap R_k=R_{k_2}$ is impossible. Furthermore, $R_{k_2}\cap R_k=R_{k}$ is also impossible because $R_{k_2}\subsetneq R_{k_i}$ and $m+1\in R_{k_2}$ hence $R_{k_2}\setminus\{m+1\}\subsetneq R_{k_i}\setminus\{m+1\}$. So  $R_{k_2}\cap R_k=\varnothing$, that is $R_{k_2}\setminus\{m+1\}=\varnothing$, so $R_{k_2}=\{m+1\}$ and the contradiction is the following: $\{m+1\}\subseteq R_{k_1}\subsetneq R_{k_2}=\{m+1\}$.$\square$
 
 # Session information {.appendix .unnumbered}
 

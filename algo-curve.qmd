@@ -1294,11 +1294,19 @@ Given the two previously made splits, it remains to prove that
 \begin{equation*}
 \sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq  R_{  \kth {t+1}{h^f_{t+1}}} }} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| =  \zeta_{ \kth {t+1}{h^f_{t+1}}}\wedge |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|.
 \end{equation*}
-Interestingly, this does not depend  on $k$ anymore. By \eqref{eq_Pt_instead}, the left-hand side  is equal to $\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Because we are breaking the loop at step  $h^f_{t+1}$, $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }= \zeta_{ \kth {t+1}{h^f_{t+1}}}$. Finally, because \eqref{eq_vstar_inter_Rk_equal_eta} holds at $t+1$, $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }=\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Wrapping all these assertions:
+Interestingly, this does not depend  on $k$ anymore. 
+
+Let us show that 
+\begin{equation}
+\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }= \zeta_{ \kth {t+1}{h^f_{t+1}}}.
+\label{zeta_equal_eta}
+\end{equation}
+
+Finally, because \eqref{eq_vstar_inter_Rk_equal_eta} holds at $t+1$, $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }=\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Wrapping all these assertions:
 \begin{align*}
-\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq  R_{  \kth {t+1}{h^f_{t+1}}} }} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| &= \Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )\\
+\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq  R_{  \kth {t+1}{h^f_{t+1}}} }} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| &= \Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )\text{ by \eqref{eq_Pt_instead} applied to }\kth {t+1}{h^f_{t+1}}\in\cP^{t+1}\subseteq\cK_{t+1}\\
 &=\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )\wedge  |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|\\
-&=\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }\wedge  |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|\\
+&=\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }\wedge  |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|\text{ by \eqref{zeta_equal_eta}}\\
 &=  \zeta_{ \kth {t+1}{h^f_{t+1}}}\wedge |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|,
 \end{align*}
 which achieves the second case and so the proof of @thm-curve-path. $\square$

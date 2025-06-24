@@ -1301,12 +1301,12 @@ Let us show that
 \label{zeta_equal_eta}
 \end{equation}
 
-Finally, because \eqref{eq_vstar_inter_Rk_equal_eta} holds at $t+1$, $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }=\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Wrapping all these assertions:
+Also note that, because \eqref{eq_vstar_inter_Rk_equal_eta} holds at $t+1$, $\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }=\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Finally, by applying \eqref{eq_Pt_instead} to $\kth {t+1}{h^f_{t+1}}\in\cP^{t+1}\subseteq\cK_{t+1}$, we get that $\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq  R_{  \kth {t+1}{h^f_{t+1}}} }} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| = \Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )$. Wrapping all these assertions:
 \begin{align*}
-\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq  R_{  \kth {t+1}{h^f_{t+1}}} }} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| &= \Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )\text{ by \eqref{eq_Pt_instead} applied to }\kth {t+1}{h^f_{t+1}}\in\cP^{t+1}\subseteq\cK_{t+1}\\
+\sum_{\substack{k'\in\cP^{t}\\R_{k'}\subseteq  R_{  \kth {t+1}{h^f_{t+1}}} }} \zeta_{k'}\wedge |S_{t+1}\cap R_{k'}| &= \Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )\\
 &=\Vstar( S_{t+1}\cap  R_{  \kth {t+1}{h^f_{t+1}}  } )\wedge  |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|\\
-&=\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }\wedge  |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|\text{ by \eqref{zeta_equal_eta}}\\
-&=  \zeta_{ \kth {t+1}{h^f_{t+1}}}\wedge |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|,
+&=\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }\wedge  |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|\\
+&=  \zeta_{ \kth {t+1}{h^f_{t+1}}}\wedge |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}| \text{ by \eqref{zeta_equal_eta}},
 \end{align*}
 which achieves the second case and so the proof of @thm-curve-path. $\square$
 

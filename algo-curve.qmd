@@ -531,10 +531,9 @@ F=\left\{(i,i), 1\leq i\leq N:\forall k\in \cK_0^-, R_{(i,i)}\not\subseteq R_k  
 \label{F}
 \end{equation}
 and finally
-\begin{equation}
+\begin{equation*}
 \cP^0=E\cup F.
-\label{P0_init}
-\end{equation}
+\end{equation*}
 $E$ is the set of indices of the maximal elements $k$ such that $\zeta_k=0$, $F$ is the set of indices of all leaves that are not a subset of a region indexed by $E$. $\cP^0$ is the disjoint union of the two.
 
 ::: {.content-visible when-format="html"}

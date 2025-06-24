@@ -1118,7 +1118,7 @@ By completeness, $F\subseteq \cK$ and so $\cP^0\subseteq \cK$. First we show tha
 
 Now let us prove that the elements $\cP^0$ index disjoints sets. Let $k, k'\in \cP^0$ such that there exists $j\in R_{k}\in R_{k'}$. By forest structure, $R_{k}\subseteq R_{k'}$ or $R_{k'}\subseteq R_{k}$. Now we separate four cases. The case $k\in F, k'\in E$ is impossible, because $k$ would be the index of an atom, so we would imperatively have $R_{k}\subseteq R_{k'}$, which would contradict the definition of $F$. Similarly, $k\in F', k\in E$ is impossible. If $k, k'\in E$, then $k=k'$ by the very definition of $E$. Finally, if $k\in F, k'\in F$, $R_k$ and $R_{k'}$ are both atoms, and because the atoms realize a partition of $\Nm^*$, then $k=k'$. In all cases, $k=k'$ which concludes.
 
-The $R_k, k\in \cP^0$ are disjoint, non-empty (see @rem-distinct), and cover $\Nm^*$, so they form a partition of $\Nm^*$, in other words, $\cP^0\in\mathfrak P$.
+The $R_k, k\in \cP^0$, are disjoint, non-empty (see @rem-distinct), and cover $\Nm^*$, so they form a partition of $\Nm^*$, in other words, $\cP^0\in\mathfrak P$.
 
 We then show that $\cP^t\in\mathfrak P$ by recursion. We just showed that $\cP^0\in\mathfrak P$. Let $t\in\{ 0,\dotsc,m-1\}$ and assume that $\cP^t\in\mathfrak P$. In many cases, $\cP^{t+1}=\cP^t$ and so $\cP^{t+1}\in\mathfrak P$ by the recursion hypothesis. Otherwise, $\cP^{t+1}$ is given by the adjustment in line 17, in which case we have
 \begin{equation}\label{eq_rel_rec_p}
@@ -1301,7 +1301,7 @@ Interestingly, this does not depend  on $k$ anymore. By \eqref{eq_Pt_instead}, t
 &=\eta^{t+1}_{\kth {t+1}{h^f_{t+1}} }\wedge  |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|\\
 &=  \zeta_{ \kth {t+1}{h^f_{t+1}}}\wedge |S_{t+1}\cap R_{ \kth {t+1}{h^f_{t+1}}}|,
 \end{align*}
-which achieves the second case and so the proof. $\square$
+which achieves the second case and so the proof of @thm-curve-path. $\square$
 
 # Implementation {#sec-implementation}
 

@@ -1101,7 +1101,7 @@ and the union is disjoint. From \eqref{eq_vstar_Qpartition}, let $Q^*\in\mathfra
 &=\sum_{k\in\cK^1}  \sum_{k'\in Q^*} \zeta_{k'}\wedge |(S_t\cap R_{k})\cap R_{k'}| \label{eq_delicate} \\
 &\geq \sum_{k\in\cK^1} \Vstar(S_t\cap R_k),\label{eq_delicate_vstar}
 \end{align}
-where the equality in \eqref{eq_delicate} comes from the fact that if $R_{k'}\not\subseteq R_k$, then $R_{k'}\cap R_k=\varnothing$, that is, $R_{k}\subseteq R_{k'}$ is impossible because $k\in\mathcal K^1$. Furthermore, \eqref{eq_delicate_vstar} holds again by \eqref{eq_vstar_Qpartition}. 
+where the equality in \eqref{eq_delicate} comes from the fact that if $R_{k'}\not\subseteq R_k$, then $R_{k'}\cap R_k=\varnothing$, that is, $R_{k}\subsetneq R_{k'}$ is impossible because $k\in\mathcal K^1$. Furthermore, \eqref{eq_delicate_vstar} holds again by \eqref{eq_vstar_Qpartition}. 
 
 Because $\cK^1\subseteq\cK_t$, by \eqref{eq_Pt_good_partition}, $\Vstar(S_t\cap R_k) = \sum_{\substack{k'\in \cP^t\\ R_{k'}\subseteq R_k}} \zeta_{k'}\wedge|S_t \cap R_{k'}|$ for all $k\in\cK^1$. Then,
 \begin{align*}

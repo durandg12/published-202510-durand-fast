@@ -599,7 +599,7 @@ Furthermore,
 \end{equation}
 :::
 
-The proof of this Theorem is postponed to @sec-proof. The first equality of Equation \eqref{eq_vstar_equal_sum_eta} states that the minimum in \eqref{eq_vstar_Qpartition} is indeed realized on the partition $\cP^t$, and the last equality of the same Equation is the basis of the following light corollary.
+The proof of this Theorem is given in @sec-proof. The first equality of Equation \eqref{eq_vstar_equal_sum_eta} states that the minimum in \eqref{eq_vstar_Qpartition} is indeed realized on the partition $\cP^t$, and the last equality of the same Equation is the basis of the following light corollary.
 
 ::: {#cor-easy-impl}
 
@@ -611,7 +611,7 @@ For $t\in\{0,\dotsc, m-1 \}$, $V^*_{\Rfam}(S_{t+1})=V^*_{\Rfam}(S_{t})$ if $i_{t
 
 :::
 ::: {.proof}
-From \eqref{eq_vstar_equal_sum_eta}, $V^*_{\Rfam}(S_{t+1})=\sum_{k\in\cK^1} \eta_k^{t+1}$ and $V^*_{\Rfam}(S_{t})=\sum_{k\in\cK^1} \eta_k^{t}$. If $i_{t+1}\in \bigcup_{k\in\cK^-_t}R_k$, $\eta_k^{t+1}=\eta_k^{t}$ for all $k\in\cK^1$. If not, $\eta_k^{t+1}=\eta_k^{t}$ for all $k\in\cK^1$, $k\neq \kth{t+1}{1}$, whereas for $k= \kth{t+1}{1}$, $\eta_k^{t+1}=\eta_k^{t}+1$. $\square$
+From \eqref{eq_vstar_equal_sum_eta}, $V^*_{\Rfam}(S_{t+1})=\sum_{k\in\cK^1} \eta_k^{t+1}$ and $V^*_{\Rfam}(S_{t})=\sum_{k\in\cK^1} \eta_k^{t}$. If $i_{t+1}\in \bigcup_{k\in\cK^-_t}R_k$, $\eta_k^{t+1}=\eta_k^{t}$ for all $k\in\cK^1$. If not, $\eta_k^{t+1}=\eta_k^{t}$ for all $k\in\cK^1$, $k\neq \kth{t+1}{1}$, whereas for $k= \kth{t+1}{1}$, $\eta_k^{t+1}=\eta_k^{t}+1$.
 :::
 
 We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested in the computation of the curve $\left(V^*_{\Rfam}(S_{t})\right)_{1\leq t\leq m}$, tracking $\cP^t$ is actually useless, what is important is to track and update $\cK^-_t$ correctly. Hence the simpler, alternative  @alg-curve. Note that @alg-curve is less formal than @alg-formal-curve: as in @alg-vstar and @alg-pruning, it recycles notation (mimicking the actual code implementation) so the $t$ subscript or superscript is dropped from all $\cK^-_t$ and $\eta_k^t$. In @alg-curve, the notation $V_t$ is actually equal to $V^*_{\Rfam}(S_{t})$ by @cor-easy-impl.

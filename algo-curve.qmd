@@ -314,27 +314,7 @@ For any reference family $(R_k,\zeta_k)_{k\in\cK}$ with a forest structure, we h
 
 :::
 
-::: {.proof}
-
-Recall that the $R_k$ are assumed to be all non-empty and distinct by @rem-distinct. 
-
-The $P_n$, $n\in \mathbb N_N^*$, form a partition of $\Nm^*$, so $N\leq m$.
-
-There is a sequence $R^{(H)}\subsetneq\dotsb\subsetneq R^{(1)}$. There exists $n_H\in\mathbb N_N^*$ such that $P_{n_H}\subseteq R^{(H)}$ and for $1\leq h \leq H-1$, there exists $n_h\in\mathbb N_N^*$ such that $P_{n_h}\subseteq R^{(h)}\setminus R^{(h+1)}$. For $h_1, h_2$ such that $1\leq h_1<h_2 \leq H$, we have $P_{n_{h_2}}\subseteq R^{(h_2)}$ and $P_{n_{h_1}}\subseteq R^{(h_1)}\setminus R^{(h_1+1)}\subseteq R^{(h_1)}\setminus R^{(h_2)}$ so $P_{n_{h_1}}\cap P_{n_{h_2}}=\varnothing$ and in particular $n_{h_1}\neq n_{h_2}$, so $h\mapsto n_h$ is an injection and $H\leq N$.
-
-To show that the three bounds can be achieved simultaneously, we let $P_i=\{i\}$ for all $i\in\Nm^*$, $\cK=\{(i,i), i\in\Nm^*\}\cup\{(1,i), i\in\Nm^*\}$, and, as usual, for $(i,j)\in\cK$, $R_{(i,j)}=P_{i:j}=\bigcup_{i\leq n\leq j}P_n$.
-
-Finally we show by induction over $N\geq1$ that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ leaves, $|\cK|\leq 2N-1$. For $N=1$ it is trivial, necessarily $P_1=\Nm^*$ and then the only possible set $R_k$ is also $\Nm^*$ so $|\cK|=1=2N-1$. Let $N\geq 1$. Assume that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ compatible leaves, $|\cK|\leq 2N-1$. Let $(R_k)_{k\in\cK}$ a forest structure with $N+1$ leaves, let $H$ its maximum depth, let $P_1, \dotsc P_{N+1}$ the leaves. If $H=1$, all the regions are two-by-two disjoint so there is an injection from the regions to the leaves and so $|\cK|\leq N+1\leq 2(N+1)-1$. From now on we assume $H\geq2$ and we distinguish two cases.
-
-In the first case, assume that there exists $\hat k$ of depth $H$, that is $\phi(\hat k)=H$, such that $R_{\hat k}$ is comprised of at least two leaves: there exist $\tilde\imath$ and $\tilde\jmath$ with $\tilde\jmath\geq\tilde\imath+1$ such that $R_{\hat k}=\bigcup_{\tilde\imath\leq n\leq \tilde\jmath}P_n$. Let $\cK^-=\cK\setminus\{(\tilde\imath, \tilde\imath), (\tilde\imath+1, \tilde\imath+1)\}$, $(R_k)_{k\in\cK^-}$ has also a forest structure, and we show that $P_1,\dotsc,P_{\tilde\imath-1}, P_{\tilde\imath}\cup P_{\tilde\imath+1},P_{\tilde\imath+2},\dotsc,P_{N+1}$ is a sequence of $N$ leaves that are compatible with this family. First note that they well define a partition of $\Nm^*$. Let $k\in\cK^-$, we just have to prove that if $P_{\tilde\imath}\subseteq R_k$ or $P_{\tilde\imath+1}\subseteq R_k$, then $P_{\tilde\imath}\cup P_{\tilde\imath+1}\subseteq R_k$. If that's the case, then $R_k\cap R_{\hat k}\neq\varnothing$, and by the forest structure property of $\cK$, $R_k\subsetneq R_{\hat k}$ or $R_{\hat k}\subseteq R_k$, but actually $R_k\subsetneq R_{\hat k}$ is impossible because $\phi(\hat k)=H$ which is the maximal depth. So $R_{\hat k}\subseteq R_k$, noticing that $P_{\tilde\imath}\cup P_{\tilde\imath+1}\subseteq R_{\hat k}$, we get the desired result.
-
-On the contrary, in the second case, assume that for all $k\in\cK$ of height $H$, $R_k$ is a leaf. Let $\hat k\in\cK$ of depth $H$, that is $\phi(\hat k)=H$, and let $\tilde k\in\cK$ the element of depth $H-1$ such that $R_{\hat k}\subsetneq R_{\tilde k}$. $\tilde k$ exists because $H\geq2$. Identify $\tilde k$ to $(\tilde\imath, \tilde\jmath)\in \left(\mathbb N_N^* \right)^2$ such that $R_{\tilde k}=\bigcup_{\tilde\imath\leq n\leq \tilde\jmath}P_n$. If $\tilde\jmath=\tilde\imath$, then $R_{\tilde k}=P_{\tilde\imath}$, then we have also $R_{\hat k}=P_{\tilde\imath}$, and there is a contradiction with the fact that $R_{\hat k}\subsetneq R_{\tilde k}$. So
-$\tilde\jmath\geq\tilde\imath+1$. Let again $\cK^-=\cK\setminus\{(\tilde\imath, \tilde\imath), (\tilde\imath+1, \tilde\imath+1)\}$, and let us show again that $P_1,\dotsc,P_{\tilde\imath-1}, P_{\tilde\imath}\cup P_{\tilde\imath+1},P_{\tilde\imath+2},\dotsc,P_{N+1}$ is a sequence of $N$ leaves that are compatible with $(R_k)_{k\in\cK^-}$. The reasoning is the same as in the first case, but working with $\tilde k$ instead of $\hat k$. Let $k\in\cK^-$, such that $P_{\tilde\imath}\subseteq R_k$ or $P_{\tilde\imath+1}\subseteq R_k$. Then $R_k\cap R_{\tilde k}\neq\varnothing$, and by the forest structure property of $\cK$, $R_k\subsetneq R_{\tilde k}$ or $R_{\tilde k}\subseteq R_k$. But actually $R_k\subsetneq R_{\tilde k}$ is impossible, because this implies that $\phi(k)=H$, so $R_k$ is a leaf, so necessarily $R_k=P_{\tilde\imath}$ or $R_k=P_{\tilde\imath+1}$, but $k\in\cK^-$ so $k\neq(\tilde\imath, \tilde\imath)$ and $k\neq(\tilde\imath+1, \tilde\imath+1)$, hence a contradiction. So $R_{\tilde k}\subseteq R_k$, noticing that $P_{\tilde\imath}\cup P_{\tilde\imath+1}\subseteq R_{\tilde k}$, we get the desired result.
-
-In both cases, we have constructed a forest structure $(R_k)_{k\in\cK^-}$ with $N$ compatible leaves. By the induction hypothesis, $|\cK^-|\leq 2N-1$ and so $|\cK|\leq|\cK^-|+2\leq 2(N+1)-1$ which concludes. $\square$
-:::
-
-A direct, alternative proof that $|\cK|\leq 2m-1$ is given in the [Appendix](#sec-variant).
+The proof of @prp-cardinals is given in @sec-cardinals.
 
 # New algorithms
 
@@ -1454,16 +1434,30 @@ A lot of work remains to be done on the `sanssouci` package. For example, to mak
 
 Other current works include the development of new reference families with theoretical JER control that could better account for realistic models, such as models with dependence between the $p$-values, see for example @perrot2023selective, or models with discreteness.
 
-# Acknowledgements {.appendix .unnumbered}
+# Proofs {#sec-proofs}
 
-This work has been supported by the research grants ANR-20-IDEES-0002 (PIA), ANR-19-CHIA-0021 (BISCOTTE), ANR-23-CE40-0018 (BACKUP) and ANR-21-CE23-0035 (ASCAI). Thanks to Romain Périer for being the first to extensively use the new implemented algorithms. Thanks to Pierre Neuvial for his valuable feedback.
+## Proof of @prp-cardinals {#sec-cardinals}
 
-# References {.appendix .unnumbered}
+Recall that the $R_k$ are assumed to be all non-empty and distinct by @rem-distinct. 
 
-::: {#refs}
-:::
+The $P_n$, $n\in \mathbb N_N^*$, form a partition of $\Nm^*$, so $N\leq m$.
 
-# Direct proof that $|\cK|\leq 2m-1$ {#sec-variant .appendix .unnumbered}
+There is a sequence $R^{(H)}\subsetneq\dotsb\subsetneq R^{(1)}$. There exists $n_H\in\mathbb N_N^*$ such that $P_{n_H}\subseteq R^{(H)}$ and for $1\leq h \leq H-1$, there exists $n_h\in\mathbb N_N^*$ such that $P_{n_h}\subseteq R^{(h)}\setminus R^{(h+1)}$. For $h_1, h_2$ such that $1\leq h_1<h_2 \leq H$, we have $P_{n_{h_2}}\subseteq R^{(h_2)}$ and $P_{n_{h_1}}\subseteq R^{(h_1)}\setminus R^{(h_1+1)}\subseteq R^{(h_1)}\setminus R^{(h_2)}$ so $P_{n_{h_1}}\cap P_{n_{h_2}}=\varnothing$ and in particular $n_{h_1}\neq n_{h_2}$, so $h\mapsto n_h$ is an injection and $H\leq N$.
+
+To show that the three bounds can be achieved simultaneously, we let $P_i=\{i\}$ for all $i\in\Nm^*$, $\cK=\{(i,i), i\in\Nm^*\}\cup\{(1,i), i\in\Nm^*\}$, and, as usual, for $(i,j)\in\cK$, $R_{(i,j)}=P_{i:j}=\bigcup_{i\leq n\leq j}P_n$.
+
+Finally we show by induction over $N\geq1$ that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ leaves, $|\cK|\leq 2N-1$. For $N=1$ it is trivial, necessarily $P_1=\Nm^*$ and then the only possible set $R_k$ is also $\Nm^*$ so $|\cK|=1=2N-1$. Let $N\geq 1$. Assume that for any family $(R_k)_{k\in\cK}$ with a forest structure and $N$ compatible leaves, $|\cK|\leq 2N-1$. Let $(R_k)_{k\in\cK}$ a forest structure with $N+1$ leaves, let $H$ its maximum depth, let $P_1, \dotsc P_{N+1}$ the leaves. If $H=1$, all the regions are two-by-two disjoint so there is an injection from the regions to the leaves and so $|\cK|\leq N+1\leq 2(N+1)-1$. From now on we assume $H\geq2$ and we distinguish two cases.
+
+In the first case, assume that there exists $\hat k$ of depth $H$, that is $\phi(\hat k)=H$, such that $R_{\hat k}$ is comprised of at least two leaves: there exist $\tilde\imath$ and $\tilde\jmath$ with $\tilde\jmath\geq\tilde\imath+1$ such that $R_{\hat k}=\bigcup_{\tilde\imath\leq n\leq \tilde\jmath}P_n$. Let $\cK^-=\cK\setminus\{(\tilde\imath, \tilde\imath), (\tilde\imath+1, \tilde\imath+1)\}$, $(R_k)_{k\in\cK^-}$ has also a forest structure, and we show that $P_1,\dotsc,P_{\tilde\imath-1}, P_{\tilde\imath}\cup P_{\tilde\imath+1},P_{\tilde\imath+2},\dotsc,P_{N+1}$ is a sequence of $N$ leaves that are compatible with this family. First note that they well define a partition of $\Nm^*$. Let $k\in\cK^-$, we just have to prove that if $P_{\tilde\imath}\subseteq R_k$ or $P_{\tilde\imath+1}\subseteq R_k$, then $P_{\tilde\imath}\cup P_{\tilde\imath+1}\subseteq R_k$. If that's the case, then $R_k\cap R_{\hat k}\neq\varnothing$, and by the forest structure property of $\cK$, $R_k\subsetneq R_{\hat k}$ or $R_{\hat k}\subseteq R_k$, but actually $R_k\subsetneq R_{\hat k}$ is impossible because $\phi(\hat k)=H$ which is the maximal depth. So $R_{\hat k}\subseteq R_k$, noticing that $P_{\tilde\imath}\cup P_{\tilde\imath+1}\subseteq R_{\hat k}$, we get the desired result.
+
+On the contrary, in the second case, assume that for all $k\in\cK$ of height $H$, $R_k$ is a leaf. Let $\hat k\in\cK$ of depth $H$, that is $\phi(\hat k)=H$, and let $\tilde k\in\cK$ the element of depth $H-1$ such that $R_{\hat k}\subsetneq R_{\tilde k}$. $\tilde k$ exists because $H\geq2$. Identify $\tilde k$ to $(\tilde\imath, \tilde\jmath)\in \left(\mathbb N_N^* \right)^2$ such that $R_{\tilde k}=\bigcup_{\tilde\imath\leq n\leq \tilde\jmath}P_n$. If $\tilde\jmath=\tilde\imath$, then $R_{\tilde k}=P_{\tilde\imath}$, then we have also $R_{\hat k}=P_{\tilde\imath}$, and there is a contradiction with the fact that $R_{\hat k}\subsetneq R_{\tilde k}$. So
+$\tilde\jmath\geq\tilde\imath+1$. Let again $\cK^-=\cK\setminus\{(\tilde\imath, \tilde\imath), (\tilde\imath+1, \tilde\imath+1)\}$, and let us show again that $P_1,\dotsc,P_{\tilde\imath-1}, P_{\tilde\imath}\cup P_{\tilde\imath+1},P_{\tilde\imath+2},\dotsc,P_{N+1}$ is a sequence of $N$ leaves that are compatible with $(R_k)_{k\in\cK^-}$. The reasoning is the same as in the first case, but working with $\tilde k$ instead of $\hat k$. Let $k\in\cK^-$, such that $P_{\tilde\imath}\subseteq R_k$ or $P_{\tilde\imath+1}\subseteq R_k$. Then $R_k\cap R_{\tilde k}\neq\varnothing$, and by the forest structure property of $\cK$, $R_k\subsetneq R_{\tilde k}$ or $R_{\tilde k}\subseteq R_k$. But actually $R_k\subsetneq R_{\tilde k}$ is impossible, because this implies that $\phi(k)=H$, so $R_k$ is a leaf, so necessarily $R_k=P_{\tilde\imath}$ or $R_k=P_{\tilde\imath+1}$, but $k\in\cK^-$ so $k\neq(\tilde\imath, \tilde\imath)$ and $k\neq(\tilde\imath+1, \tilde\imath+1)$, hence a contradiction. So $R_{\tilde k}\subseteq R_k$, noticing that $P_{\tilde\imath}\cup P_{\tilde\imath+1}\subseteq R_{\tilde k}$, we get the desired result.
+
+In both cases, we have constructed a forest structure $(R_k)_{k\in\cK^-}$ with $N$ compatible leaves. By the induction hypothesis, $|\cK^-|\leq 2N-1$ and so $|\cK|\leq|\cK^-|+2\leq 2(N+1)-1$ which concludes.
+
+A direct, alternative proof that $|\cK|\leq 2m-1$ is given in next section.
+
+### Direct proof that $|\cK|\leq 2m-1$
 
 We show by induction on $m\geq1$ that, for a family of subsets $(R_k)_{k\in\cK}$ with a forest structure such that the $R_k$ are all non-empty and distinct, $|\cK|\leq 2m-1$. For $m=1$ it is trivial, the only subset possible is $\{1\}$. Now let $m\geq 1$ and assume that the result is true for $m$. Let $(R_k)_{k\in\cK}$ a family of non-empty and distinct subsets of $\mathbb N_{m+1}^*$ with a forest structure. 
 
@@ -1489,7 +1483,16 @@ R_{k_2}\cap R_k&=(R_{k_2}\setminus\{m+1\})\cap R_k \text{ because }m+1\not\in R_
 &=(R_{k_2}\setminus\{m+1\})\cap (R_{k_i}\setminus\{m+1\})\\
 &=R_{k_2}\setminus\{m+1\}.
 \end{align*}
-So $R_{k_2}\cap R_k=R_{k_2}$ is impossible. Furthermore, $R_{k_2}\cap R_k=R_{k}$ is also impossible because $R_{k_2}\subsetneq R_{k_i}$ and $m+1\in R_{k_2}$ hence $R_{k_2}\setminus\{m+1\}\subsetneq R_{k_i}\setminus\{m+1\}$. So  $R_{k_2}\cap R_k=\varnothing$, that is $R_{k_2}\setminus\{m+1\}=\varnothing$, so $R_{k_2}=\{m+1\}$ and the contradiction is the following: $\{m+1\}\subseteq R_{k_1}\subsetneq R_{k_2}=\{m+1\}$. $\square$
+So $R_{k_2}\cap R_k=R_{k_2}$ is impossible. Furthermore, $R_{k_2}\cap R_k=R_{k}$ is also impossible because $R_{k_2}\subsetneq R_{k_i}$ and $m+1\in R_{k_2}$ hence $R_{k_2}\setminus\{m+1\}\subsetneq R_{k_i}\setminus\{m+1\}$. So  $R_{k_2}\cap R_k=\varnothing$, that is $R_{k_2}\setminus\{m+1\}=\varnothing$, so $R_{k_2}=\{m+1\}$ and the contradiction is the following: $\{m+1\}\subseteq R_{k_1}\subsetneq R_{k_2}=\{m+1\}$.
+
+# Acknowledgements {.appendix .unnumbered}
+
+This work has been supported by the research grants ANR-20-IDEES-0002 (PIA), ANR-19-CHIA-0021 (BISCOTTE), ANR-23-CE40-0018 (BACKUP) and ANR-21-CE23-0035 (ASCAI). Thanks to Romain Périer for being the first to extensively use the new implemented algorithms. Thanks to Pierre Neuvial for his valuable feedback.
+
+# References {.appendix .unnumbered}
+
+::: {#refs}
+:::
 
 # Session information {.appendix .unnumbered}
 

@@ -1489,7 +1489,7 @@ R_{k_2}\cap R_k&=(R_{k_2}\setminus\{m+1\})\cap R_k \text{ because }m+1\not\in R_
 &=(R_{k_2}\setminus\{m+1\})\cap (R_{k_i}\setminus\{m+1\})\\
 &=R_{k_2}\setminus\{m+1\}.
 \end{align*}
-So $R_{k_2}\cap R_k=R_{k_2}$ is impossible. Furthermore, $R_{k_2}\cap R_k=R_{k}$ is also impossible because $R_{k_2}\subsetneq R_{k_i}$ and $m+1\in R_{k_2}$ hence $R_{k_2}\setminus\{m+1\}\subsetneq R_{k_i}\setminus\{m+1\}$. So  $R_{k_2}\cap R_k=\varnothing$, that is $R_{k_2}\setminus\{m+1\}=\varnothing$, so $R_{k_2}=\{m+1\}$ and the contradiction is the following: $\{m+1\}\subseteq R_{k_1}\subsetneq R_{k_2}=\{m+1\}$.$\square$
+So $R_{k_2}\cap R_k=R_{k_2}$ is impossible. Furthermore, $R_{k_2}\cap R_k=R_{k}$ is also impossible because $R_{k_2}\subsetneq R_{k_i}$ and $m+1\in R_{k_2}$ hence $R_{k_2}\setminus\{m+1\}\subsetneq R_{k_i}\setminus\{m+1\}$. So  $R_{k_2}\cap R_k=\varnothing$, that is $R_{k_2}\setminus\{m+1\}=\varnothing$, so $R_{k_2}=\{m+1\}$ and the contradiction is the following: $\{m+1\}\subseteq R_{k_1}\subsetneq R_{k_2}=\{m+1\}$. $\square$
 
 # Session information {.appendix .unnumbered}
 

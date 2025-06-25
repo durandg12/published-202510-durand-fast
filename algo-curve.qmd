@@ -40,11 +40,11 @@ The first confidence bounds are found in @MR2279468 and @MR2279639, although, in
 
 Following the reference family trail, in @MR4178188 the authors introduce new reference families with a special set-theoretic constraint that allows an efficient computation of the bound denoted by $\Vstar$ on a single selection set $S$. The problem is that one often wants to compute $\Vstar$ on a whole path of selection sets $(S_t)_{t\in\Nm^*}$, for example the hypotheses attached to the $t$ smallest $p$-values. Whereas the algorithm provided in the aforementioned work [@MR4178188, Algorithm 1], which is reproduced here, see @alg-vstar, is fast for a single evaluation, it is slow and inefficient to repeatedly call it to compute each $\Vstar(S_t)$. If the $S_t$'s are nested, and growing by one, that is $S_1\subsetneq\dotsb\subsetneq S_m$ and $|S_t|=t$, there is a way to efficiently compute $\left(\Vstar(S_t)\right)_{t\in\Nm}$ by leveraging the nested structure. 
 
-This is the main contribution of the present paper: a new and fast algorithm computing the curve $\left(\Vstar(S_t)\right)_{t\in\Nm}$ for a nested path of selection sets, that is presented in @sec-fast-curve. An additional algorithm that can speed up computations both for the single-evaluation algorithm and the new curve-evaluation algorithm is also presented, in @sec-pruning. A detailed example illustrating how the new algorithms work is provided in @sec-example, and the proof that the fast algorithm indeed computes correctly the curve is in @sec-proof. In @sec-notation, all necessary notation and vocabulary is re-introduced, most of it being the same as in @MR4178188. In @sec-implementation we discuss the current implementations of all the presented algorithms in the `R` [@R-base] package `sanssouci` [@sanssouci]. Finally, a few numerical experiments are presented in Section @sec-numeric to demonstrate the computation time gain.
+This is the main contribution of the present paper: a new and fast algorithm (@alg-formal-curve) computing the curve $\left(\Vstar(S_t)\right)_{t\in\Nm}$ for a nested path of selection sets, that is presented in @sec-fast-curve. An additional algorithm that can speed up computations both for the single-evaluation algorithm and the new curve-evaluation algorithm is also presented, in @sec-pruning. Notably, a detailed example illustrating how the new algorithms work is provided in @sec-example. In @sec-notation, all necessary notation and vocabulary is re-introduced, most of it being the same as in @MR4178188. In @sec-implementation we discuss the current implementations of all the presented algorithms in the `R` [@R-base] package `sanssouci` [@sanssouci]. A few numerical experiments are presented in @sec-numeric to demonstrate the computation time gain. Finally, after some concluding remarks in @sec-conclusion, the proofs of all results, including the proof that @alg-formal-curve indeed computes correctly the curve, are presented in @sec-proofs.
 
-# Notation and reference family methodology
+# Notation and reference family methodology {#sec-notation}
 
-## Multiple testing notation {#sec-notation}
+## Multiple testing notation
 
 As is usual in multiple testing theory, we consider a probability space $(\Omega,\mathcal A, \mathbb P)$, a model $\mathcal{P}$ on a measurable space $(\mathcal{X},\mathfrak{X})$, and data that is represented by a random variable $X:(\Omega,\mathcal A)\to(\mathcal{X},\mathfrak{X})$ with $X\sim P\in \mathcal{P}$, that is, the law of $X$ is comprised in the model $\mathcal{P}$.
 
@@ -1149,7 +1149,7 @@ The comparison between scenarios 3 and 4 is similar. Although, with only `n_repl
 
 Finally, comparing scenarios 3 & 4 with scenarios 1 & 2, we see that multiplying the number of hypotheses by 10 effectively multiplies the computation time by $\sim10$ when using @alg-curve and by $\sim100$ when using @alg-vstar naively, which illustrates the stated complexities of $O(m|\cK|)$ and $O(m^2|\cK|)$, respectively.
 
-# Conclusion
+# Conclusion {#sec-conclusion}
 
 In conclusion, we effectively introduced a new algorithm to compute a curve of confidence upper bounds, much faster the previous alternative, with one power of $m$ less in the complexity.
 

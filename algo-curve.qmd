@@ -328,7 +328,7 @@ We remark the simple fact that if, for example, $(1,1), (2,2), (1,2)\in\cK$, and
 
 ::: {#def-pruning}
 
-## Pruning {#sec-pruning}
+## Pruning
 
 We define by $\cK^{\pr}$ ($\cK$ pruned) the set of elements of $\cK$ such that we removed all $(i,i')$ such that there exists $p\geq2$ and integers $i_1,\dotsc,i_{p-1}$ such that, when setting $i_0=i$ and $i_{p}=i'+1$, the sequence $(i_0,\dotsc,i_{p})$ is strictly increasing, $(i_{j-1},i_{j}-1)\in\cK$ for all $1\leq j\leq p$ and finally $\zeta_{(i,i')}=\zeta_{(i_0,i_{p}-1)}\geq \sum_{j=1}^{p} \zeta_{(i_{j-1}, i_{j}-1)}$.
 

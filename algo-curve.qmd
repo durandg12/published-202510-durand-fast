@@ -1037,6 +1037,33 @@ And then for the atoms, we have `leaf_list[[1]] = c(1, 2)`, `leaf_list[[2]] = c(
 
 The functions `dyadic.from.leaf_list`, `dyadic.from.window.size`, and `dyadic.from.height` return the appropriate data structure to represent a $\cK$ that can be described as a dyadic tree, based on some entry parameters that can be inferred from the names of the functions. The completion of a forest structure, mentioned in @sec-forest-structure, is done by the `forest.completion` function. Finally, the $\zeta_k$'s are computed as in @MR4178188 by the `zetas.tree` function with `method=zeta.DKWM`. Using `method=zeta.trivial` just yields $\zeta_k=|R_k|$.
 
+The following `R` snippet constructs the family of @exm-toy-forest, draws uniform $p$-values $p_1,\dotsc,p_{25}$, computes the $\zeta_k$'s with `method=zeta.trivial`, completes the family with `forest.completion` to get the family of @exm-toy-leaves, allowing to verify the claim of @exm-implementation, prunes it with `pruning` (which prunes everything except the leaves because of `zeta.trivial`), and finally computes the curve of confidence bounds on the path $S_t=\{\sigma(1),\dots,\sigma(t)\}$, using both the pruned and non-pruned family, where $\sigma$ is a permutation ordering the $p$-values, using the fast implementation `curve.V.star.forest.fast`.
+```{r example1}
+#| code-fold: show
+
+library(sanssouci)
+
+leaf_list <- list(c(1, 2), 
+                  c(3, 4), 
+                  c(5, 6, 7, 8, 9, 10), 
+                  c(11, 12, 13, 14, 15, 16), 
+                  c(17, 18, 19, 20), 
+                  21, 
+                  22, 
+                  c(23, 24, 25))
+C <- list(list(c(1, 5), c(6,7)),
+          list(c(1, 1), c(2, 3), c(4, 5), c(7, 7)),
+          list(c(3, 3), c(4, 4), c(5, 5)))
+pvalues <- runif(25)
+o <- order(pvalues)
+ZL <- zetas.tree(C, leaf_list, zeta.trivial, pvalues, alpha = 0.05)
+complete.res <- forest.completion(C, ZL, leaf_list)
+# print(complete.res$C)
+pruning.res <- pruning(complete.res$C, complete.res$ZL, leaf_list, delete.gaps = TRUE)
+curve.V.star.forest.fast(o, complete.res$C, complete.res$ZL, leaf_list) == 
+  curve.V.star.forest.fast(o, pruning.res$C, pruning.res$ZL, leaf_list)
+```
+
 # Numerical experiments {#sec-numeric}
 
 In this Section, we present some numerical experiments aiming to demonstrate the impact of the pruning of @alg-pruning (using the `delete.gaps` option mentioned in @sec-implementation) and of the fast @alg-curve, in terms of computation time, compared to the only previously available method to compute a curve of confidence bounds. As mentioned in @sec-forest-structure and @sec-implementation, this naive method simply consisted in a `for` loop repeatedly applying @alg-vstar.

@@ -60,13 +60,13 @@ Then we consider $m\geq1$ null hypotheses $H_{0,1}, \dotsc, H_{0,m}$ which forma
 
 For every subset of hypotheses $S\subseteq\Nm^*$, let $V(S)=|S\cap\cH_0|$. If we think of $S$ as a selection set of hypotheses deemed significant, $V(S)$ is then the number of false positives (FP) in $S$. $V(S)$ is our main object of interest and the quantity that we wish to over-estimate with confidence upper bounds (see Equation \eqref{eq_confidence} or the more formal Equation \eqref{eq_confidence_formal} below).
 
-Finally let us consider the following toy example, that will be re-used in the remainder of the paper.
+Finally let us consider the following toy example, that will re-appear slightly modified in @sec-numeric.
 
 ::: {#exm-gauss}
 
 ## Gaussian one-sided
 
-In this case we assume that $X=(X_1,\dotsc,X_m)$ is a Gaussian vector and the null hypotheses refer to the nullity of the means in contrast to their positivity. That is, formally, $(\mathcal{X},\mathfrak{X})=(\mathbb R^m, \mathcal B\left(\mathbb R^m  \right))$, $\mathcal P=\{ \mathcal N(\boldsymbol{\mu}, \Sigma) : \forall j \in\Nm^*, \mu_j\geq 0, \Sigma \text{ positive semidefinite}  \}$, for each $i\in\Nm^*$, $\Hoi= \{ \mathcal N(\boldsymbol{\mu}, \Sigma) \in \mathcal P :\mu_i=0 \}$ and $H_{1,i}=\{ \mathcal N(\boldsymbol{\mu}, \Sigma) \in \mathcal P :\mu_i>0 \}$. Then we can construct $p$-values by letting $p_i(X)=\bar\Phi(X_i)=1-\Phi(X_i)$, where $\Phi$ denotes the cdf of $\mathcal N(0,1)$ and $\bar\Phi$ the associated survival function.
+In this case we assume that $X=(X_1,\dotsc,X_m)$ is a Gaussian vector and the null hypotheses refer to the nullity of the means in contrast to their positivity. That is, formally, $(\mathcal{X},\mathfrak{X})=(\mathbb R^m, \mathcal B\left(\mathbb R^m  \right))$, $\mathcal P=\{ \mathcal N(\boldsymbol{\mu}, \Sigma) : \forall j \in\Nm^*, \mu_j\geq 0, \Sigma \text{ positive semidefinite}  \}$, for each $i\in\Nm^*$, $\Hoi= \{ \mathcal N(\boldsymbol{\mu}, \Sigma) \in \mathcal P :\mu_i=0 \}$ and $H_{1,i}=\{ \mathcal N(\boldsymbol{\mu}, \Sigma) \in \mathcal P :\mu_i>0 \}$. Then we can construct $p$-values by letting $p_i(X)=1-\Phi(X_i)$, where $\Phi$ denotes the cdf of $\mathcal N(0,1)$.
 :::
 
 ## Post hoc bounds with reference families {#sec-reference-fam}

@@ -709,7 +709,9 @@ Actually, @alg-curve doesn't need the family to be complete. Indeed, if $R_k$ is
 
 ## Illustration on a detailed example {#sec-example}
 
-We still continue @exm-toy-forest and @exm-toy-leaves. Recall that $m=25$, $P_{1:5}=R_1 = \{1, \dotsc , 20 \}$, $P_1=R_2  =  \{1, 2  \}$, $P_{2:3}=R_3   =   \{3 , \dotsc , 10 \}$, $P_{4:5}=R_4  =    \{11, \dotsc , 20 \}$, $P_2=\{3,4\}$, $P_3=R_5 =  \{5, \dotsc , 10 \}$, $P_4=R_6   =     \{11, \dotsc , 16 \}$, $P_5=R_7  =   \{17, \dotsc ,20  \}$, $P_{6:7}=R_8=\{21,22\}$, $P_6=\{21\}$, $P_7=R_9 = \{22\}$ and $P_8=\{23,24,25\}$. 
+In this section, we follow @alg-formal-curve during its first steps in a detailed fashion.
+
+We keep the structure of @exm-toy-forest and @exm-toy-leaves. Recall that $m=25$, $P_{1:5}=R_1 = \{1, \dotsc , 20 \}$, $P_1=R_2  =  \{1, 2  \}$, $P_{2:3}=R_3   =   \{3 , \dotsc , 10 \}$, $P_{4:5}=R_4  =    \{11, \dotsc , 20 \}$, $P_2=\{3,4\}$, $P_3=R_5 =  \{5, \dotsc , 10 \}$, $P_4=R_6   =     \{11, \dotsc , 16 \}$, $P_5=R_7  =   \{17, \dotsc ,20  \}$, $P_{6:7}=R_8=\{21,22\}$, $P_6=\{21\}$, $P_7=R_9 = \{22\}$ and $P_8=\{23,24,25\}$. 
 
 Now assume that we have the following values for the $\zeta_k$'s: $\zeta_{(1,5)}=5$, $\zeta_{(1, 1)}=2$, $\zeta_{(2, 3)}=0$, $\zeta_{(3, 3)}=0$, $\zeta_{(4, 5)}=4$, $\zeta_{(4, 4)}=2$, $\zeta_{(5, 5)}=3$, $\zeta_{(6, 7)}=2$, $\zeta_{(7, 7)}=0$. Because $P_2$, $P_6$ and $P_8$ come from the completion operation (see @sec-forest-structure), we also have $\zeta_{(2, 2)}=|P_2|=2$, $\zeta_{(6, 6)}=|P_6|=1$ and $\zeta_{(8, 8)}=|P_8|=3$. Theses values are summarized in @fig-zetas.
 

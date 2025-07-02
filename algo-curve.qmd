@@ -631,7 +631,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
+\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $V_0\gets 0$
@@ -671,7 +671,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 #| pdf-placement: "htb!"
 #| pdf-line-number: true
 \begin{algorithm}
-\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$ with a complete family}
+\caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
 \begin{algorithmic}
 \Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $V_0\gets 0$
@@ -702,6 +702,10 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 :::
 
 Stocking, for each $i_t$, the indices $k$ such that $i_t\in R_k$, is done by scanning the forest structure so it has complexity in $O(|\cK|)$. Once this information is available, finding $\kth th$ and updating $\cK^-$ can be done in $O(1)$. Then each step $t$ of the `for` loop consists in two successive scans of the $\kth th$, $1\leq h\leq H$, the first to check if $i_t\in\bigcup_{k\in\cK^-}R_k$, and the second to update the $\eta_{\kth th}$ if $i_t\not\in\bigcup_{k\in\cK^-}R_k$. So each step has complexity in $O(H)$ and finally the complexity of @alg-curve is in $O(mH+|\cK|)$, and even only $O(mH)$ after the first call if the necessary information has been stocked.
+
+::: {#tip-no-complete .callout-tip}
+Actually, @alg-curve doesn't need the family to be complete. Indeed, if $R_k=R_{(i,i)}=P_i$ is a leaf such that $\zeta_k=|P_i|$, the condition of line 12 of @alg-curve is always true, except for the last element of $P_i$ that is added to $S_t$. At that point, because the elements of $P_i$ have been exhausted, $P_i$ won't ever be visited again, so adding it to $\cK^-$ is irrelevant. Hence, if the family is not complete and $P_i$ is missing from the family, the algorithm behaves exactly as if it was present after all.
+:::
 
 ## Illustration on a detailed example {#sec-example}
 

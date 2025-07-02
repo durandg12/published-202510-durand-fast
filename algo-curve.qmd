@@ -1030,6 +1030,10 @@ All algorithms discussed in this manuscript are already implemented in the `R` [
 
 Speaking of the data structure, we briefly describe it, with an example. We represent $(R_k)_{k\in\cK}$ by two lists, `C` and `leaf_list`. `leaf_list` is a list of vectors, where `leaf_list[[i]]` is the vector listing the hypotheses in the atom $P_i$. `C` is a list of lists. For $1\leq h\leq H$, `C[[h]]` lists the regions at depth $h$, using the index bounds of the atoms they are composed of. That is, the elements of the list `C[[h]]` are vectors of size two, and if there is `k`, `i`  and `j` such that `C[[h]][[k]] = c(i, j)`, it means that $(i, j)\in\cK$, or in other words that $R_{(i,j)}=P_{i:j}$ is one of the regions, and that $\phi((i, j))=h$. 
 
+::: {#tip-leaves .callout-tip}
+So the current implementation requires to provide a partition $(P_n)_{1\leq n \leq N}$ of leaves compatible with the reference family. So, in a way, we always provide a complete family. However, not all `c(i,i)` have to be in `C` for the various algorithms implemented to function properly. We already saw in @tip-no-complete that having a complete `C` is not needed for @alg-curve. It is not needed either for the implementations of @alg-vstar and @alg-pruning given that, as stated in @tip-algo1, they start by computing $|S\cap P_n|$ for each leaf $P_n$ anyway.
+:::
+
 ::: {#cau-impl .callout-caution}
 We emphasize that the 1D structure of the hypotheses has to be respected by the user as the current implementation implicitly uses it: that is, $P_1$ has to contain the hypotheses labeled $1, 2, \dotsc, p$, $P_2$ has to contain the hypotheses labeled $p+1, \dotsc$, and so on. Also, the hypotheses have to be in increasing order: `leaf_list[[1]]` has to be equal to `c(1, 2, 3, ..., p)` and not, say, `c(2, 1, 3, ..., p)`.
 :::

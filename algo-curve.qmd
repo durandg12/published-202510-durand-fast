@@ -795,7 +795,7 @@ The regions of @exm-toy-forest after pruning.
 
 :::
 
-Now we initialize @alg-formal-curve, that is we let $t=0$. Because $\zeta_{(2, 3)}=\zeta_{(3, 3)}=\zeta_{(7,7)}=0$, $(2,3)$, $(3,3)$ and $(7, 7)$ are added to $\cK^-_t$: $\cK^-_0=\{(2, 3), (3, 3), (7, 7)\}$. Furthermore, all $\eta_k^t$ are set to 0. The initial state of @alg-formal-curve is shown in @fig-t0, with the elements of $\cK^-_0$ being in red to show that they will not contribute to the computations.
+Now we initialize @alg-formal-curve, that is we let $t=0$. Because $\zeta_{(2, 3)}=\zeta_{(3, 3)}=\zeta_{(7,7)}=0$, $(2,3)$, $(3,3)$ and $(7, 7)$ are added to $\cK^-_t$: $\cK^-_0=\{(2, 3), (3, 3), (7, 7)\}$. We define $\cP^0$ according to \eqref{E}, \eqref{F} and \eqref{cP0}. Here, $E=\{(2,3), (7,7)\}$ and so $F=\{(1,1), (4,4), (5,5), (6,6), (8,8)\}$ and $\cP^0=E\cup F$. Furthermore, all $\eta_k^t$ are set to 0. The initial state of @alg-formal-curve is shown in @fig-t0, with the elements of $\cK^-_0$ being in red to show that they will not contribute to the computations.
 
 :::{#fig-t0}
 
@@ -909,7 +909,7 @@ The regions of @exm-toy-forest at $t=2$ in @alg-formal-curve.
 
 :::
 
-We move on to $t=3$, with $i_3=12$. $i_3\in P_4\subseteq P_{4:5}\subseteq P_{1:5}$. The appropriate $\eta_k^t$ are increased by one, and we notice that $\eta_{(4, 4)}^3=2=\zeta_{(4, 4)}$. So $P_4$ will stop contributing, we add it to $\cK^-_t$: $\cK^-_3=\{(2,3), (3,3), (4, 4), (7, 7)\}$. By \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_3)=3$. The state of the step is summarized in @fig-t3, with $P_4$ now also in red.
+We move on to $t=3$, with $i_3=12$. $i_3\in P_4\subseteq P_{4:5}\subseteq P_{1:5}$. The appropriate $\eta_k^t$ are increased by one, and we notice that $\eta_{(4, 4)}^3=2=\zeta_{(4, 4)}$. So $P_4$ will stop contributing, we add it to $\cK^-_t$: $\cK^-_3=\{(2,3), (3,3), (4, 4), (7, 7)\}$. Following line 17 of @alg-formal-curve, $\cP^t$ does not change (we remove then add $(4,4)$ from it) and $\cP^3=\cP^0$. By \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_3)=3$. The state of the step is summarized in @fig-t3, with $P_4$ now also in red.
 
 :::{#fig-t3}
 
@@ -949,7 +949,7 @@ The regions of @exm-toy-forest at $t=3$ in @alg-formal-curve.
 
 We move on to $t=4$, with $i_4=13$. $i_4\in P_4\in \bigcup_{k\in\cK^-_3}R_k$. No $\eta_k^t$ is increased (see line 9 of @alg-formal-curve), and by \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_4)=3$.
 
-We move on to $t=5$, with $i_5=18$. $i_5\in P_5\subseteq P_{4:5}\subseteq P_{1:5}$. We first increase $\eta_{(1,5)}^t$: $\eta_{(1,5)}^5=4<\zeta_{(1,5)}$, then $\eta_{(4,5)}^t$: $\eta_{(4,5)}^5=4$, and we stop there because $\eta_{(4,5)}^5=4=\zeta_{(4,5)}$. $P_{4:5}$ will stop contributing, we add it to $\cK^-_t$: $\cK^-_5=\{(2,3), (4,5), (3,3), (4, 4), (7, 7)\}$. Note that $\eta_{(5,5)}^t$ is not updated because we stopped the loop before, see line 23 of @alg-formal-curve. By \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_5)=4$. The state of the step is summarized in @fig-t5, with $P_{4:5}$ now also in red.
+We move on to $t=5$, with $i_5=18$. $i_5\in P_5\subseteq P_{4:5}\subseteq P_{1:5}$. We first increase $\eta_{(1,5)}^t$: $\eta_{(1,5)}^5=4<\zeta_{(1,5)}$, then $\eta_{(4,5)}^t$: $\eta_{(4,5)}^5=4$, and we stop there because $\eta_{(4,5)}^5=4=\zeta_{(4,5)}$. $P_{4:5}$ will stop contributing, we add it to $\cK^-_t$: $\cK^-_5=\{(2,3), (4,5), (3,3), (4, 4), (7, 7)\}$. We also add $(4,5)$ and remove $(4,4)$ and $(5,5)$ from $\cP^t$: $\cP^5=\{(1,1), (2,3), (4,5), (6,6), (7,7), (8,8)\}$. Note that $\eta_{(5,5)}^t$ is not updated because we stopped the loop before, see line 23 of @alg-formal-curve. By \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_5)=4$. The state of the step is summarized in @fig-t5, with $P_{4:5}$ now also in red.
 
 :::{#fig-t5}
 

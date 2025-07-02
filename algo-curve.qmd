@@ -307,7 +307,7 @@ In the practical implementation of this algorithm (and of the following @alg-pru
 
 Furthermore, computing $|S\cap R_k|$ for each $k$ is not necessary, it is sufficient to compute $|S\cap P_i|$ for each leaf $P_i$.
 
-By the two previous points, we can actually refine the complexity result of @alg-vstar: it is in $O(mN+|\cK|)\leq O(m|\cK|)$ because $N\leq|\cK|$ for a complete forest, and if th forest is not complete, the Algorithm 2 of @MR4178188 constructs a partition $(P_n)_{1\leq n\leq N}$ such that $N\leq|\cK|$ also.
+By the two previous points, we can actually refine the complexity result of @alg-vstar: it is in $O(mN+|\cK|)\leq O(m|\cK|)$ because $N\leq|\cK|$ for a complete forest, and if the forest is not complete, the Algorithm 2 of @MR4178188 constructs a partition $(P_n)_{1\leq n\leq N}$ such that $N\leq|\cK|$ and so the cardinality of the completed forest is $\leq 2|\cK|$.
 :::
 
 Speaking of complexity, we have the following result regarding $m$, $|\cK|$ and $N$:

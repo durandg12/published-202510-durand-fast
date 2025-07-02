@@ -1061,6 +1061,7 @@ The functions `dyadic.from.leaf_list`, `dyadic.from.window.size`, and `dyadic.fr
 The following `R` snippet constructs the family of @exm-toy-forest, draws uniform $p$-values $p_1,\dotsc,p_{25}$, computes the $\zeta_k$'s with `method=zeta.trivial`, completes the family with `forest.completion` to get the family of @exm-toy-leaves, allowing to verify the claim of @exm-implementation, prunes it with `pruning` (which prunes everything except the leaves because of `zeta.trivial`), and finally computes the curve of confidence bounds on the path $S_t=\{\sigma(1),\dots,\sigma(t)\}$, using both the pruned and non-pruned complete family, where $\sigma$ is a permutation ordering the $p$-values, using the fast implementation `curve.V.star.forest.fast`.
 ```{r example1}
 #| code-fold: show
+#| echo: true
 
 library(sanssouci)
 

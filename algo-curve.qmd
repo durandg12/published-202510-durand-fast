@@ -305,7 +305,7 @@ The computation time of the algorithm is in $O(m|\cK|)$, which is fast for a sin
 
 In the practical implementation of this algorithm (and of the following @alg-pruning), $Vec$ and $newVec$ are always of size $N$ (the number of leaves) instead of the cardinality of $\cK^h$. And the sum $\sum_{k'\in Succ_k} Vec_{k'}$ is really easy to compute: if $R_k= R_{(i_0,i_{p}-1)}= \bigcup_{ j=1}^{p} R_{(i_{ j-1}, i_{ j}-1)}=\bigcup_{i_0\leq n\leq i_{p}-1}P_n\in\cK^h$ for some $p\geq2$, a strictly increasing sequence $(i_0,\dotsc,i_{p})$ and $R_{(i_{ j-1}, i_{ j}-1)}\in\cK^{h+1}$ for all $1\leq j\leq p$, then we simply sum $Vec$ over the indices from $i_{0}$ to $i_{p}-1$. After that, the computed quantity is set in $newVec$ at index $i_0$. So actually computing $Succ_k$ is not needed and not done.
 
-Furthermore, computing $|S\cap R_k|$ for each $k$ is not necessary, it is sufficient to compute $|S\cap P_i|$ for each leaf $P_i$.
+Furthermore, computing $|S\cap R_k|$ for each $k$ is not necessary, it is sufficient to compute $|S\cap P_n|$ for each leaf $P_n$.
 
 By the two previous points, we can actually refine the complexity result of @alg-vstar: it is in $O(mN+|\cK|)\leq O(m|\cK|)$ because $N\leq|\cK|$ for a complete forest, and if the forest is not complete, the Algorithm 2 of @MR4178188 constructs a partition $(P_n)_{1\leq n\leq N}$ such that $N\leq|\cK|$ and so the cardinality of the completed forest is $\leq 2|\cK|$.
 :::

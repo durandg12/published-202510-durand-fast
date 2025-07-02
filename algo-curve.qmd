@@ -437,7 +437,7 @@ The final $\mathcal{L}$ returned by @alg-pruning is equal to $\cK^{\pr}$: $\math
 
 The proof of @prp-pruning-correct is given in @sec-pruning-proofs-pruning-correct.
 
-::: {.callout-tip}
+::: {#tip-pruning-complexity .callout-tip}
 
 We saw that @alg-vstar has $O(mN+|\cK|)$ complexity, the $mN$ term coming from the evaluation of $|S\cap P_i|$. Here, $|S\cap P_i|=|\Nm^*\cap P_i|=|P_i|$ can be accessed in $O(1)$, and $N\leq |\cK|$ for a complete family, so @alg-pruning simply has $O(|\cK|)$ complexity.
 :::

@@ -24,7 +24,7 @@
 
 Multiple testing theory is often used for exploratory analysis, like in Genome-Wide Association Studies, where multiple features are tested to find promising ones. Classical multiple testing theory like Family-Wise Error Rate (FWER) control or False Discovery Rate (FDR) control [@MR1325392] can be used, but a more recent trend consists in the computation of post hoc bounds, also named post selection bounds or confidence envelopes, for the number of false positives, or, equivalently, for the False Discovery Proportion (FDP). This approach is notably advocated in the context of exploratory research by [@MR2951390, Section 1]. 
 
-Mathematically speaking, a confidence upper bound (we prefer to say upper bound instead of envelope for obvious reasons) is a function $\Vhat : \cP(\Nm^*) \to \Nm$, where $\Nm=\{0,\dotsc,m\}$, $\Nm^*=\{1,\dotsc,m\}$ and $m$ is the number of hypotheses, such that 
+Mathematically speaking, a confidence upper bound is a function $\Vhat : \cP(\Nm^*) \to \Nm$, where $\Nm=\{0,\dotsc,m\}$, $\Nm^*=\{1,\dotsc,m\}$ and $m$ is the number of hypotheses, such that 
 \begin{equation}
 \forall \alpha \in ]0,1[, \Pro{\forall S \subseteq \Nm^*, |S\cap \cH_0|\leq \Vhat(S)}\geq 1-\alpha.
 \label{eq_confidence}

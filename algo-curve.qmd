@@ -1084,10 +1084,9 @@ pvalues <- runif(25)
 o <- order(pvalues)
 ZL <- zetas.tree(C, leaf_list, zeta.trivial, pvalues, alpha = 0.05)
 complete.res <- forest.completion(C, ZL, leaf_list)
-# print(complete.res$C)
+curve.V.star.forest.fast(o, complete.res$C, complete.res$ZL, leaf_list)
 pruning.res <- pruning(complete.res$C, complete.res$ZL, leaf_list, delete.gaps = TRUE)
-curve.V.star.forest.fast(o, complete.res$C, complete.res$ZL, leaf_list) == 
-  curve.V.star.forest.fast(o, pruning.res$C, pruning.res$ZL, leaf_list)
+curve.V.star.forest.fast(o, pruning.res$C, pruning.res$ZL, leaf_list)
 ```
 
 # Numerical experiments {#sec-numeric}

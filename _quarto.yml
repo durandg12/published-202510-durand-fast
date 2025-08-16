@@ -32,7 +32,9 @@ abstract: >+
   $V^*_{\mathfrak{R}}(S_1),\dotsc,V^*_{\mathfrak{R}}(S_m)$ computed on a path 
   of increasing selection sets $S_1\subsetneq\dotsb\subsetneq S_m$, $|S_t|=t$. 
   The new algorithm leverages the fact that going from $S_t$ to $S_{t+1}$ 
-  is done by adding only one hypothesis.
+  is done by adding only one hypothesis. Compared to a more naive approach,
+  the new algorithm has a complexity in $O(m|\mathcal K|)$ instead of
+  $O(m^2|\mathcal K|)$, where $|\mathcal K|$ is the cardinality of the family.
 keywords: [multiple testing, algorithmic, post hoc inference, 
   false discovery proportion, confidence bound]
 citation:

@@ -76,6 +76,38 @@ Following the reference family trail, in @MR4178188 the authors introduce new re
 
 This is the main contribution of the present paper: a new and fast algorithm (@alg-formal-curve) computing the curve $\left(\Vstar(S_t)\right)_{t\in\Nm}$ for a nested path of selection sets, that is presented in @sec-fast-curve. An additional algorithm that can speed up computations both for the single-evaluation algorithm and the new curve-evaluation algorithm is also presented, in @sec-pruning. Notably, a detailed example illustrating how the new algorithms work is provided in @sec-example. In @sec-notation, all necessary notation and vocabulary is re-introduced, most of it being the same as in @MR4178188. In @sec-implementation we discuss the current implementations of all the presented algorithms in the `R` [@R-base] package `sanssouci` [@sanssouci]. A few numerical experiments are presented in @sec-numeric to demonstrate the computation time gain. Finally, after some concluding remarks in @sec-conclusion, the proofs of all results, including the proof that @alg-formal-curve indeed computes correctly the curve, are presented in @sec-proofs.
 
+```{r fig.height=8, fig.width=8, echo=FALSE}
+#| label: fig-benchmark_intro
+#| message: false
+#| warning: false
+#| fig-cap: "Computation time in scenario 3 for the new fast algorithm versus the previous, naive approach, in seconds (using a logarithmic scale)"
+
+par(mfrow = c(1, 1))
+
+i <- 3
+par(mar = def_mar + c(3.8, 0, 0, 0))
+
+bp <- boxplot(
+  time ~ expr,
+  data = loaded_list[[i]],
+  ylab = "seconds",
+  xlab = "",
+  ylim = c(liminford[i], limsupord[i]),
+  horizontal = F,
+  main = paste0("Comp. time, scenario ", i),
+  xaxt = "n",
+  log = "y"
+)
+tick <- seq_along(bp$names)
+axis(1, at = tick, labels = FALSE)
+text(tick,
+     par("usr")[1] - 0.33875,
+     bp$names,
+     srt = 60,
+     xpd = TRUE)
+
+```
+
 # Notation and reference family methodology {#sec-notation}
 
 ## Multiple testing notation

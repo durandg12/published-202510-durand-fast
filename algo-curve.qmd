@@ -20,6 +20,35 @@
  \newcommand{\telque}{\,:\,}
 :::
 
+```{r loading, echo=FALSE}
+library(microbenchmark)
+
+unit <- "s"
+loaded_list <- list()
+summary_list <- list()
+
+for (i in 1:4){
+  loaded <- read.csv(paste0("benchmark_0", i, ".csv"))
+  class(loaded) <- c("microbenchmark", class(loaded))
+  loaded$expr <- factor(loaded$expr, levels = c("naive.not.pruned", 
+                                                "naive.pruned", 
+                                                # "naive.pruned.no.gaps",
+                                                "fast.not.pruned",
+                                                "fast.pruned"
+                                                # "fast.pruned.no.gaps"
+  )
+  )
+  loaded$time <- microbenchmark:::convert_to_unit(loaded, unit)
+  loaded_list[[i]] <- loaded
+  summary_list[[i]] <- summary(loaded)
+}
+
+def_mar <- c(5, 4, 4, 2) + 0.1
+shift_fig <- c(0.33992, 0.33992, 0.33950, 0.33950)
+liminford <- c(1e-3, 1e-3, 1e-2, 1e-2)
+limsupord <- c(9, 9, 350, 350)
+```
+
 # Introduction
 
 Multiple testing theory is often used for exploratory analysis, like in Genome-Wide Association Studies, where multiple features are tested to find promising ones. Classical multiple testing theory like Family-Wise Error Rate (FWER) control or False Discovery Rate (FDR) control [@MR1325392] can be used, but a more recent trend consists in the computation of confidence upper bounds for the number of false discoveries, or, equivalently, for the False Discovery Proportion (FDP). This approach is notably advocated in the context of exploratory research by [@MR2951390, Section 1]. 
@@ -1116,30 +1145,6 @@ For the trivial $\zeta_k$ computation of scenarios 1 and 3, the pruning obviousl
 
 The summary statistics of the computation time in each scenario are presented in @tbl-benchmark01, @tbl-benchmark02, @tbl-benchmark03, and @tbl-benchmark04, and they are also presented as boxplots in @fig-benchmark01. The time unit is the second.
 
-```{r loading, echo=FALSE}
-library(microbenchmark)
-
-unit <- "s"
-loaded_list <- list()
-summary_list <- list()
-
-for (i in 1:4){
-  loaded <- read.csv(paste0("benchmark_0", i, ".csv"))
-  class(loaded) <- c("microbenchmark", class(loaded))
-  loaded$expr <- factor(loaded$expr, levels = c("naive.not.pruned", 
-                                                "naive.pruned", 
-                                                # "naive.pruned.no.gaps",
-                                                "fast.not.pruned",
-                                                "fast.pruned"
-                                                # "fast.pruned.no.gaps"
-  )
-  )
-  loaded$time <- microbenchmark:::convert_to_unit(loaded, unit)
-  loaded_list[[i]] <- loaded
-  summary_list[[i]] <- summary(loaded)
-}
-```
-
 ```{r echo=FALSE}
 #| label: tbl-benchmark01
 i <- 1
@@ -1168,10 +1173,6 @@ knitr::kable(summary_list[[i]], caption = paste0("Scenario ", i))
 #| warning: false
 #| fig-cap: "Computation times in each scenario, in seconds (using a logarithmic scale)"
 
-def_mar <- c(5, 4, 4, 2) + 0.1
-shift_fig <- c(0.33992, 0.33992, 0.33950, 0.33950)
-liminford <- c(1e-3, 1e-3, 1e-2, 1e-2)
-limsupord <- c(9, 9, 350, 350)
 par(mfrow = c(2, 2))
 
 for (i in 1:4) {

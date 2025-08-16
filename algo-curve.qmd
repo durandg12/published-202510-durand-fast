@@ -10,6 +10,7 @@
  \newcommand{\FDR}{\mathrm{FDR}}
  \newcommand{\JER}{\mathrm{JER}}
  \newcommand{\Rfam}{\mathfrak{R}}
+ \newcommand{\statfam}{\mathfrak{F}}
  \newcommand{\Hoi}{H_{0,i}}
  \newcommand{\Vhat}{\widehat V}
  \newcommand{\Vstar}{V^*_{\Rfam}}
@@ -112,9 +113,9 @@ text(tick,
 
 ## Multiple testing notation
 
-As is usual in multiple testing theory, we consider a probability space $(\Omega,\mathcal A, \mathbb P)$, a model $\mathcal{P}$ on a measurable space $(\mathcal{X},\mathfrak{X})$, and data that is represented by a random variable $X:(\Omega,\mathcal A)\to(\mathcal{X},\mathfrak{X})$ with $X\sim P\in \mathcal{P}$, that is, the law of $X$ is comprised in the model $\mathcal{P}$.
+As is usual in multiple testing theory, we consider a probability space $(\Omega,\mathcal A, \mathbb P)$, a model $\statfam$ on a measurable space $(\mathcal{X},\mathfrak{X})$, and data that is represented by a random variable $X:(\Omega,\mathcal A)\to(\mathcal{X},\mathfrak{X})$ with $X\sim P\in \statfam$, that is, the law of $X$ is comprised in the model $\statfam$.
 
-Then we consider $m\geq1$ null hypotheses $H_{0,1}, \dotsc, H_{0,m}$ which formally are submodels, that is subsets of $\mathcal{P}$. The associated alternative hypotheses $H_{1,1}, \dotsc, H_{1,m}$ are submodels such that $\Hoi\cap H_{1,i}=\varnothing$ for all $i\in\Nm^*$. We denote by $\cH_0=\cH_0(P)$ (the dependence in $P$ will be dropped when there is no ambiguity) the set of all null hypotheses that are true, that is $\cH_0(P)=\{i\in\Nm^* : P\in \Hoi\}$. In other words, $\Hoi$ is true if and only if $i\in\cH_0$. For testing each $\Hoi, i\in\Nm^*$, we have at hand a $p$-value $p_i=p_i(X)$ (the dependence in $X$ will be dropped when there is no ambiguity) which is a random variable with the following property : if $i\in\cH_0$, then the law of $p_i$ is super-uniform, which is sometimes denoted $\mathcal L(p_i)\succeq \mathcal{U}([0,1])$. This means that in such case, the cumulative distribution function (cdf) of $p_i$ is always smaller than or equal to the cdf of a random variable $U\sim \mathcal{U}([0,1])$ :
+Then we consider $m\geq1$ null hypotheses $H_{0,1}, \dotsc, H_{0,m}$ which formally are submodels, that is subsets of $\statfam$. The associated alternative hypotheses $H_{1,1}, \dotsc, H_{1,m}$ are submodels such that $\Hoi\cap H_{1,i}=\varnothing$ for all $i\in\Nm^*$. We denote by $\cH_0=\cH_0(P)$ (the dependence in $P$ will be dropped when there is no ambiguity) the set of all null hypotheses that are true, that is $\cH_0(P)=\{i\in\Nm^* : P\in \Hoi\}$. In other words, $\Hoi$ is true if and only if $i\in\cH_0$. For testing each $\Hoi, i\in\Nm^*$, we have at hand a $p$-value $p_i=p_i(X)$ (the dependence in $X$ will be dropped when there is no ambiguity) which is a random variable with the following property : if $i\in\cH_0$, then the law of $p_i$ is super-uniform, which is sometimes denoted $\mathcal L(p_i)\succeq \mathcal{U}([0,1])$. This means that in such case, the cumulative distribution function (cdf) of $p_i$ is always smaller than or equal to the cdf of a random variable $U\sim \mathcal{U}([0,1])$ :
 \begin{equation}
 \forall x \in \RR, \Pro{p_i\leq x}\leq \Pro{U\leq x} = 0\vee(x\wedge 1).
 \label{eq_super_unif}

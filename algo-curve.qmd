@@ -300,6 +300,7 @@ Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a si
 \end{algorithm}
 ```
 :::
+A step by step description of @alg-vstar is provided at the end of Section 3 and in the Figure 9 of @MR4178188. 
 
 The computation time of the algorithm is in $O(m|\cK|)$, which is fast for a single evaluation, but calling it repeatedly on a path of selection sets $(S_t)_{t\in\Nm^*}$ has complexity $O(m^2|\cK|)$ which is not desirable and makes computations difficult in practice, hence the need for a new, faster algorithm.
 

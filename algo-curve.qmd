@@ -54,14 +54,14 @@ limsupord <- c(9, 9, 350, 350)
 
 Multiple testing theory is often used for exploratory analysis, like in Genome-Wide Association Studies, where multiple features are tested to find promising ones. Classical multiple testing theory like Family-Wise Error Rate (FWER) control or False Discovery Rate (FDR) control [@MR1325392] can be used, but a more recent trend consists in the computation of confidence upper bounds for the number of false discoveries, or, equivalently, for the False Discovery Proportion (FDP). This approach is notably advocated in the context of exploratory research by [@MR2951390, Section 1]. 
 
-Mathematically speaking, a confidence upper bound (also frequently named post hoc bound, post selection bound or confidence envelope) is a function $\Vhat : \cP(\Nm^*) \to \Nm$, where $\Nm=\{0,\dotsc,m\}$, $\Nm^*=\{1,\dotsc,m\}$ and $m$ is the number of hypotheses, such that 
+Mathematically speaking, assume that we observe some data $X$ that is formally a random variable defined on some probability space equipped of the probability measure $\mathbb P$, and that the distribution of $X$, denoted by $P$, belongs to a model $\statfam$. We want to test $m$ null hypotheses $H_{0,1},\dotsc,H_{0,m} \subset \statfam$. A confidence upper bound (also frequently named post hoc bound, post selection bound or confidence envelope) is then a function $\Vhat : \cP(\Nm^*) \to \Nm$, where $\Nm=\{0,\dotsc,m\}$, $\Nm^*=\{1,\dotsc,m\}$, such that 
 \begin{equation}
-\forall \alpha \in (0,1), \Pro{\forall S \subseteq \Nm^*, |S\cap \cH_0|\leq \Vhat(S)}\geq 1-\alpha.
+\forall \alpha \in (0,1),\; \Pro{\forall S \subseteq \Nm^*, |S\cap \cH_0|\leq \Vhat(S)}\geq 1-\alpha.
 \label{eq_confidence}
 \end{equation}
-Here, $\alpha$ is a target error rate and $\cH_0$ is the set of hypotheses indices that are true null hypotheses. Note that the construction of $\Vhat$ depends on $\alpha$ and on the random data $X$ and the dependence is omitted to lighten notation and because there is no ambiguity. The meaning of Equation \eqref{eq_confidence} is that $\Vhat$ provides an upper bound of the number of null hypotheses in $S$ for any selection set $S\subseteq \Nm^*$, which allows the user to perform post hoc selection on their data without breaching the statistical guarantee. Also note that by dividing by $|S|\vee 1$ in Equation \eqref{eq_confidence} we also get a confidence bound for the FDP:
+Here, $\alpha$ is a target error rate and $\cH_0=\{i: P\in\Hoi\}$ is the set of indices of the null hypotheses that are true. Note that the construction of $\Vhat$ depends on $\alpha$ and on the data $X$, and the dependence is omitted to lighten notation and because there is no ambiguity. The meaning of Equation \eqref{eq_confidence} is that $\Vhat$ provides an upper bound for the number of null hypotheses in $S$ for any selection set $S\subseteq \Nm^*$, that is, the number $|S\cap \cH_0|$ of false discoveries in $S$. This allows the user to perform post hoc selection on their data without breaching the statistical guarantee. Also note that by dividing by $|S|\vee 1$ in Equation \eqref{eq_confidence} we also get a confidence bound for the FDP:
 \begin{equation}
-\forall \alpha \in (0,1), \Pro{\forall S \subseteq \Nm^*, \FDP(S)\leq \frac{\Vhat(S)}{|S|\vee 1}}\geq 1-\alpha.
+\forall \alpha \in (0,1),\; \Pro{\forall S \subseteq \Nm^*, \FDP(S)\leq \frac{\Vhat(S)}{|S|\vee 1}}\geq 1-\alpha.
 \label{eq_confidence_fdp}
 \end{equation}
 
@@ -117,7 +117,7 @@ As is usual in multiple testing theory, we consider a probability space $(\Omega
 
 Then we consider $m\geq1$ null hypotheses $H_{0,1}, \dotsc, H_{0,m}$ which formally are submodels, that is subsets of $\statfam$. The associated alternative hypotheses $H_{1,1}, \dotsc, H_{1,m}$ are submodels such that $\Hoi\cap H_{1,i}=\varnothing$ for all $i\in\Nm^*$. We denote by $\cH_0=\cH_0(P)$ (the dependence in $P$ will be dropped when there is no ambiguity) the set of all null hypotheses that are true, that is $\cH_0(P)=\{i\in\Nm^* : P\in \Hoi\}$. In other words, $\Hoi$ is true if and only if $i\in\cH_0$. For testing each $\Hoi, i\in\Nm^*$, we have at hand a $p$-value $p_i=p_i(X)$ (the dependence in $X$ will be dropped when there is no ambiguity) which is a random variable with the following property : if $i\in\cH_0$, then the law of $p_i$ is super-uniform, which is sometimes denoted $\mathcal L(p_i)\succeq \mathcal{U}([0,1])$. This means that in such case, the cumulative distribution function (cdf) of $p_i$ is always smaller than or equal to the cdf of a random variable $U\sim \mathcal{U}([0,1])$ :
 \begin{equation}
-\forall x \in \RR, \Pro{p_i\leq x}\leq \Pro{U\leq x} = 0\vee(x\wedge 1).
+\forall x \in \RR,\; \Pro{p_i\leq x}\leq \Pro{U\leq x} = 0\vee(x\wedge 1).
 \label{eq_super_unif}
 \end{equation}
 
@@ -136,7 +136,7 @@ In this case we assume that $X=(X_1,\dotsc,X_m)$ is a Gaussian vector and the nu
 
 With the formalism introduced in last section, a confidence upper bound is a functional $\Vhat :\mathcal X\times (0,1)\to(\mathcal P(\Nm^*) \to \Nm)$  such that,
 \begin{equation}
-\forall P\in\mathcal P, \forall X\sim P, \forall \alpha \in (0,1), \Pro{\forall S \subseteq \Nm^*, V(S)\leq \Vhat(X,\alpha)(S)}\geq 1-\alpha.
+\forall P\in\mathcal P, \forall X\sim P, \forall \alpha \in (0,1),\; \Pro{\forall S \subseteq \Nm^*, V(S)\leq \Vhat(X,\alpha)(S)}\geq 1-\alpha.
 \label{eq_confidence_formal}
 \end{equation}
 In the remainder, the dependence in $(X,\alpha)$ will be dropped when there is no ambiguity and $\Vhat(X,\alpha)$ will simply be written $\Vhat$.
@@ -148,7 +148,7 @@ As said in the Introduction, many constructions, ultimately theoretically equiva
 \end{equation}
 In the following, we are only interested in reference families that control the JER at level $\alpha$:
 \begin{equation}
-\forall P\in\mathcal P, \forall X\sim P, \forall \alpha \in (0,1), 1-\JER(\Rfam(X,\alpha))=\Pro{\forall k\in\mathcal K, V(R_k)\leq \zeta_k} \geq 1-\alpha.
+\forall P\in\mathcal P, \forall X\sim P, \forall \alpha \in (0,1),\; 1-\JER(\Rfam(X,\alpha))=\Pro{\forall k\in\mathcal K, V(R_k)\leq \zeta_k} \geq 1-\alpha.
 \label{eq_jer_control}
 \end{equation}
 Note that Equation \eqref{eq_jer_control} is really similar to Equation \eqref{eq_confidence_formal} except that the uniform guarantee, instead of being over all $S\subseteq \Nm^*$, is only over all the $R_k\subseteq \Nm^*, k\in\mathcal K$, with $\mathcal K$ having cardinality potentially much smaller than $2^m$. A global confidence bound is then derived from a JER-controlling reference family by interpolation. Let 

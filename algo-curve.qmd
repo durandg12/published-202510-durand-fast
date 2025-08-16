@@ -245,6 +245,7 @@ Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a si
 \begin{algorithmic}
 \Procedure{Vstar}{S, $\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete}
   \State $ H \gets \max_{k\in\mathcal{K}} \phi(k)  $ \Comment{maximum depth}
+  \State $Vec\gets (\zeta_{k}\wedge|S\cap R_k|)_{k \in  \mathcal{K}^H}$ \Comment{initialization}
   \For{$h = H-1, \dotsc, 1$}
     \State $\mathcal{K}^h\gets \{ k\in\mathcal{K} : \phi(k) =h  \}$
     \State $newVec\gets (0)_{k \in  \mathcal{K}^h}$
@@ -279,6 +280,7 @@ Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a si
 \begin{algorithmic}
 \Procedure{Vstar}{S, $\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete}
   \State $ H \gets \max_{k\in\mathcal{K}} \phi(k)  $ \Comment{maximum depth}
+  \State $Vec\gets (\zeta_{k}\wedge|S\cap R_k|)_{k \in  \mathcal{K}^H}$ \Comment{initialization}
   \For{$h = H-1, \dotsc, 1$}
     \State $\mathcal{K}^h\gets \{ k\in\mathcal{K} : \phi(k) =h  \}$
     \State $newVec\gets (0)_{k \in  \mathcal{K}^h}$

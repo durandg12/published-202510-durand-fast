@@ -120,7 +120,7 @@ Then we consider $m\geq1$ null hypotheses $H_{0,1}, \dotsc, H_{0,m}$ which forma
 \label{eq_super_unif}
 \end{equation}
 
-For every subset of hypotheses $S\subseteq\Nm^*$, let $V(S)=|S\cap\cH_0|$. If we think of $S$ as a selection set of hypotheses deemed significant, $V(S)$ is then the number of false positives (FP) in $S$. $V(S)$ is our main object of interest and the quantity that we wish to over-estimate with confidence upper bounds (see Equation \eqref{eq_confidence} or the more formal Equation \eqref{eq_confidence_formal} below).
+For every subset of hypotheses $S\subseteq\Nm^*$, let $V(S)=|S\cap\cH_0|$. If we think of $S$ as a selection set of hypotheses deemed significant, $V(S)$ is then the number of false discoveries, or false positives, in $S$. $V(S)$ is our main object of interest and the quantity that we wish to over-estimate with confidence upper bounds (see Equation \eqref{eq_confidence} or the more formal Equation \eqref{eq_confidence_formal} below).
 
 Finally let us consider the following toy example, that will re-appear slightly simplified in @sec-numeric.
 

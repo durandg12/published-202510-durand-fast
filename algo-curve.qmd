@@ -700,7 +700,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 \begin{algorithm}
 \caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
 \begin{algorithmic}
-\Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
+\Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$ with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $V_0\gets 0$
   \State $\mathcal{K}^-\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta_k\gets 0$ for all $k\in\mathcal{K}$
@@ -740,7 +740,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 \begin{algorithm}
 \caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
 \begin{algorithmic}
-\Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
+\Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$ with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $V_0\gets 0$
   \State $\mathcal{K}^-\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta_k\gets 0$ for all $k\in\mathcal{K}$

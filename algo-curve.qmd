@@ -365,15 +365,15 @@ Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a si
 :::
 A step by step description of @alg-vstar is provided at the end of Section 3 and in the Figure 9 of @MR4178188. 
 
-The computation time of the algorithm is in $O(m|\cK|)$, which is fast for a single evaluation, but calling it repeatedly on a path of selection sets $(S_t)_{t\in\Nm^*}$ has complexity $O(m^2|\cK|)$ which is not desirable and makes computations difficult in practice, hence the need for a new, faster algorithm.
+The computation time of the algorithm is in $O(|\cK||S|)$, which is fast for a single evaluation, but calling it repeatedly on a path of selection sets $(S_t)_{t\in\Nm^*}$ has complexity $O(|\cK|m^2)$, which is not desirable and makes computations difficult in practice, hence the need for a new, faster algorithm.
 
 ::: {#tip-algo1 .callout-tip}
 
 In the practical implementation of this algorithm (and of the following @alg-pruning), $Vec$ and $newVec$ are always of size $N$ (the number of leaves) instead of the cardinality of $\cK^h$. And the sum $\sum_{k'\in Succ_k} Vec_{k'}$ is really easy to compute: if $R_k= R_{(i_0,i_{p}-1)}= \bigcup_{ j=1}^{p} R_{(i_{ j-1}, i_{ j}-1)}=\bigcup_{i_0\leq n\leq i_{p}-1}P_n\in\cK^h$ for some $p\geq2$, a strictly increasing sequence $(i_0,\dotsc,i_{p})$ and $R_{(i_{ j-1}, i_{ j}-1)}\in\cK^{h+1}$ for all $1\leq j\leq p$, then we simply sum $Vec$ over the indices from $i_{0}$ to $i_{p}-1$. After that, the computed quantity is set in $newVec$ at index $i_0$. So actually computing $Succ_k$ is not needed and not done.
 
-Furthermore, computing $|S\cap R_k|$ for each $k$ is not necessary, it is sufficient to compute $|S\cap P_n|$ for each leaf $P_n$.
+Furthermore, computing $|S\cap R_k|$ for each $k$ is not necessary, it is sufficient to compute $|S\cap P_n|$ for each leaf $P_n$, which can be done in $O(N|S|)$.
 
-By the two previous points, we can actually refine the complexity result of @alg-vstar: it is in $O(mN+|\cK|)\leq O(m|\cK|)$ because $N\leq|\cK|$ for a complete forest, and if the forest is not complete, the Algorithm 2 of @MR4178188 constructs a partition $(P_n)_{1\leq n\leq N}$ such that $N\leq|\cK|$ and so the cardinality of the completed forest is $\leq 2|\cK|$.
+By the two previous points, we can actually refine the complexity result of @alg-vstar: it is in $O(N|S|+|\cK|)\leq O(|\cK||S|)$ because $N\leq|\cK|$ for a complete forest, and if the forest is not complete, the Algorithm 2 of @MR4178188 constructs a partition $(P_n)_{1\leq n\leq N}$ such that $N\leq|\cK|$, and so the cardinality of the completed forest is $\leq 2|\cK|$.
 :::
 
 Speaking of complexity, we have the following result regarding $m$, $|\cK|$ and $N$:
@@ -505,13 +505,13 @@ The proof of @prp-pruning-correct is given in @sec-pruning-proofs-pruning-correc
 
 ::: {#tip-pruning-complexity .callout-tip}
 
-We saw that @alg-vstar has $O(mN+|\cK|)$ complexity, the $mN$ term coming from the evaluation of $|S\cap P_i|$. Here, $|S\cap P_i|=|\Nm^*\cap P_i|=|P_i|$ can be accessed in $O(1)$, and $N\leq |\cK|$ for a complete family, so @alg-pruning simply has $O(|\cK|)$ complexity.
+We saw that @alg-vstar has $O(N|S|+|\cK|)$ complexity, the $N|S|$ term coming from the evaluation of the $|S\cap P_i|$ terms, $1\leq i\leq N$. Here, $|S\cap P_i|=|\Nm^*\cap P_i|=|P_i|$ can be accessed in $O(1)$, and $N\leq |\cK|$ for a complete family, so @alg-pruning simply has $O(|\cK|)$ complexity.
 :::
 
 
 ## Fast algorithm to compute a curve of confidence bounds on a path of selection sets {#sec-fast-curve}
 
-Let $(i_1,\dotsc, i_m)$ a permutation of $\Nm^*$, eventually random, and, for all $t\in\Nm^*$, let $S_t=\{i_1,\dotsc,i_t\}$ and $S_0=\varnothing$. For example, $(i_1,\dotsc, i_m)$ can be the permutation ordering the $p$-values in increasing order and in that case $S_t$ becomes the set of indices of the $t$ smallest $p$-values. Assume that we want to compute all $\Vstar(S_t)$ for all $t\in\{ 0,\dotsc,m\}$, this is what we call the curve of confidence bounds indexed by $(i_1,\dotsc, i_m).$ Applying @alg-vstar to compute $\Vstar(S_t)$ for a given $t$ has complexity $O(m|\cK|)$, so using it to sequentially compute the full curve has complexity $\sum_{t=0}^m O\left( m |\cK|\right)=O\left(m^2|\cK|\right)$. In this section, we present a new algorithm that computes the curve with a $O\left(m|\cK|\right)$ complexity. The algorithm will need that $\Rfam$ is complete, so if that is not the case we first need to complete $\Rfam$ following the Algorithm 2 of @MR4178188, which has a $O(m|\cK|)$ complexity. In the remainder of this section we assume that $\Rfam$ is complete.
+Let $(i_1,\dotsc, i_m)$ a permutation of $\Nm^*$, eventually random, and, for all $t\in\Nm^*$, let $S_t=\{i_1,\dotsc,i_t\}$ and $S_0=\varnothing$. For example, $(i_1,\dotsc, i_m)$ can be the permutation ordering the $p$-values in increasing order and in that case $S_t$ becomes the set of indices of the $t$ smallest $p$-values. Assume that we want to compute all $\Vstar(S_t)$ for all $t\in\{ 0,\dotsc,m\}$, this is what we call the curve of confidence bounds indexed by $(i_1,\dotsc, i_m).$ Applying @alg-vstar to compute $\Vstar(S_t)$ for a given $t$ has complexity $O(|\cK|t)$, so using it to sequentially compute the full curve has complexity $O\left(  |\cK|\sum_{t=0}^m t\right)=O\left(|\cK|m^2\right)$. In this section, we present a new algorithm that computes the curve with a $O\left(|\cK|m\right)$ complexity. The algorithm will need that $\Rfam$ is complete, so if that is not the case we first need to complete $\Rfam$ following the Algorithm 2 of @MR4178188, which has a $O(|\cK|m)$ complexity. In the remainder of this section we assume that $\Rfam$ is complete.
 
 We first recall and introduce some notation. Recall that $\phi$ is the depth function inside of $\Rfam$, that $\mathfrak P \subseteq \mathcal P(\cK)$ is the set of subsets of $\cK$ that realize a partition, recall the important result stated by Equation \eqref{eq_vstar_Qpartition}, and that $\cK^h=\{ k\in\cK : \phi(k)=h  \}$ for all $1\leq h\leq H$ where $H=\max_{k\in\cK}\phi(k)$. For any $t\in\Nm^*$ and $1\leq h\leq H$, we denote by $\kth{t}{h}$ the element of $\cK^h$ such that $i_t\in R_{\kth{t}{h}}$ if it exists, and we denote by $h_{\max}(t)$ the highest $h$ such that $\kth{t}{h}$ exists.
 
@@ -768,7 +768,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 ```
 :::
 
-Stocking, for each $i_t$, the indices $k$ such that $i_t\in R_k$, is done by scanning the forest structure so it has complexity in $O(|\cK|)$. Once this information is available, finding $\kth th$ and updating $\cK^-$ can be done in $O(1)$. Then each step $t$ of the `for` loop consists in two successive scans of the $\kth th$, $1\leq h\leq H$, the first to check if $i_t\in\bigcup_{k\in\cK^-}R_k$, and the second to update the $\eta_{\kth th}$ if $i_t\not\in\bigcup_{k\in\cK^-}R_k$. So each step has complexity in $O(H)$ and finally the complexity of @alg-curve is in $O(mH+|\cK|)\leq O(m|\cK|)$, and even only $O(mH)$ after the first call if the necessary information has been stocked.
+Stocking, for each $i_t$, the indices $k$ such that $i_t\in R_k$, is done by scanning the forest structure so it has complexity in $O(|\cK|)$. Once this information is available, finding $\kth th$ and updating $\cK^-$ can be done in $O(1)$. Then each step $t$ of the `for` loop consists in two successive scans of the $\kth th$, $1\leq h\leq H$, the first to check if $i_t\in\bigcup_{k\in\cK^-}R_k$, and the second to update the $\eta_{\kth th}$ if $i_t\not\in\bigcup_{k\in\cK^-}R_k$. So each step has complexity in $O(H)$ and finally the complexity of @alg-curve is in $O(Hm+|\cK|)\leq O(|\cK|m)$, and even only $O(Hm)$ after the first call if the necessary information has been stocked.
 
 ::: {#tip-no-complete .callout-tip}
 Actually, @alg-curve does not need the family to be complete. Indeed, if $R_k$ is a region such that $\zeta_k=|R_k|$, the condition of line 12 of @alg-curve is always true, except for the last element of $R_k$ that is added to $S_t$. At that point, because the elements of $R_k$ have been exhausted, $R_k$ won't ever be visited again, so adding it to $\cK^-$ is irrelevant. In the end, tracking $R_k$ and $\eta_k$ for such $k$ was not necessary in the first place.
@@ -1237,7 +1237,7 @@ Comparing scenarios 1 and 2 first, we see that, as expected, there is no signifi
 
 The comparison between scenarios 3 and 4 is similar. Although, with only `n_repl=10`, the statistics seem less accurate, this can be confirmed with additional experiments (`n_repl` can also be set to 100 without problem if we don't include `naive` methods).
 
-Finally, comparing scenarios 3 & 4 with scenarios 1 & 2, we see that multiplying the number of hypotheses by 10 effectively multiplies the computation time by $\sim10$ when using @alg-curve and by $\sim100$ when using @alg-vstar naively, which illustrates the stated complexities of $O(m|\cK|)$ and $O(m^2|\cK|)$, respectively.
+Finally, comparing scenarios 3 & 4 with scenarios 1 & 2, we see that multiplying the number of hypotheses by 10 effectively multiplies the computation time by $\sim10$ when using @alg-curve and by $\sim100$ when using @alg-vstar naively, which illustrates the stated complexities of $O(|\cK|m)$ and $O(|\cK|m^2)$, respectively.
 
 # Conclusion {#sec-conclusion}
 

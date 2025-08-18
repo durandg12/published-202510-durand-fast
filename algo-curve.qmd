@@ -141,33 +141,39 @@ With the formalism introduced in last section, a confidence upper bound is a fun
 \forall P\in\mathcal P, \forall X\sim P, \forall \alpha \in (0,1),\; \Pro{\forall S \subseteq \Nm^*, V(S)\leq \Vhat(X,\alpha)(S)}\geq 1-\alpha.
 \label{eq_confidence_formal}
 \end{equation}
-In the remainder, the dependence in $(X,\alpha)$ will be dropped when there is no ambiguity and $\Vhat(X,\alpha)$ will simply be written $\Vhat$.
+In the remainder, the dependence in $(X,\alpha)$ will be dropped when there is no ambiguity and $\Vhat(X,\alpha)(\cdot)$ will simply be written $\Vhat$.
 
-As said in the Introduction, many constructions, ultimately theoretically equivalent but differing by the practical steps involved, exist, and in this paper we focus on the meta-construction of @MR4124323 based on reference families. A reference family is a finite family $\Rfam=\Rfam(X,\alpha)=(R_k,\zeta_k)_{k\in \mathcal K}$ with $R_k\subseteq\Nm^*$, $\zeta_k\in\left\{0,\dotsc,|R_k|\right\}$ where everything (that is, $\mathcal K$ and all the $R_k$ and $\zeta_k$) depends on $(X,\alpha)$ but the dependency is not explicitly written. The $R_k$ are all distinct almost surely (see @rem-distinct). We also define the following error criterion for a reference family, named Joint Error Rate (JER):
+As said in the Introduction, many constructions, ultimately theoretically equivalent but differing by the practical steps involved, exist, and in this paper we focus on the meta-construction of @MR4124323 based on reference families. A reference family is a finite family $\Rfam=\Rfam(X,\alpha)=(R_k,\zeta_k)_{k\in \mathcal K}$ with $R_k\subseteq\Nm^*$, $\zeta_k\in\left\{0,\dotsc,|R_k|\right\}$ where everything (that is, $\mathcal K$ and all the $R_k$ and $\zeta_k$) depends on $(X,\alpha)$ but the dependency is not explicitly written. The $R_k$ are assumed all distinct almost surely (see @rem-distinct). 
+
+The intuition of the concept of reference families is the following. The $R_k$'s are subsets, or regions, of hypotheses, and the associated $\zeta_k$'s are over-estimators of $V(R_k)$. That is, building a reference family amounts to building a collection of regions, that can be much smaller than all possible subsets of hypotheses (note that $\left|\mathcal P(\Nm^*)\right|=2^m$ is likely to be very large), for which we have a confidence upper bound. This bound, holding only on the $R_k$'s in the first place, will then be extended to a simultaneous confidence bound over all subsets $S$ (in the sense of Equation \eqref{eq_confidence_formal}) by an interpolation scheme explained below.
+
+The statistical guarantee over the $\zeta_k$'s, as over-estimators of $V(R_k)$, is written in terms of the following error criterion for a reference family, named Joint Error Rate (JER):
 \begin{equation}
 \JER(\Rfam) = \Pro{\exists k\in\mathcal K, |R_k\cap\cH_0| > \zeta_k } = \Pro{\exists k\in\mathcal K, V(R_k) > \zeta_k }.
 \label{eq_jer}
 \end{equation}
-In the following, we are only interested in reference families that control the JER at level $\alpha$:
+We say that the reference family $\Rfam$ controls the JER if the following is true:
 \begin{equation}
 \forall P\in\mathcal P, \forall X\sim P, \forall \alpha \in (0,1),\; 1-\JER(\Rfam(X,\alpha))=\Pro{\forall k\in\mathcal K, V(R_k)\leq \zeta_k} \geq 1-\alpha.
 \label{eq_jer_control}
 \end{equation}
-Note that Equation \eqref{eq_jer_control} is really similar to Equation \eqref{eq_confidence_formal} except that the uniform guarantee, instead of being over all $S\subseteq \Nm^*$, is only over all the $R_k\subseteq \Nm^*, k\in\mathcal K$, with $\mathcal K$ having cardinality potentially much smaller than $2^m$. A global confidence bound is then derived from a JER-controlling reference family by interpolation. Let 
+Note that Equation \eqref{eq_jer_control} is, as foretold, really similar to Equation \eqref{eq_confidence_formal} except that the uniform guarantee, instead of being over all $S\subseteq \Nm^*$, is only over all the $R_k\subseteq \Nm^*, k\in\mathcal K$, with $\mathcal K$ having cardinality potentially much smaller than $2^m$. A "global" confidence bound is then derived from the JER-controlling reference family with the following two steps. First let 
 \begin{equation}
 \mathcal A(\Rfam)= \left\{A\subseteq \Nm^*:  \forall k\in\mathcal K, |R_k\cap A| \leq \zeta_k \right\}.
 \label{eq_a}
 \end{equation}
-The JER control says that, with high probability, $\cH_0\in\mathcal A(\Rfam)$. We leverage this information with the following confidence bound construction:
+The JER control says that, with high probability, $\cH_0\in\mathcal A(\Rfam)$. We then leverage this information by interpolation, with the following construction:
 \begin{equation}
-\Vstar(S) = \max_{A\in\mathcal A(\Rfam)}|S\cap A|
+\Vstar(S) = \max_{A\in\mathcal A(\Rfam)}|S\cap A|.
 \label{eq-vstar}
 \end{equation}
-which optimally uses the information provided by the JER control of the reference family, as proven by Proposition 2.1 of @MR4124323. Because of the $\max_{A\in\mathcal A(\Rfam)}$, the computation of $\Vstar(S)$ is generally intractable (see Proposition 2.2 of @MR4124323), but for specific structures of reference families, a polynomial computation can be derived. This is the topic of @MR4178188 and of next section.
+By Proposition 2.1 of @MR4124323, the JER control of the family in Equation \eqref{eq_jer_control} implies that $\Vstar$ is indeed a confidence bound as required by Equation \eqref{eq_confidence_formal}. The same Proposition also establishes that $\Vstar$ optimally uses the information provided by the JER control of the reference family.
+
+Note that, because of the $\max_{A\in\mathcal A(\Rfam)}$, the computation of $\Vstar(S)$ is generally intractable (see Proposition 2.2 of @MR4124323), but for specific structures of reference families, a polynomial computation can be derived. This is the topic of @MR4178188 and of the remainder of this paper.
 
 ::: {#rem-zeta}
 
-The specific computation of the $R_k$'s and the $\zeta_k$'s such that Equation \eqref{eq_jer_control} holds is outside the scope of the present paper, but different constructions can be found in @MR4124323, @MR4178188 or @blain22notip, for example.
+The specific computation of the $R_k$'s and the $\zeta_k$'s such that Equation \eqref{eq_jer_control} holds is outside the scope of the present paper, but different constructions can be found in @MR4124323, @MR4178188, @blain22notip or @JMLR:v25:23-1025, for example.
 
 :::
 

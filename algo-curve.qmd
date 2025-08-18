@@ -182,7 +182,7 @@ The core concept of this section is to assume that the regions $R_k$'s of the re
 \forall k,k'\in\mathcal{K} , R_k \cap R_{k'} \in \{ R_k,  R_{k'} , \varnothing \}.
 \label{eq-forest}
 \end{equation}
-Representing the $R_k$'s with a directed graph, where there is an oriented edge $R_k \leftarrow R_{k'}$ if and only if $R_k \subset R_{k'}$ and there is no $R_{k''}$ such that $R_k \subsetneq R_{k''}\subsetneq R_{k'}$ gives a forest, hence the name. See @exm-toy-forest and its representation in @fig-forest-exm.
+Representing the $R_k$'s with a directed graph, where there is an oriented edge $R_k \leftarrow R_{k'}$ if and only if $R_k \subseteq R_{k'}$ and there is no $R_{k''}$ such that $R_k \subsetneq R_{k''}\subsetneq R_{k'}$ gives a forest, hence the name. See @exm-toy-forest and its representation in @fig-forest-exm.
 
 We also need to introduce the notion of depth with the following function:
 \begin{equation}

@@ -1,8 +1,8 @@
-# A fast algorithm to compute a curve of confidence upper bounds for the False Discovery Proportion using a reference family with a forest structure
+# Fast confidence bounds for the false discovery proportion over a path of hypotheses
 
 [![build and publish](https://github.com/computorg/template-computo-R/actions/workflows/build.yml/badge.svg)](https://github.com/computorg/template-computo-R/actions/workflows/build.yml)
 
-This repo is for the [Computo](https://computo.sfds.asso.fr/) submission of a research paper titled "A fast algorithm to compute a curve of confidence upper bounds for the False Discovery Proportion using a reference family with a forest structure".
+This repo is for the [Computo](https://computo.sfds.asso.fr/) submission of a research paper titled "Fast confidence bounds for the false discovery proportion over a path of hypotheses".
 
 You need [quarto](https://quarto.org/) installed on your computer, as well as the [Computo extension](https://github.com/computorg/computo-quarto-extension) to rend the source `.qmd` file `algo-curve.qmd`. The latter can be installed as follows:
 

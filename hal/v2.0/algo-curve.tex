@@ -178,16 +178,16 @@
 \floatname{codelisting}{Listing}
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{corollary}{Corollary}[section]
 \theoremstyle{definition}
 \newtheorem{example}{Example}[section]
 \theoremstyle{plain}
-\newtheorem{corollary}{Corollary}[section]
-\theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
-\theoremstyle{plain}
-\newtheorem{proposition}{Proposition}[section]
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}[section]
 \theoremstyle{remark}
 \AtBeginDocument{\renewcommand*{\proofname}{Proof}}
 \newtheorem*{remark}{Remark}
@@ -238,7 +238,7 @@ discovery proportion, confidence bound},
 \title{Fast confidence bounds for the false discovery proportion over a
 path of hypotheses}
 \author{Guillermo Durand}
-\date{2025-07-02}
+\date{2025-09-23}
 
 \begin{document}
 \definecolor{computo-blue}{HTML}{034E79}
@@ -275,7 +275,7 @@ Paris-Saclay, CNRS, Inria, 91405, Orsay, France\\
            
   \bigskip
   
-  Date published: 2025-07-02 \quad Last modified: 2025-07-02
+  Date published: 2025-09-23 \quad Last modified: 2025-09-23
 \end{center}
       
 \bigskip
@@ -289,7 +289,10 @@ entire curve, we mean the values
 \(V^*_{\mathfrak{R}}(S_1),\dotsc,V^*_{\mathfrak{R}}(S_m)\) computed on a
 path of increasing selection sets \(S_1\subsetneq\dotsb\subsetneq S_m\),
 \(|S_t|=t\). The new algorithm leverages the fact that going from
-\(S_t\) to \(S_{t+1}\) is done by adding only one hypothesis.
+\(S_t\) to \(S_{t+1}\) is done by adding only one hypothesis. Compared
+to a more naive approach, the new algorithm has a complexity in
+\(O(|\mathcal K|m)\) instead of \(O(|\mathcal K|m^2)\), where
+\(|\mathcal K|\) is the cardinality of the family.
 \end{abstract}
 
 \noindent%
@@ -319,6 +322,7 @@ discovery proportion, confidence bound
  \newcommand{\FDR}{\mathrm{FDR}}
  \newcommand{\JER}{\mathrm{JER}}
  \newcommand{\Rfam}{\mathfrak{R}}
+ \newcommand{\statfam}{\mathfrak{F}}
  \newcommand{\Hoi}{H_{0,i}}
  \newcommand{\Vhat}{\widehat V}
  \newcommand{\Vstar}{V^*_{\Rfam}}
@@ -330,49 +334,58 @@ discovery proportion, confidence bound
 
 \section{Introduction}\label{introduction}
 
-Multiple testing theory is often used for exploratory analysis, like
+Multiple testing theory is often used for exploratory analysis, like in
 Genome-Wide Association Studies, where multiple features are tested to
 find promising ones. Classical multiple testing theory like Family-Wise
 Error Rate (FWER) control or False Discovery Rate (FDR) control
 \citep{MR1325392} can be used, but a more recent trend consists in the
-computation of post hoc bounds, also named post selection bounds or
-confidence envelopes, for the number of false positives, or,
-equivalently, for the False Discovery Proportion (FDP). This approach is
-notably advocated for in the context of exploratory research by
-\citep[Section 1]{MR2951390}.
+computation of confidence upper bounds for the number of false
+discoveries, or, equivalently, for the False Discovery Proportion (FDP).
+This approach is notably advocated in the context of exploratory
+research by \citep[Section 1]{MR2951390}.
 
-Mathematically speaking, a confidence upper bound (we prefer to say
-upper bound instead of envelope for obvious reasons) is a function
+Mathematically speaking, assume that we observe some data \(X\) that is
+formally a random variable defined on some probability space equipped of
+the probability measure \(\mathbb P\), and that the distribution of
+\(X\), denoted by \(P\), belongs to a model \(\mathfrak{F}\). We want to
+test \(m\) null hypotheses
+\(H_{0,1},\dotsc,H_{0,m} \subset \mathfrak{F}\). A confidence upper
+bound (also frequently named post hoc bound, post selection bound or
+confidence envelope) is then a function
 \(\widehat V: \mathcal{P}(\mathbb{N}_m^*) \to \mathbb{N}_m\), where
-\(\mathbb{N}_m=\{0,\dotsc,m\}\), \(\mathbb{N}_m^*=\{1,\dotsc,m\}\) and
-\(m\) is the number of hypotheses, such that \begin{equation}
-\forall \alpha \in ]0,1[, \mathbb{P}\left(\forall S \subseteq \mathbb{N}_m^*, |S\cap \mathcal{H}_0|\leq \widehat V(S)\right)\geq 1-\alpha.
+\(\mathbb{N}_m=\{0,\dotsc,m\}\), \(\mathbb{N}_m^*=\{1,\dotsc,m\}\), such
+that \begin{equation}
+\forall \alpha \in (0,1),\; \mathbb{P}\left(\forall S \subseteq \mathbb{N}_m^*, |S\cap \mathcal{H}_0|\leq \widehat V(S)\right)\geq 1-\alpha.
 \label{eq_confidence}
 \end{equation} Here, \(\alpha\) is a target error rate and
-\(\mathcal{H}_0\) is the set of hypotheses indices that are true null
-hypotheses. Note that the construction of \(\widehat V\) depends on
-\(\alpha\) and on the random data \(X\) and the dependence is omitted to
-lighten notation and because there is no ambiguity. The meaning of
-Equation \eqref{eq_confidence} is that \(\widehat V\) provides an upper
-bound of the number of null hypotheses in \(S\) for any selection set
-\(S\subseteq \mathbb{N}_m^*\), which allows the user to perform post hoc
-selection on their data without breaching the statistical guarantee.
-Also note that by dividing by \(|S|\vee 1\) in Equation
-\eqref{eq_confidence} we also get a confidence bound for the FDP:
-\begin{equation}
-\forall \alpha \in ]0,1[, \mathbb{P}\left(\forall S \subseteq \mathbb{N}_m^*, \mathrm{FDP}(S)\leq \frac{\widehat V(S)}{|S|\vee 1}\right)\geq 1-\alpha.
+\(\mathcal{H}_0=\{i: P\in H_{0,i}\}\) is the set of indices of the null
+hypotheses that are true. Note that the construction of \(\widehat V\)
+depends on \(\alpha\) and on the data \(X\), and the dependence is
+omitted to lighten notation and because there is no ambiguity. The
+meaning of Equation \eqref{eq_confidence} is that \(\widehat V\)
+provides an upper bound for the number of null hypotheses in \(S\) for
+any selection set \(S\subseteq \mathbb{N}_m^*\), that is, the number
+\(|S\cap \mathcal{H}_0|\) of false discoveries in \(S\). This allows the
+user to perform post hoc selection on their data without breaching the
+statistical guarantee. Also note that by dividing by \(|S|\vee 1\) in
+Equation \eqref{eq_confidence} we also get a confidence bound for the
+FDP: \begin{equation}
+\forall \alpha \in (0,1),\; \mathbb{P}\left(\forall S \subseteq \mathbb{N}_m^*, \mathrm{FDP}(S)\leq \frac{\widehat V(S)}{|S|\vee 1}\right)\geq 1-\alpha.
 \label{eq_confidence_fdp}
-\end{equation} So post hoc bounds provide ways to construct
-FDP-controlling sets instead of FDR-controlling sets, which is much more
-desirable given the nature of the FDR as an expected value. See for
-example \citep[Figure 4]{MR3418717} for a credible example where the FDR
-is controlled but the FDP has a highly undesirable behavior (either 0
-because no discoveries at all are made, either higher than the target
-level). The construction is the following: one can compute the largest
-\(S\) such that \(\frac{\widehat V(S)}{|S|\vee 1}\) is less than or
-equal to a nominal level \(q\), and \eqref{eq_confidence_fdp} ensures
-that, with high probability, the \(FDP\) of \(S\) is upper-bounded by
-\(q\).
+\end{equation}
+
+So post hoc bounds provide ways to construct FDP-controlling sets
+instead of FDR-controlling sets, which is much more desirable given the
+nature of the FDR as an expected value. See for example \citep[Figure
+4]{MR3418717} for a credible example where the FDR is controlled but the
+FDP has a highly undesirable behavior (either 0 because no discoveries
+at all are made, either higher than the target level). The construction
+is the following: one can compute the largest \(S\) such that
+\(\frac{\widehat V(S)}{|S|\vee 1}\) is less than or equal to a nominal
+level \(q\), and \eqref{eq_confidence_fdp} ensures that, with high
+probability, the FDP of \(S\) is upper-bounded by \(q\). The control of
+the FDP with high probability is sometimes called False Discovery
+Exceedance (FDX) control.
 
 Post hoc bounds have notably been applied to genetic data. For example,
 in \citet{MR2951390} and \citet{10.1093/bioinformatics/btac693}, the
@@ -400,27 +413,48 @@ the form \(\{i\in\mathbb{N}_m: p_i\leq s\}\) where \(p_i\) is the
 \(p\)-value associated to the null hypothesis \(H_{0,i}\) and
 \(s\in[0,1]\) is a threshold. In \citet{MR2951390} the authors re-wrote
 the generic construction of \citet{MR2279468} in terms of closed testing
-\citep{MR468056}, proposed several practical constructions and sparked a
-new interest in multiple testing procedures based on confidence bounds
-This work was followed by a prolific series of works like
-\citet{MR3305943} or \citet{MR4731977}. In \citet{MR4124323}, the
-authors introduce the new point of view of references families (see
-Section~\ref{sec-reference-fam}) to construct post hoc bounds, and show
-the links between this meta-technique and the closed testing one, along
-with new bounds.
+(a framework first introduced for the FWER control by \citet{MR468056}),
+proposed several practical constructions and sparked a new interest in
+multiple testing procedures based on confidence bounds. This work was
+followed by a prolific series of works like \citet{MR3305943} or
+\citet{MR4731977}. In \citet{MR4124323}, the authors introduce the new
+point of view of references families to construct post hoc bounds, and
+show the links between this meta-technique and the closed testing one,
+along with new bounds. Reference families are families of couples
+\((R_k,\zeta_k)_{k\in\mathcal{K}}\) where \(R_k\) is a subset of
+hypotheses (called a region), and \(\zeta_k\) an over-estimator of the
+number of null hypotheses inside \(R_k\), that is, of
+\(|R_k\cap\mathcal{H}_0|\). From a statistical guarantee on the family,
+called the Joint Error Rate (JER) control, one is able to build a post
+hoc bound, denoted \(V^*_{\mathfrak{R}}\) in the remainder, by
+interpolation (see Section~\ref{sec-reference-fam} for all the details).
 
-Following the reference family trail, in \citet{MR4178188} the authors
+Following the reference family trail, in \citet{MR4178188}, the authors
 introduce new reference families with a special set-theoretic constraint
-that allows an efficient computation of the bound denoted by
-\(V^*_{\mathfrak{R}}\) on a single selection set \(S\). The problem is
-that one often wants to compute \(V^*_{\mathfrak{R}}\) on a whole path
-of selection sets \((S_t)_{t\in\mathbb{N}_m^*}\), for example the
-hypotheses attached to the \(t\) smallest \(p\)-values:
+that allows an efficient computation of the bound
+\(V^*_{\mathfrak{R}}(S)\) for a given, single selection set \(S\). The
+constraint, named ``forest structure'', is that two regions of
+hypotheses \(R_k\) and \(R_{k'}\) are either disjoint, or nested:
+\(R_k\cap R_{k'}\in\{R_k,R_{k'},\varnothing\}\). This structure arises
+when the object of study naturally presents different levels of
+hierarchy. For example, in genomic studies, where each hypothesis tests
+the association of a Single Nucleotid Polymorphism (SNP) with a given
+character, we can exploit the natural grouping of SNPs into genes or
+intergenic regions, and then the grouping of genes into genomic
+pathways, or into chromosomes. In proteomic studies, where the smallest
+unit is usually the peptide, we can exploit the natural grouping of
+peptides into proteins, and the grouping of proteins into proteomic
+pathways. In brain imagery, known brain anatomy can be used to build the
+regions.
+
+The problem is that one often wants to compute \(V^*_{\mathfrak{R}}\) on
+a whole path of selection sets \((S_t)_{t\in\mathbb{N}_m^*}\), for
+example the hypotheses attached to the \(t\) smallest \(p\)-values:
 \(S_t=\{\sigma(1),\dots,\sigma(t)\}\), where \(\sigma\) is a (random)
 permutation ordering the \(p\)-values:
 \(p_{\sigma(1)}\leq\dotsb\leq p_{\sigma(m)}\). Whereas the algorithm
 provided in the aforementioned work \citep[Algorithm 1]{MR4178188},
-which is reproduced here, see  Algorithm~\ref{alg-vstar} , is fast for a
+which is reproduced here (see  Algorithm~\ref{alg-vstar} ) is fast for a
 single evaluation, it is slow and inefficient to repeatedly call it to
 compute each \(V^*_{\mathfrak{R}}(S_t)\). If the \(S_t\)'s are nested,
 and growing by one, that is \(S_1\subsetneq\dotsb\subsetneq S_m\) and
@@ -432,36 +466,54 @@ This is the main contribution of the present paper: a new and fast
 algorithm ( Algorithm~\ref{alg-formal-curve} ) computing the curve
 \(\left(V^*_{\mathfrak{R}}(S_t)\right)_{t\in\mathbb{N}_m}\) for a nested
 path of selection sets, that is presented in
-Section~\ref{sec-fast-curve}. An additional algorithm that can speed up
-computations both for the single-evaluation algorithm and the new
-curve-evaluation algorithm is also presented, in
+Section~\ref{sec-fast-curve}. An additional pruning algorithm, that can
+speed up computations both for the single-evaluation algorithm and the
+new curve-evaluation algorithm, is also presented in
 Section~\ref{sec-pruning}. Notably, a detailed example illustrating how
 the new algorithms work is provided in Section~\ref{sec-example}. In
 Section~\ref{sec-notation}, all necessary notation and vocabulary is
 re-introduced, most of it being the same as in \citet{MR4178188}. In
-Section~\ref{sec-implementation} we discuss the current implementations
+Section~\ref{sec-implementation}, we discuss the current implementations
 of all the presented algorithms in the \texttt{R} \citep{R-base} package
-\texttt{sanssouci} \citep{sanssouci}. A few numerical experiments are
-presented in Section~\ref{sec-numeric} to demonstrate the computation
-time gain. Finally, after some concluding remarks in
-Section~\ref{sec-conclusion}, the proofs of all results, including the
-proof that  Algorithm~\ref{alg-formal-curve}  indeed computes correctly
-the curve, are presented in Section~\ref{sec-proofs}.
+\texttt{sanssouci} \citep{sanssouci}, with an example code. A few
+numerical experiments are presented in Section~\ref{sec-numeric} to
+demonstrate the computation time gain. We reproduce here, in
+Figure~\ref{fig-benchmark_intro}, the striking results of one of those
+experiments, where the combination of the two new algorithms improves
+the computation time by a factor \(33000\). Finally, after some
+concluding remarks in Section~\ref{sec-conclusion}, the proofs of all
+results, including the proof that  Algorithm~\ref{alg-formal-curve} 
+indeed computes correctly the curve, are presented in
+Section~\ref{sec-proofs}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{fig-benchmark_intro-1.pdf}
+
+}
+
+\caption{\label{fig-benchmark_intro}Computation time in scenario 3 for
+the new fast algorithm versus the previous, naive approach, in seconds
+(using a logarithmic scale)}
+
+\end{figure}%
 
 \section{Notation and reference family methodology}\label{sec-notation}
 
 \subsection{Multiple testing notation}\label{multiple-testing-notation}
 
 As is usual in multiple testing theory, we consider a probability space
-\((\Omega,\mathcal A, \mathbb P)\), a model \(\mathcal{P}\) on a
+\((\Omega,\mathcal A, \mathbb P)\), a model \(\mathfrak{F}\) on a
 measurable space \((\mathcal{X},\mathfrak{X})\), and data that is
 represented by a random variable
 \(X:(\Omega,\mathcal A)\to(\mathcal{X},\mathfrak{X})\) with
-\(X\sim P\in \mathcal{P}\), that is, the law of \(X\) is comprised in
-the model \(\mathcal{P}\).
+\(X\sim P\in \mathfrak{F}\), that is, the law of \(X\) is comprised in
+the model \(\mathfrak{F}\).
 
 Then we consider \(m\geq1\) null hypotheses \(H_{0,1}, \dotsc, H_{0,m}\)
-which formally are submodels, that is subsets of \(\mathcal{P}\). The
+which formally are submodels, that is subsets of \(\mathfrak{F}\). The
 associated alternative hypotheses \(H_{1,1}, \dotsc, H_{1,m}\) are
 submodels such that \(H_{0,i}\cap H_{1,i}=\varnothing\) for all
 \(i\in\mathbb{N}_m^*\). We denote by \(\mathcal{H}_0=\mathcal{H}_0(P)\)
@@ -478,17 +530,17 @@ super-uniform, which is sometimes denoted
 case, the cumulative distribution function (cdf) of \(p_i\) is always
 smaller than or equal to the cdf of a random variable
 \(U\sim \mathcal{U}([0,1])\) : \begin{equation}
-\forall x \in \mathbb{R}, \mathbb{P}\left(p_i\leq x\right)\leq \mathbb{P}\left(U\leq x\right) = 0\vee(x\wedge 1).
+\forall x \in \mathbb{R},\; \mathbb{P}\left(p_i\leq x\right)\leq \mathbb{P}\left(U\leq x\right) = 0\vee(x\wedge 1).
 \label{eq_super_unif}
 \end{equation}
 
 For every subset of hypotheses \(S\subseteq\mathbb{N}_m^*\), let
 \(V(S)=|S\cap\mathcal{H}_0|\). If we think of \(S\) as a selection set
 of hypotheses deemed significant, \(V(S)\) is then the number of false
-positives (FP) in \(S\). \(V(S)\) is our main object of interest and the
-quantity that we wish to over-estimate with confidence upper bounds (see
-Equation \eqref{eq_confidence} or the more formal Equation
-\eqref{eq_confidence_formal} below).
+discoveries, or false positives, in \(S\). \(V(S)\) is our main object
+of interest and the quantity that we wish to over-estimate with
+confidence upper bounds (see Equation \eqref{eq_confidence} or the more
+formal Equation \eqref{eq_confidence_formal} below).
 
 Finally let us consider the following toy example, that will re-appear
 slightly simplified in Section~\ref{sec-numeric}.
@@ -515,13 +567,13 @@ families}\label{sec-reference-fam}
 
 With the formalism introduced in last section, a confidence upper bound
 is a functional
-\(\widehat V:\mathcal X\times ]0,1[\to(\mathcal P(\mathbb{N}_m^*) \to \mathbb{N}_m)\)
+\(\widehat V:\mathcal X\times (0,1)\to(\mathcal P(\mathbb{N}_m^*) \to \mathbb{N}_m)\)
 such that, \begin{equation}
-\forall P\in\mathcal P, \forall X\sim P, \forall \alpha \in ]0,1[, \mathbb{P}\left(\forall S \subseteq \mathbb{N}_m^*, V(S)\leq \widehat V(X,\alpha)(S)\right)\geq 1-\alpha.
+\forall P\in\mathcal P, \forall X\sim P, \forall \alpha \in (0,1),\; \mathbb{P}\left(\forall S \subseteq \mathbb{N}_m^*, V(S)\leq \widehat V(X,\alpha)(S)\right)\geq 1-\alpha.
 \label{eq_confidence_formal}
 \end{equation} In the remainder, the dependence in \((X,\alpha)\) will
-be dropped when there is no ambiguity and \(\widehat V(X,\alpha)\) will
-simply be written \(\widehat V\).
+be dropped when there is no ambiguity and
+\(\widehat V(X,\alpha)(\cdot)\) will simply be written \(\widehat V\).
 
 As said in the Introduction, many constructions, ultimately
 theoretically equivalent but differing by the practical steps involved,
@@ -533,45 +585,64 @@ with \(R_k\subseteq\mathbb{N}_m^*\),
 \(\zeta_k\in\left\{0,\dotsc,|R_k|\right\}\) where everything (that is,
 \(\mathcal K\) and all the \(R_k\) and \(\zeta_k\)) depends on
 \((X,\alpha)\) but the dependency is not explicitly written. The \(R_k\)
-are all distinct almost surely (see Remark~\ref{rem-distinct}). We also
-define the following error criterion for a reference family, named Joint
-Error Rate (JER): \begin{equation}
+are assumed all distinct almost surely (see Remark~\ref{rem-distinct}).
+
+The intuition of the concept of reference families is the following. The
+\(R_k\)'s are subsets, or regions, of hypotheses, and the associated
+\(\zeta_k\)'s are over-estimators of \(V(R_k)\). That is, building a
+reference family amounts to building a collection of regions, that can
+be much smaller than all possible subsets of hypotheses (note that
+\(\left|\mathcal P(\mathbb{N}_m^*)\right|=2^m\) is likely to be very
+large), for which we have a confidence upper bound. This bound, holding
+only on the \(R_k\)'s in the first place, will then be extended to a
+simultaneous confidence bound over all subsets \(S\) (in the sense of
+Equation \eqref{eq_confidence_formal}) by an interpolation scheme
+explained below.
+
+The statistical guarantee over the \(\zeta_k\)'s, as over-estimators of
+\(V(R_k)\), is written in terms of the following error criterion for a
+reference family, named Joint Error Rate (JER): \begin{equation}
 \mathrm{JER}(\mathfrak{R}) = \mathbb{P}\left(\exists k\in\mathcal K, |R_k\cap\mathcal{H}_0| > \zeta_k \right) = \mathbb{P}\left(\exists k\in\mathcal K, V(R_k) > \zeta_k \right).
 \label{eq_jer}
-\end{equation} In the following, we are only interested in reference
-families that control the JER at level \(\alpha\): \begin{equation}
-\forall P\in\mathcal P, \forall X\sim P, \forall \alpha \in ]0,1[, 1-\mathrm{JER}(\mathfrak{R}(X,\alpha))=\mathbb{P}\left(\forall k\in\mathcal K, V(R_k)\leq \zeta_k\right) \geq 1-\alpha.
+\end{equation} We say that the reference family \(\mathfrak{R}\)
+controls the JER if the following is true: \begin{equation}
+\forall P\in\mathcal P, \forall X\sim P, \forall \alpha \in (0,1),\; 1-\mathrm{JER}(\mathfrak{R}(X,\alpha))=\mathbb{P}\left(\forall k\in\mathcal K, V(R_k)\leq \zeta_k\right) \geq 1-\alpha.
 \label{eq_jer_control}
-\end{equation} Note that Equation \eqref{eq_jer_control} is really
-similar to Equation \eqref{eq_confidence_formal} except that the uniform
-guarantee, instead of being over all \(S\subseteq \mathbb{N}_m^*\), is
-only over all the \(R_k\subseteq \mathbb{N}_m^*, k\in\mathcal K\), with
-\(\mathcal K\) having cardinality potentially much smaller than \(2^m\).
-A global confidence bound is then derived from a JER-controlling
-reference family by interpolation. Let \begin{equation}
+\end{equation} Note that Equation \eqref{eq_jer_control} is, as
+foretold, really similar to Equation \eqref{eq_confidence_formal} except
+that the uniform guarantee, instead of being over all
+\(S\subseteq \mathbb{N}_m^*\), is only over all the
+\(R_k\subseteq \mathbb{N}_m^*, k\in\mathcal K\), with \(\mathcal K\)
+having cardinality potentially much smaller than \(2^m\). A ``global''
+confidence bound is then derived from the JER-controlling reference
+family with the following two steps. First let \begin{equation}
 \mathcal A(\mathfrak{R})= \left\{A\subseteq \mathbb{N}_m^*:  \forall k\in\mathcal K, |R_k\cap A| \leq \zeta_k \right\}.
 \label{eq_a}
 \end{equation} The JER control says that, with high probability,
-\(\mathcal{H}_0\in\mathcal A(\mathfrak{R})\). We leverage this
-information with the following confidence bound construction:
+\(\mathcal{H}_0\in\mathcal A(\mathfrak{R})\). We then leverage this
+information by interpolation, with the following construction:
 \begin{equation}
-V^*_{\mathfrak{R}}(S) = \max_{A\in\mathcal A(\mathfrak{R})}|S\cap A|
+V^*_{\mathfrak{R}}(S) = \max_{A\in\mathcal A(\mathfrak{R})}|S\cap A|.
 \label{eq-vstar}
-\end{equation} which optimally uses the information provided by the JER
-control of the reference family, as proven by Proposition 2.1 of
-\citet{MR4124323}. Because of the
-\(\max_{A\in\mathcal A(\mathfrak{R})}\), the computation of
-\(V^*_{\mathfrak{R}}(S)\) is generally intractable (see Proposition 2.2
-of \citet{MR4124323}), but for specific structures of reference
-families, a polynomial computation can be derived. This is the topic of
-\citet{MR4178188} and of next section.
+\end{equation} By Proposition 2.1 of \citet{MR4124323}, the JER control
+of the family in Equation \eqref{eq_jer_control} implies that
+\(V^*_{\mathfrak{R}}\) is indeed a confidence bound as required by
+Equation \eqref{eq_confidence_formal}. The same Proposition also
+establishes that \(V^*_{\mathfrak{R}}\) optimally uses the information
+provided by the JER control of the reference family.
+
+Note that, because of the \(\max_{A\in\mathcal A(\mathfrak{R})}\), the
+computation of \(V^*_{\mathfrak{R}}(S)\) is generally intractable (see
+Proposition 2.2 of \citet{MR4124323}), but for specific structures of
+reference families, a polynomial computation can be derived. This is the
+topic of \citet{MR4178188} and of the remainder of this paper.
 
 \begin{refremark}
 The specific computation of the \(R_k\)'s and the \(\zeta_k\)'s such
 that Equation \eqref{eq_jer_control} holds is outside the scope of the
 present paper, but different constructions can be found in
-\citet{MR4124323}, \citet{MR4178188} or \citet{blain22notip}, for
-example.
+\citet{MR4124323}, \citet{MR4178188}, \citet{blain22notip} or
+\citet{JMLR:v25:23-1025}, for example.
 
 \label{rem-zeta}
 
@@ -590,6 +661,10 @@ doing so would change the bound defined by \eqref{eq-vstar} and decrease
 its power in terms of type-II error). Similarly, some constructions can
 yield empty regions, which can always be pruned without changing the
 bound. This will also be assumed to be the case in the following.
+Finally, note that the constraint that \(\zeta_k\leq |R_k|\) always hold
+no matter how \(\zeta_k\) was computed, up to replacing \(\zeta_k\) by
+\(\zeta_k\wedge |R_k|\): it is clear on Equation \eqref{eq_a} that this
+doesn't change the bound.
 
 \label{rem-distinct}
 
@@ -605,7 +680,7 @@ structure, that is two regions are either disjoint or nested:
 \label{eq-forest}
 \end{equation} Representing the \(R_k\)'s with a directed graph, where
 there is an oriented edge \(R_k \leftarrow R_{k'}\) if and only if
-\(R_k \subset R_{k'}\) and there is no \(R_{k''}\) such that
+\(R_k \subseteq R_{k'}\) and there is no \(R_{k''}\) such that
 \(R_k \subsetneq R_{k''}\subsetneq R_{k'}\) gives a forest, hence the
 name. See Example~\ref{exm-toy-forest} and its representation in
 Figure~\ref{fig-forest-exm}.
@@ -743,6 +818,7 @@ forest.
 \begin{algorithmic}[1]
 \Procedure{Vstar}{S, $\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete}
   \State $ H \gets \max_{k\in\mathcal{K}} \phi(k)  $ \Comment{maximum depth}
+  \State $Vec\gets (\zeta_{k}\wedge|S\cap R_k|)_{k \in  \mathcal{K}^H}$ \Comment{initialization}
   \For{$h = H-1, \dotsc, 1$}
     \State $\mathcal{K}^h\gets \{ k\in\mathcal{K} : \phi(k) =h  \}$
     \State $newVec\gets (0)_{k \in  \mathcal{K}^h}$
@@ -761,13 +837,16 @@ forest.
 \end{algorithmic}
 \end{algorithm}
 
-The computation time of the algorithm is in \(O(m|\mathcal{K}|)\), which
-is fast for a single evaluation, but calling it repeatedly on a path of
-selection sets \((S_t)_{t\in\mathbb{N}_m^*}\) has complexity
-\(O(m^2|\mathcal{K}|)\) which is not desirable and makes computations
+A step by step description of  Algorithm~\ref{alg-vstar}  is provided at
+the end of Section 3 and in the Figure 9 of \citet{MR4178188}.
+
+The computation time of the algorithm is in \(O(|\mathcal{K}||S|)\),
+which is fast for a single evaluation, but calling it repeatedly on a
+path of selection sets \((S_t)_{t\in\mathbb{N}_m^*}\) has complexity
+\(O(|\mathcal{K}|m^2)\), which is not desirable and makes computations
 difficult in practice, hence the need for a new, faster algorithm.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, coltitle=black, bottomtitle=1mm, breakable, colbacktitle=quarto-callout-tip-color!10!white, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip \ref*{tip-algo1} }, toprule=.15mm, opacitybacktitle=0.6, bottomrule=.15mm, leftrule=.75mm, colback=white, toptitle=1mm, opacityback=0, left=2mm, arc=.35mm, rightrule=.15mm, titlerule=0mm]
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, bottomtitle=1mm, left=2mm, coltitle=black, bottomrule=.15mm, opacityback=0, colbacktitle=quarto-callout-tip-color!10!white, breakable, titlerule=0mm, colframe=quarto-callout-tip-color-frame, colback=white, arc=.35mm, toptitle=1mm, rightrule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip \ref*{tip-algo1} }, toprule=.15mm]
 
 \quartocallouttip{tip-algo1} 
 
@@ -786,14 +865,15 @@ for some \(p\geq2\), a strictly increasing sequence
 needed and not done.
 
 Furthermore, computing \(|S\cap R_k|\) for each \(k\) is not necessary,
-it is sufficient to compute \(|S\cap P_n|\) for each leaf \(P_n\).
+it is sufficient to compute \(|S\cap P_n|\) for each leaf \(P_n\), which
+can be done in \(O(N|S|)\).
 
 By the two previous points, we can actually refine the complexity result
 of  Algorithm~\ref{alg-vstar} : it is in
-\(O(mN+|\mathcal{K}|)\leq O(m|\mathcal{K}|)\) because
+\(O(N|S|+|\mathcal{K}|)\leq O(|\mathcal{K}||S|)\) because
 \(N\leq|\mathcal{K}|\) for a complete forest, and if the forest is not
 complete, the Algorithm 2 of \citet{MR4178188} constructs a partition
-\((P_n)_{1\leq n\leq N}\) such that \(N\leq|\mathcal{K}|\) and so the
+\((P_n)_{1\leq n\leq N}\) such that \(N\leq|\mathcal{K}|\), and so the
 cardinality of the completed forest is \(\leq 2|\mathcal{K}|\).
 
 \end{tcolorbox}
@@ -827,7 +907,7 @@ prove this pruning scheme.
 \begin{definition}[Pruning]\protect\hypertarget{def-pruning}{}\label{def-pruning}
 
 We define by \(\mathcal{K}^{\mathfrak{pr}}\) (\(\mathcal{K}\) pruned)
-the set of elements of \(\mathcal{K}\) such that we removed all
+the set of elements of \(\mathcal{K}\) from which we removed all
 \((i,i')\) such that there exists \(p\geq2\) and integers
 \(i_1,\dotsc,i_{p-1}\) such that, when setting \(i_0=i\) and
 \(i_{p}=i'+1\), the sequence \((i_0,\dotsc,i_{p})\) is strictly
@@ -925,15 +1005,16 @@ equal to \(\mathcal{K}^{\mathfrak{pr}}\):
 The proof of Proposition~\ref{prp-pruning-correct} is given in
 Section~\ref{sec-pruning-proofs-pruning-correct}.
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, coltitle=black, bottomtitle=1mm, breakable, colbacktitle=quarto-callout-tip-color!10!white, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip \ref*{tip-pruning-complexity} }, toprule=.15mm, opacitybacktitle=0.6, bottomrule=.15mm, leftrule=.75mm, colback=white, toptitle=1mm, opacityback=0, left=2mm, arc=.35mm, rightrule=.15mm, titlerule=0mm]
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, bottomtitle=1mm, left=2mm, coltitle=black, bottomrule=.15mm, opacityback=0, colbacktitle=quarto-callout-tip-color!10!white, breakable, titlerule=0mm, colframe=quarto-callout-tip-color-frame, colback=white, arc=.35mm, toptitle=1mm, rightrule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip \ref*{tip-pruning-complexity} }, toprule=.15mm]
 
 \quartocallouttip{tip-pruning-complexity} 
 
-We saw that  Algorithm~\ref{alg-vstar}  has \(O(mN+|\mathcal{K}|)\)
-complexity, the \(mN\) term coming from the evaluation of
-\(|S\cap P_i|\). Here, \(|S\cap P_i|=|\mathbb{N}_m^*\cap P_i|=|P_i|\)
-can be accessed in \(O(1)\), and \(N\leq |\mathcal{K}|\) for a complete
-family, so  Algorithm~\ref{alg-pruning}  simply has \(O(|\mathcal{K}|)\)
+We saw that  Algorithm~\ref{alg-vstar}  has \(O(N|S|+|\mathcal{K}|)\)
+complexity, the \(N|S|\) term coming from the evaluation of the
+\(|S\cap P_i|\) terms, \(1\leq i\leq N\). Here,
+\(|S\cap P_i|=|\mathbb{N}_m^*\cap P_i|=|P_i|\) can be accessed in
+\(O(1)\), and \(N\leq |\mathcal{K}|\) for a complete family, so
+ Algorithm~\ref{alg-pruning}  simply has \(O(|\mathcal{K}|)\)
 complexity.
 
 \end{tcolorbox}
@@ -949,16 +1030,16 @@ in increasing order and in that case \(S_t\) becomes the set of indices
 of the \(t\) smallest \(p\)-values. Assume that we want to compute all
 \(V^*_{\mathfrak{R}}(S_t)\) for all \(t\in\{ 0,\dotsc,m\}\), this is
 what we call the curve of confidence bounds indexed by
-\((i_1,\dotsc, i_m)\). Applying  Algorithm~\ref{alg-vstar}  to compute
+\((i_1,\dotsc, i_m).\) Applying  Algorithm~\ref{alg-vstar}  to compute
 \(V^*_{\mathfrak{R}}(S_t)\) for a given \(t\) has complexity
-\(O(t|\mathcal{K}|)\), so using it to sequentially compute the full
+\(O(|\mathcal{K}|t)\), so using it to sequentially compute the full
 curve has complexity
-\(O\left(\sum_{t=0}^m t |\mathcal{K}|\right)=O\left(m^2|\mathcal{K}|\right)\).
+\(O\left(  |\mathcal{K}|\sum_{t=0}^m t\right)=O\left(|\mathcal{K}|m^2\right)\).
 In this section, we present a new algorithm that computes the curve with
-a \(O\left(m|\mathcal{K}|\right)\) complexity. The algorithm will need
+a \(O\left(|\mathcal{K}|m\right)\) complexity. The algorithm will need
 that \(\mathfrak{R}\) is complete, so if that is not the case we first
 need to complete \(\mathfrak{R}\) following the Algorithm 2 of
-\citet{MR4178188}, which has a \(O(m|\mathcal{K}|)\) complexity. In the
+\citet{MR4178188}, which has a \(O(|\mathcal{K}|m)\) complexity. In the
 remainder of this section we assume that \(\mathfrak{R}\) is complete.
 
 We first recall and introduce some notation. Recall that \(\phi\) is the
@@ -1148,7 +1229,7 @@ Corollary~\ref{cor-easy-impl}.
 \caption{Practical computation of $(V^*_{\mathfrak{R}}(S_t))_{0\leq t\leq m}$}
 \label{alg-curve}
 \begin{algorithmic}[1]
-\Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$  with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
+\Procedure{Curve}{$\mathfrak{R}=(R_{k},\zeta_{k})_{k\in\mathcal{K}}$ with $\mathfrak{R}$ complete, path $(S_t)_{1\leq t \leq m}$ with $S_t=\{i_1, \dotsc, i_t\}$}
   \State $V_0\gets 0$
   \State $\mathcal{K}^-\gets\{k\in\mathcal{K} : \zeta_k=0  \}$
   \State $\eta_k\gets 0$ for all $k\in\mathcal{K}$
@@ -1183,24 +1264,9 @@ scans of the \(k^{(t,h)}\), \(1\leq h\leq H\), the first to check if
 \(i_t\in\bigcup_{k\in\mathcal{K}^-}R_k\), and the second to update the
 \(\eta_{k^{(t,h)}}\) if \(i_t\not\in\bigcup_{k\in\mathcal{K}^-}R_k\). So
 each step has complexity in \(O(H)\) and finally the complexity of
- Algorithm~\ref{alg-curve}  is in \(O(mH+|\mathcal{K}|)\), and even only
-\(O(mH)\) after the first call if the necessary information has been
-stocked.
-
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, coltitle=black, bottomtitle=1mm, breakable, colbacktitle=quarto-callout-tip-color!10!white, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip \ref*{tip-no-complete} }, toprule=.15mm, opacitybacktitle=0.6, bottomrule=.15mm, leftrule=.75mm, colback=white, toptitle=1mm, opacityback=0, left=2mm, arc=.35mm, rightrule=.15mm, titlerule=0mm]
-
-\quartocallouttip{tip-no-complete} 
-
-Actually,  Algorithm~\ref{alg-curve}  doesn't need the family to be
-complete. Indeed, if \(R_k\) is a region such that \(\zeta_k=|R_k|\),
-the condition of line 12 of  Algorithm~\ref{alg-curve}  is always true,
-except for the last element of \(R_k\) that is added to \(S_t\). At that
-point, because the elements of \(R_k\) have been exhausted, \(R_k\)
-won't ever be visited again, so adding it to \(\mathcal{K}^-\) is
-irrelevant. In the end, tracking \(R_k\) and \(\eta_k\) was not
-necessary in the first place.
-
-\end{tcolorbox}
+ Algorithm~\ref{alg-curve}  is in
+\(O(Hm+|\mathcal{K}|)\leq O(|\mathcal{K}|m)\), and even only \(O(Hm)\)
+after the first call if the necessary information has been stocked.
 
 \subsection{Illustration on a detailed example}\label{sec-example}
 
@@ -1446,39 +1512,6 @@ is \texttt{k}, \texttt{i} and \texttt{j} such that
 \((i, j)\in\mathcal{K}\), or in other words that \(R_{(i,j)}=P_{i:j}\)
 is one of the regions, and that \(\phi((i, j))=h\).
 
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-tip-color-frame, coltitle=black, bottomtitle=1mm, breakable, colbacktitle=quarto-callout-tip-color!10!white, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip \ref*{tip-leaves} }, toprule=.15mm, opacitybacktitle=0.6, bottomrule=.15mm, leftrule=.75mm, colback=white, toptitle=1mm, opacityback=0, left=2mm, arc=.35mm, rightrule=.15mm, titlerule=0mm]
-
-\quartocallouttip{tip-leaves} 
-
-So the current implementation requires to provide a partition
-\((P_n)_{1\leq n \leq N}\) of leaves compatible with the reference
-family. So, in a way, we always provide a complete family. However, not
-all \texttt{c(i,i)} have to be in \texttt{C} for the various algorithms
-implemented to function properly. We already saw in
-Tip~\ref{tip-no-complete} that having a complete \texttt{C} is not
-needed for  Algorithm~\ref{alg-curve} . It is not needed either for the
-implementations of  Algorithm~\ref{alg-vstar}  and
- Algorithm~\ref{alg-pruning}  given that, as stated in
-Tip~\ref{tip-algo1}, they start by computing \(|S\cap P_n|\) for each
-leaf \(P_n\) anyway.
-
-\end{tcolorbox}
-
-\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-caution-color-frame, coltitle=black, bottomtitle=1mm, breakable, colbacktitle=quarto-callout-caution-color!10!white, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution \ref*{cau-impl} }, toprule=.15mm, opacitybacktitle=0.6, bottomrule=.15mm, leftrule=.75mm, colback=white, toptitle=1mm, opacityback=0, left=2mm, arc=.35mm, rightrule=.15mm, titlerule=0mm]
-
-\quartocalloutcau{cau-impl} 
-
-We emphasize that the 1D structure of the hypotheses has to be respected
-by the user as the current implementation implicitly uses it: that is,
-\(P_1\) has to contain the hypotheses labeled \(1, 2, \dotsc, p\),
-\(P_2\) has to contain the hypotheses labeled \(p+1, \dotsc\), and so
-on. Also, the hypotheses have to be in increasing order:
-\texttt{leaf\_list{[}{[}1{]}{]}} has to be equal to
-\texttt{c(1,\ 2,\ 3,\ ...,\ p)} and not, say,
-\texttt{c(2,\ 1,\ 3,\ ...,\ p)}.
-
-\end{tcolorbox}
-
 \begin{example}[Implementation of
 Example~\ref{exm-toy-leaves}]\protect\hypertarget{exm-implementation}{}\label{exm-implementation}
 
@@ -1509,13 +1542,54 @@ And then for the atoms, we have
 
 \end{example}
 
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, bottomtitle=1mm, left=2mm, coltitle=black, bottomrule=.15mm, opacityback=0, colbacktitle=quarto-callout-caution-color!10!white, breakable, titlerule=0mm, colframe=quarto-callout-caution-color-frame, colback=white, arc=.35mm, toptitle=1mm, rightrule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Caution \ref*{cau-impl} }, toprule=.15mm]
+
+\quartocalloutcau{cau-impl} 
+
+We emphasize that the 1D structure of the hypotheses has to be respected
+by the user as the current implementation implicitly uses it: that is,
+\(P_1\) has to contain the hypotheses labeled \(1, 2, \dotsc, p\),
+\(P_2\) has to contain the hypotheses labeled \(p+1, \dotsc\), and so
+on. Also, the hypotheses have to be in increasing order:
+\texttt{leaf\_list{[}{[}1{]}{]}} has to be equal to
+\texttt{c(1,\ 2,\ 3,\ ...,\ p)} and not, say,
+\texttt{c(2,\ 1,\ 3,\ ...,\ p)}.
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, leftrule=.75mm, bottomtitle=1mm, left=2mm, coltitle=black, bottomrule=.15mm, opacityback=0, colbacktitle=quarto-callout-tip-color!10!white, breakable, titlerule=0mm, colframe=quarto-callout-tip-color-frame, colback=white, arc=.35mm, toptitle=1mm, rightrule=.15mm, opacitybacktitle=0.6, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip \ref*{tip-leaves} }, toprule=.15mm]
+
+\quartocallouttip{tip-leaves} 
+
+We see that the current implementation requires to provide a partition
+\((P_n)_{1\leq n \leq N}\) of leaves compatible with the reference
+family. So, in a way, we always provide a complete family. However, not
+all \texttt{c(i,i)} have to be in \texttt{C} for the various algorithms
+implemented to function properly. It is not needed for the
+implementations of  Algorithm~\ref{alg-vstar}  and
+ Algorithm~\ref{alg-pruning}  given that, as stated in
+Tip~\ref{tip-algo1}, they start by computing \(|S\cap P_n|\) for each
+leaf \(P_n\) anyway. Having a complete \texttt{C} is not needed either
+for  Algorithm~\ref{alg-curve} . Indeed, if \(R_k\) is a region such
+that \(\zeta_k=|R_k|\), the condition of line 12 of
+ Algorithm~\ref{alg-curve}  is always true, except for the last element
+of \(R_k\) that is added to \(S_t\). At that point, because the elements
+of \(R_k\) have been exhausted, \(R_k\) won't ever be visited again, so
+adding it to \(\mathcal{K}^-\) is irrelevant. In the end, tracking
+\(R_k\) and \(\eta_k\) for such \(k\) was not necessary in the first
+place. Furthermore, if the implementation does not find \(k^{(t,h)}\)
+(see line 10), it simply pass to the next iteration of the \texttt{for}
+loop.
+
+\end{tcolorbox}
+
 The functions \texttt{dyadic.from.leaf\_list},
 \texttt{dyadic.from.window.size}, and \texttt{dyadic.from.height} return
 the appropriate data structure to represent a \(\mathcal{K}\) that can
 be described as a dyadic tree, based on some entry parameters that can
 be inferred from the names of the functions. As said in
 Tip~\ref{tip-leaves}, the completion of \texttt{C} given
-\texttt{leaf\_list}, is not necessary, but can be done by the
+\texttt{leaf\_list} is not necessary, but can be done by the
 \texttt{forest.completion} function. Finally, the \(\zeta_k\)'s are
 computed as in \citet{MR4178188} by the \texttt{zetas.tree} function
 with \texttt{method=zeta.DKWM}. Using \texttt{method=zeta.trivial} just
@@ -1554,16 +1628,23 @@ the \(p\)-values, using the fast implementation
 \NormalTok{o }\OtherTok{\textless{}{-}} \FunctionTok{order}\NormalTok{(pvalues)}
 \NormalTok{ZL }\OtherTok{\textless{}{-}} \FunctionTok{zetas.tree}\NormalTok{(C, leaf\_list, zeta.trivial, pvalues, }\AttributeTok{alpha =} \FloatTok{0.05}\NormalTok{)}
 \NormalTok{complete.res }\OtherTok{\textless{}{-}} \FunctionTok{forest.completion}\NormalTok{(C, ZL, leaf\_list)}
-\CommentTok{\# print(complete.res$C)}
-\NormalTok{pruning.res }\OtherTok{\textless{}{-}} \FunctionTok{pruning}\NormalTok{(complete.res}\SpecialCharTok{$}\NormalTok{C, complete.res}\SpecialCharTok{$}\NormalTok{ZL, leaf\_list, }\AttributeTok{delete.gaps =} \ConstantTok{TRUE}\NormalTok{)}
-\FunctionTok{curve.V.star.forest.fast}\NormalTok{(o, complete.res}\SpecialCharTok{$}\NormalTok{C, complete.res}\SpecialCharTok{$}\NormalTok{ZL, leaf\_list) }\SpecialCharTok{==} 
-  \FunctionTok{curve.V.star.forest.fast}\NormalTok{(o, pruning.res}\SpecialCharTok{$}\NormalTok{C, pruning.res}\SpecialCharTok{$}\NormalTok{ZL, leaf\_list)}
+\FunctionTok{curve.V.star.forest.fast}\NormalTok{(o, complete.res}\SpecialCharTok{$}\NormalTok{C, complete.res}\SpecialCharTok{$}\NormalTok{ZL, leaf\_list)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
- [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
-[16] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
+ [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pruning.res }\OtherTok{\textless{}{-}} \FunctionTok{pruning}\NormalTok{(complete.res}\SpecialCharTok{$}\NormalTok{C, complete.res}\SpecialCharTok{$}\NormalTok{ZL, leaf\_list, }\AttributeTok{delete.gaps =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{curve.V.star.forest.fast}\NormalTok{(o, pruning.res}\SpecialCharTok{$}\NormalTok{C, pruning.res}\SpecialCharTok{$}\NormalTok{ZL, leaf\_list)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 \end{verbatim}
 
 \section{Numerical experiments}\label{sec-numeric}
@@ -1612,8 +1693,8 @@ scenarios 1 and 3, the \(\zeta_k\)'s are estimated trivially by
 \citet{MR4178188} with the DKWM inequality \citetext{\citealp[
 ]{MR0083864}; \citealp{MR1062069}}. Because of the size of \(m\) and the
 poor performances of the naive approach, we set \texttt{n\_repl=100} in
-scenarios 1 and 2 and \texttt{n\_repl=10} only in scenario s 3 and 4.
-The differences between the scenarios are summarized in
+scenarios 1 and 2 and \texttt{n\_repl=10} only in scenarios 3 and 4. The
+differences between the scenarios are summarized in
 Table~\ref{tbl-scenarios}.
 
 \begin{longtable}[]{@{}lllll@{}}
@@ -1880,16 +1961,20 @@ Finally, comparing scenarios 3 \& 4 with scenarios 1 \& 2, we see that
 multiplying the number of hypotheses by 10 effectively multiplies the
 computation time by \(\sim10\) when using  Algorithm~\ref{alg-curve} 
 and by \(\sim100\) when using  Algorithm~\ref{alg-vstar}  naively, which
-illustrates the stated complexities of \(O(m|\mathcal{K}|)\) and
-\(O(m^2|\mathcal{K}|)\), respectively.
+illustrates the stated complexities of \(O(|\mathcal{K}|m)\) and
+\(O(|\mathcal{K}|m^2)\), respectively.
 
 \section{Conclusion}\label{sec-conclusion}
 
 In conclusion, we effectively introduced a new algorithm to compute a
-curve of confidence upper bounds, much faster the previous alternative,
-with one power of \(m\) less in the complexity.
+curve of confidence upper bounds for the false discoveries, or,
+equivalently, for the FDP, that is much faster than the previous
+alternative, with one power of \(m\) less in the complexity. This
+algorithm can be applied as soon as the confidence upper bound is built
+according to the JER framework, when the reference family exhibit a
+forest structure.
 
-To develop new confidence upper bounds methodology and test them on
+To develop new confidence upper bound methods and test them on
 simulations, it was previously not conceivable to replicate experiments
 a sufficient number of times while computing whole curves. For instance,
 in the simulation study of \citet{MR4178188}, the number of replications
@@ -1907,9 +1992,10 @@ currently only available in the Python language \citep{10.5555/1593511},
 and the methods of the paper \citet{JMLR:v25:23-1025}.
 
 Other current works include the development of new reference families
-with theoretical JER control that could better account for realistic
-models, such as models with dependence between the \(p\)-values, see for
-example \citet{perrot2023selective}, or models with discreteness.
+with theoretically proven JER control that could better account for
+realistic models, such as models with dependence between the
+\(p\)-values, see for example \citet{perrot2023selective}, or models
+with discreteness.
 
 \section{Proofs}\label{sec-proofs}
 
@@ -2694,7 +2780,8 @@ This work has been supported by the research grants ANR-20-IDEES-0002
 (PIA), ANR-19-CHIA-0021 (BISCOTTE), ANR-23-CE40-0018 (BACKUP) and
 ANR-21-CE23-0035 (ASCAI). Thanks to Romain Périer for being the first to
 extensively use the new implemented algorithms. Thanks to Pierre Neuvial
-for his valuable feedback.
+for his valuable feedback. Thanks to the three anonymous reviewers whose
+suggestions and comments greatly improved this manuscript.
 
 \section*{References}\label{references}
 \addcontentsline{toc}{section}{References}
@@ -2708,10 +2795,10 @@ for his valuable feedback.
 \begin{verbatim}
 R version 4.4.0 (2024-04-24)
 Platform: aarch64-apple-darwin21.6.0
-Running under: macOS 15.3.1
+Running under: macOS 15.6
 
 Matrix products: default
-BLAS:   /opt/homebrew/Cellar/openblas/0.3.29/lib/libopenblasp-r0.3.29.dylib 
+BLAS:   /opt/homebrew/Cellar/openblas/0.3.30/lib/libopenblasp-r0.3.30.dylib 
 LAPACK: /opt/homebrew/Cellar/r/4.4.0_1/lib/R/lib/libRlapack.dylib;  LAPACK version 3.12.0
 
 locale:
@@ -2724,7 +2811,7 @@ attached base packages:
 [1] stats     graphics  grDevices datasets  utils     methods   base     
 
 other attached packages:
-[1] microbenchmark_1.5.0 sanssouci_0.14.1    
+[1] sanssouci_0.14.1     microbenchmark_1.5.0
 
 loaded via a namespace (and not attached):
  [1] digest_0.6.35     fastmap_1.1.1     xfun_0.43         Matrix_1.6-5     

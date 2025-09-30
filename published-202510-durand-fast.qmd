@@ -75,9 +75,9 @@ The first confidence bounds are found in @MR2279468 and @MR2279639, although, in
 
 Following the reference family trail, in @MR4178188, the authors introduce new reference families with a special set-theoretic constraint that allows an efficient computation of the bound $\Vstar(S)$ for a given, single selection set $S$. The constraint, named "forest structure", is that two regions of hypotheses $R_k$ and $R_{k'}$ are either disjoint, or nested: $R_k\cap R_{k'}\in\{R_k,R_{k'},\varnothing\}$. This structure arises when the object of study naturally presents different levels of hierarchy. For example, in genomic studies, where each hypothesis tests the association of a Single Nucleotid Polymorphism (SNP) with a given character, we can exploit the natural grouping of SNPs into genes or intergenic regions, and then the grouping of genes into genomic pathways, or into chromosomes. In proteomic studies, where the smallest unit is usually the peptide, we can exploit the natural grouping of peptides into proteins, and the grouping of proteins into proteomic pathways. In brain imagery, known brain anatomy can be used to build the regions.
 
-The problem is that one often wants to compute $\Vstar$ on a whole path of selection sets $(S_t)_{t\in\Nm^*}$, for example the hypotheses attached to the $t$ smallest $p$-values: $S_t=\{\sigma(1),\dots,\sigma(t)\}$, where $\sigma$ is a (random) permutation ordering the $p$-values: $p_{\sigma(1)}\leq\dotsb\leq p_{\sigma(m)}$. Whereas the algorithm provided in the aforementioned work [@MR4178188, Algorithm 1], which is reproduced here (see @alg-vstar) is fast for a single evaluation, it is slow and inefficient to repeatedly call it to compute each $\Vstar(S_t)$. If the $S_t$'s are nested, and growing by one, that is $S_1\subsetneq\dotsb\subsetneq S_m$ and $|S_t|=t$, there is a way to efficiently compute $\left(\Vstar(S_t)\right)_{t\in\Nm}$ by leveraging the nested structure. 
+The problem is that one often wants to compute $\Vstar$ on a whole path of selection sets $(S_t)_{t\in\Nm^*}$, for example the hypotheses attached to the $t$ smallest $p$-values: $S_t=\{\sigma(1),\dots,\sigma(t)\}$, where $\sigma$ is a (random) permutation ordering the $p$-values: $p_{\sigma(1)}\leq\dotsb\leq p_{\sigma(m)}$. Whereas the algorithm provided in the aforementioned work [@MR4178188, Algorithm 1], which is reproduced here (see @vstar) is fast for a single evaluation, it is slow and inefficient to repeatedly call it to compute each $\Vstar(S_t)$. If the $S_t$'s are nested, and growing by one, that is $S_1\subsetneq\dotsb\subsetneq S_m$ and $|S_t|=t$, there is a way to efficiently compute $\left(\Vstar(S_t)\right)_{t\in\Nm}$ by leveraging the nested structure. 
 
-This is the main contribution of the present paper: a new and fast algorithm (@alg-formal-curve) computing the curve $\left(\Vstar(S_t)\right)_{t\in\Nm}$ for a nested path of selection sets, that is presented in @sec-fast-curve. An additional pruning algorithm, that can speed up computations both for the single-evaluation algorithm and the new curve-evaluation algorithm, is also presented in @sec-pruning. Notably, a detailed example illustrating how the new algorithms work is provided in @sec-example. In @sec-notation, all necessary notation and vocabulary is re-introduced, most of it being the same as in @MR4178188. In @sec-implementation, we discuss the current implementations of all the presented algorithms in the `R` [@R-base] package `sanssouci` [@sanssouci], with an example code. A few numerical experiments are presented in @sec-numeric to demonstrate the computation time gain. We reproduce here, in @fig-benchmark_intro, the striking results of one of those experiments, where the combination of the two new algorithms improves the computation time by a factor $33000$. Finally, after some concluding remarks in @sec-conclusion, the proofs of all results, including the proof that @alg-formal-curve indeed computes correctly the curve, are presented in @sec-proofs.
+This is the main contribution of the present paper: a new and fast algorithm (@formal-curve) computing the curve $\left(\Vstar(S_t)\right)_{t\in\Nm}$ for a nested path of selection sets, that is presented in @sec-fast-curve. An additional pruning algorithm, that can speed up computations both for the single-evaluation algorithm and the new curve-evaluation algorithm, is also presented in @sec-pruning. Notably, a detailed example illustrating how the new algorithms work is provided in @sec-example. In @sec-notation, all necessary notation and vocabulary is re-introduced, most of it being the same as in @MR4178188. In @sec-implementation, we discuss the current implementations of all the presented algorithms in the `R` [@R-base] package `sanssouci` [@sanssouci], with an example code. A few numerical experiments are presented in @sec-numeric to demonstrate the computation time gain. We reproduce here, in @fig-benchmark_intro, the striking results of one of those experiments, where the combination of the two new algorithms improves the computation time by a factor $33000$. Finally, after some concluding remarks in @sec-conclusion, the proofs of all results, including the proof that @formal-curve indeed computes correctly the curve, are presented in @sec-proofs.
 
 ```{r fig.height=8, fig.width=8, echo=FALSE}
 #| label: fig-benchmark_intro
@@ -299,11 +299,11 @@ and, even better, in their Corollary 1 *(iii)* that:
 \end{equation}
 provided that the family is complete. Here, $\mathfrak P \subseteq \mathcal P(\cK)$ is the set of subsets of $\cK$ that realize a partition, that is, the set of elements $Q\subseteq\cK$ such that the $R_k$, $k\in Q$, form a partition of $\Nm^*$. So the minimum in Equation \eqref{eq_vstar_Qpartition} is over way less elements than in Equation \eqref{eq_vstar_Q}.
 
-Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a single $S\subseteq\Nm^*$, which we reproduce here in @alg-vstar. The family is assumed complete, otherwise the first step would be to complete it. In the original paper, $\cK^h$ used to designate the elements of $\cK$ at depth $h$ plus the atoms at depth $\leq h$. Actually, including those atoms is not needed for this algorithm to perform exactly the same, and produces redundant computations. If we don't include them, the only difference is that sometimes $Succ_k$ can be empty, in which case we simply let $newVec_k=\zeta_k\wedge|S\cap R_k|$. Thus, here in this paper, we define $\cK^h$ as only the elements of $\cK$ at depth $h$ (the previous intricate definition may still be necessary for the proof of Theorem 1 of @MR4178188): $\cK^h=\{ (i,j)\in\cK : \phi(i,j)=h      \}, \:\:\:h\geq 1.$ This is the only deviation from the notation of @MR4178188. Finally note that in the ongoing analogy with graph theory, the elements of $\cK^1$ are the roots of the different trees making up the forest.
+Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a single $S\subseteq\Nm^*$, which we reproduce here in @vstar. The family is assumed complete, otherwise the first step would be to complete it. In the original paper, $\cK^h$ used to designate the elements of $\cK$ at depth $h$ plus the atoms at depth $\leq h$. Actually, including those atoms is not needed for this algorithm to perform exactly the same, and produces redundant computations. If we don't include them, the only difference is that sometimes $Succ_k$ can be empty, in which case we simply let $newVec_k=\zeta_k\wedge|S\cap R_k|$. Thus, here in this paper, we define $\cK^h$ as only the elements of $\cK$ at depth $h$ (the previous intricate definition may still be necessary for the proof of Theorem 1 of @MR4178188): $\cK^h=\{ (i,j)\in\cK : \phi(i,j)=h      \}, \:\:\:h\geq 1.$ This is the only deviation from the notation of @MR4178188. Finally note that in the ongoing analogy with graph theory, the elements of $\cK^1$ are the roots of the different trees making up the forest.
 
 ::: {.content-visible when-format="html"}
 ```pseudocode
-#| label: alg-vstar
+#| label: vstar
 #| html-indent-size: "1.2em"
 #| html-comment-delimiter: "//"
 #| html-line-number: true
@@ -338,7 +338,7 @@ Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a si
 :::
 ::: {.content-hidden when-format="html"}
 ```pseudocode
-#| label: alg-vstar
+#| label: vstar
 #| html-indent-size: "1.2em"
 #| html-comment-delimiter: "//"
 #| html-line-number: true
@@ -371,17 +371,17 @@ Finally, that paper provides a polynomial algorithm to $V^*_{\Rfam}(S)$ for a si
 \end{algorithm}
 ```
 :::
-A step by step description of @alg-vstar is provided at the end of Section 3 and in the Figure 9 of @MR4178188. 
+A step by step description of @vstar is provided at the end of Section 3 and in the Figure 9 of @MR4178188. 
 
 The computation time of the algorithm is in $O(|\cK||S|)$, which is fast for a single evaluation, but calling it repeatedly on a path of selection sets $(S_t)_{t\in\Nm^*}$ has complexity $O(|\cK|m^2)$, which is not desirable and makes computations difficult in practice, hence the need for a new, faster algorithm.
 
 ::: {#tip-algo1 .callout-tip}
 
-In the practical implementation of this algorithm (and of the following @alg-pruning), $Vec$ and $newVec$ are always of size $N$ (the number of leaves) instead of the cardinality of $\cK^h$. And the sum $\sum_{k'\in Succ_k} Vec_{k'}$ is really easy to compute: if $R_k= R_{(i_0,i_{p}-1)}= \bigcup_{ j=1}^{p} R_{(i_{ j-1}, i_{ j}-1)}=\bigcup_{i_0\leq n\leq i_{p}-1}P_n\in\cK^h$ for some $p\geq2$, a strictly increasing sequence $(i_0,\dotsc,i_{p})$ and $R_{(i_{ j-1}, i_{ j}-1)}\in\cK^{h+1}$ for all $1\leq j\leq p$, then we simply sum $Vec$ over the indices from $i_{0}$ to $i_{p}-1$. After that, the computed quantity is set in $newVec$ at index $i_0$. So actually computing $Succ_k$ is not needed and not done.
+In the practical implementation of this algorithm (and of the following @pruning), $Vec$ and $newVec$ are always of size $N$ (the number of leaves) instead of the cardinality of $\cK^h$. And the sum $\sum_{k'\in Succ_k} Vec_{k'}$ is really easy to compute: if $R_k= R_{(i_0,i_{p}-1)}= \bigcup_{ j=1}^{p} R_{(i_{ j-1}, i_{ j}-1)}=\bigcup_{i_0\leq n\leq i_{p}-1}P_n\in\cK^h$ for some $p\geq2$, a strictly increasing sequence $(i_0,\dotsc,i_{p})$ and $R_{(i_{ j-1}, i_{ j}-1)}\in\cK^{h+1}$ for all $1\leq j\leq p$, then we simply sum $Vec$ over the indices from $i_{0}$ to $i_{p}-1$. After that, the computed quantity is set in $newVec$ at index $i_0$. So actually computing $Succ_k$ is not needed and not done.
 
 Furthermore, computing $|S\cap R_k|$ for each $k$ is not necessary, it is sufficient to compute $|S\cap P_n|$ for each leaf $P_n$, which can be done in $O(N|S|)$.
 
-By the two previous points, we can actually refine the complexity result of @alg-vstar: it is in $O(N|S|+|\cK|)\leq O(|\cK||S|)$ because $N\leq|\cK|$ for a complete forest, and if the forest is not complete, the Algorithm 2 of @MR4178188 constructs a partition $(P_n)_{1\leq n\leq N}$ such that $N\leq|\cK|$, and so the cardinality of the completed forest is $\leq 2|\cK|$.
+By the two previous points, we can actually refine the complexity result of @vstar: it is in $O(N|S|+|\cK|)\leq O(|\cK||S|)$ because $N\leq|\cK|$ for a complete forest, and if the forest is not complete, the Algorithm 2 of @MR4178188 constructs a partition $(P_n)_{1\leq n\leq N}$ such that $N\leq|\cK|$, and so the cardinality of the completed forest is $\leq 2|\cK|$.
 :::
 
 Speaking of complexity, we have the following result regarding $m$, $|\cK|$ and $N$:
@@ -422,11 +422,11 @@ The proof of @prp-pruning is given in @sec-pruning-proofs-pruning.
 
 This gives a practical way to speed up computations by first pruning the family before computing any $\Vstar(S)$, because $\cK^{\pr}$ is smaller than $\cK$, and by the above Proposition there is no theoretical loss in doing so. 
 
-Furthermore, pruning can be done really simply by following @alg-vstar for $S=\Nm^*$, and pruning when appropriate. This gives the following @alg-pruning, assuming, for simplicity, that the family is complete. Note that the only differences between @alg-pruning and @alg-vstar are the pruning step and $\zeta_k$ replacing $\zeta_k\wedge|S\cap R_k|$, because $\zeta_k\leq|R_k|$ and $S=\Nm^*$ here, so $\zeta_k\wedge|\Nm^*\cap R_k|=\zeta_k$. 
+Furthermore, pruning can be done really simply by following @vstar for $S=\Nm^*$, and pruning when appropriate. This gives the following @pruning, assuming, for simplicity, that the family is complete. Note that the only differences between @pruning and @vstar are the pruning step and $\zeta_k$ replacing $\zeta_k\wedge|S\cap R_k|$, because $\zeta_k\leq|R_k|$ and $S=\Nm^*$ here, so $\zeta_k\wedge|\Nm^*\cap R_k|=\zeta_k$. 
 
 ::: {.content-visible when-format="html"}
 ```pseudocode
-#| label: alg-pruning
+#| label: pruning
 #| html-indent-size: "1.2em"
 #| html-comment-delimiter: "//"
 #| html-line-number: true
@@ -464,7 +464,7 @@ Furthermore, pruning can be done really simply by following @alg-vstar for $S=\N
 :::
 ::: {.content-hidden when-format="html"}
 ```pseudocode
-#| label: alg-pruning
+#| label: pruning
 #| html-indent-size: "1.2em"
 #| html-comment-delimiter: "//"
 #| html-line-number: true
@@ -501,11 +501,11 @@ Furthermore, pruning can be done really simply by following @alg-vstar for $S=\N
 ```
 :::
 
-Also note that the algorithm returns $\Vstar(\Nm^*)$ as a by-product. The following proposition states that @alg-pruning indeed produces the pruned region as in @def-pruning.
+Also note that the algorithm returns $\Vstar(\Nm^*)$ as a by-product. The following proposition states that @pruning indeed produces the pruned region as in @def-pruning.
 
 ::: {#prp-pruning-correct}
 
-The final $\mathcal{L}$ returned by @alg-pruning is equal to $\cK^{\pr}$: $\mathcal{L}=\cK^{\pr}$.
+The final $\mathcal{L}$ returned by @pruning is equal to $\cK^{\pr}$: $\mathcal{L}=\cK^{\pr}$.
 
 :::
 
@@ -513,13 +513,13 @@ The proof of @prp-pruning-correct is given in @sec-pruning-proofs-pruning-correc
 
 ::: {#tip-pruning-complexity .callout-tip}
 
-We saw that @alg-vstar has $O(N|S|+|\cK|)$ complexity, the $N|S|$ term coming from the evaluation of the $|S\cap P_i|$ terms, $1\leq i\leq N$. Here, $|S\cap P_i|=|\Nm^*\cap P_i|=|P_i|$ can be accessed in $O(1)$, and $N\leq |\cK|$ for a complete family, so @alg-pruning simply has $O(|\cK|)$ complexity.
+We saw that @vstar has $O(N|S|+|\cK|)$ complexity, the $N|S|$ term coming from the evaluation of the $|S\cap P_i|$ terms, $1\leq i\leq N$. Here, $|S\cap P_i|=|\Nm^*\cap P_i|=|P_i|$ can be accessed in $O(1)$, and $N\leq |\cK|$ for a complete family, so @pruning simply has $O(|\cK|)$ complexity.
 :::
 
 
 ## Fast algorithm to compute a curve of confidence bounds on a path of selection sets {#sec-fast-curve}
 
-Let $(i_1,\dotsc, i_m)$ a permutation of $\Nm^*$, eventually random, and, for all $t\in\Nm^*$, let $S_t=\{i_1,\dotsc,i_t\}$ and $S_0=\varnothing$. For example, $(i_1,\dotsc, i_m)$ can be the permutation ordering the $p$-values in increasing order and in that case $S_t$ becomes the set of indices of the $t$ smallest $p$-values. Assume that we want to compute all $\Vstar(S_t)$ for all $t\in\{ 0,\dotsc,m\}$, this is what we call the curve of confidence bounds indexed by $(i_1,\dotsc, i_m).$ Applying @alg-vstar to compute $\Vstar(S_t)$ for a given $t$ has complexity $O(|\cK|t)$, so using it to sequentially compute the full curve has complexity $O\left(  |\cK|\sum_{t=0}^m t\right)=O\left(|\cK|m^2\right)$. In this section, we present a new algorithm that computes the curve with a $O\left(|\cK|m\right)$ complexity. The algorithm will need that $\Rfam$ is complete, so if that is not the case we first need to complete $\Rfam$ following the Algorithm 2 of @MR4178188, which has a $O(|\cK|m)$ complexity. In the remainder of this section we assume that $\Rfam$ is complete.
+Let $(i_1,\dotsc, i_m)$ a permutation of $\Nm^*$, eventually random, and, for all $t\in\Nm^*$, let $S_t=\{i_1,\dotsc,i_t\}$ and $S_0=\varnothing$. For example, $(i_1,\dotsc, i_m)$ can be the permutation ordering the $p$-values in increasing order and in that case $S_t$ becomes the set of indices of the $t$ smallest $p$-values. Assume that we want to compute all $\Vstar(S_t)$ for all $t\in\{ 0,\dotsc,m\}$, this is what we call the curve of confidence bounds indexed by $(i_1,\dotsc, i_m).$ Applying @vstar to compute $\Vstar(S_t)$ for a given $t$ has complexity $O(|\cK|t)$, so using it to sequentially compute the full curve has complexity $O\left(  |\cK|\sum_{t=0}^m t\right)=O\left(|\cK|m^2\right)$. In this section, we present a new algorithm that computes the curve with a $O\left(|\cK|m\right)$ complexity. The algorithm will need that $\Rfam$ is complete, so if that is not the case we first need to complete $\Rfam$ following the Algorithm 2 of @MR4178188, which has a $O(|\cK|m)$ complexity. In the remainder of this section we assume that $\Rfam$ is complete.
 
 We first recall and introduce some notation. Recall that $\phi$ is the depth function inside of $\Rfam$, that $\mathfrak P \subseteq \mathcal P(\cK)$ is the set of subsets of $\cK$ that realize a partition, recall the important result stated by Equation \eqref{eq_vstar_Qpartition}, and that $\cK^h=\{ k\in\cK : \phi(k)=h  \}$ for all $1\leq h\leq H$ where $H=\max_{k\in\cK}\phi(k)$. For any $t\in\Nm^*$ and $1\leq h\leq H$, we denote by $\kth{t}{h}$ the element of $\cK^h$ such that $i_t\in R_{\kth{t}{h}}$ if it exists, and we denote by $h_{\max}(t)$ the highest $h$ such that $\kth{t}{h}$ exists.
 
@@ -531,9 +531,9 @@ Assume that the reference family of @exm-toy-forest has been labeled as in @exm-
 
 :::
 
-We will now present the new algorithm and the proof that it computes the curve $(\Vstar(S_t))_{t\in\Nm}$. We present two versions of the algorithm (strictly equivalent): one very formal (@alg-formal-curve), to introduce additional notation used in the proof of @thm-curve-path, and, later, a simpler version that is the one actually implemented (@alg-curve). Recall that a detailed illustration of the steps of the algorithms will be provided in @sec-example.
+We will now present the new algorithm and the proof that it computes the curve $(\Vstar(S_t))_{t\in\Nm}$. We present two versions of the algorithm (strictly equivalent): one very formal (@formal-curve), to introduce additional notation used in the proof of @thm-curve-path, and, later, a simpler version that is the one actually implemented (@curve). Recall that a detailed illustration of the steps of the algorithms will be provided in @sec-example.
 
-In addition to the computation of all $\Vstar(S_t)$, @alg-formal-curve also computes partitions $\cP^t$ that realize the minimum in \eqref{eq_vstar_Qpartition} for $\Vstar(S_t)$. The initialization of $\cP^t$ has to be done carefully, for that we let $\cK_0^-=\{k\in\cK : \zeta_k=0  \}$ and
+In addition to the computation of all $\Vstar(S_t)$, @formal-curve also computes partitions $\cP^t$ that realize the minimum in \eqref{eq_vstar_Qpartition} for $\Vstar(S_t)$. The initialization of $\cP^t$ has to be done carefully, for that we let $\cK_0^-=\{k\in\cK : \zeta_k=0  \}$ and
 \begin{equation}
 E=\left\{k\in\cK_0^-:\forall k'\in \cK_0^-, R_k\subseteq R_{k'}\Rightarrow k'=k \right\},
 \label{E}
@@ -551,7 +551,7 @@ $E$ is the set of indices of the maximal elements $k$ such that $\zeta_k=0$, $F$
 
 ::: {.content-visible when-format="html"}
 ```pseudocode
-#| label: alg-formal-curve
+#| label: formal-curve
 #| html-indent-size: "1.2em"
 #| html-comment-delimiter: "//"
 #| html-line-number: true
@@ -600,7 +600,7 @@ $E$ is the set of indices of the maximal elements $k$ such that $\zeta_k=0$, $F$
 :::
 ::: {.content-hidden when-format="html"}
 ```pseudocode
-#| label: alg-formal-curve
+#| label: formal-curve
 #| html-indent-size: "1.2em"
 #| html-comment-delimiter: "//"
 #| html-line-number: true
@@ -693,11 +693,11 @@ For $t\in\{0,\dotsc, m-1 \}$, $V^*_{\Rfam}(S_{t+1})=V^*_{\Rfam}(S_{t})$ if $i_{t
 From \eqref{eq_vstar_equal_sum_eta}, $V^*_{\Rfam}(S_{t+1})=\sum_{k\in\cK^1} \eta_k^{t+1}$ and $V^*_{\Rfam}(S_{t})=\sum_{k\in\cK^1} \eta_k^{t}$. If $i_{t+1}\in \bigcup_{k\in\cK^-_t}R_k$, $\eta_k^{t+1}=\eta_k^{t}$ for all $k\in\cK^1$. If not, $\eta_k^{t+1}=\eta_k^{t}$ for all $k\in\cK^1$, $k\neq \kth{t+1}{1}$, whereas for $k= \kth{t+1}{1}$, $\eta_k^{t+1}=\eta_k^{t}+1$.
 :::
 
-We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested in the computation of the curve $\left(V^*_{\Rfam}(S_{t})\right)_{1\leq t\leq m}$, tracking $\cP^t$ is actually useless, what is important is to track and update $\cK^-_t$ correctly. Hence the simpler, alternative  @alg-curve. Note that @alg-curve is less formal than @alg-formal-curve: as in @alg-vstar and @alg-pruning, it recycles notation (mimicking the actual code implementation) so the $t$ subscript or superscript is dropped from all $\cK^-_t$ and $\eta_k^t$. In @alg-curve, the notation $V_t$ is actually equal to $V^*_{\Rfam}(S_{t})$ by @cor-easy-impl.
+We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested in the computation of the curve $\left(V^*_{\Rfam}(S_{t})\right)_{1\leq t\leq m}$, tracking $\cP^t$ is actually useless, what is important is to track and update $\cK^-_t$ correctly. Hence the simpler, alternative  @curve. Note that @curve is less formal than @formal-curve: as in @vstar and @pruning, it recycles notation (mimicking the actual code implementation) so the $t$ subscript or superscript is dropped from all $\cK^-_t$ and $\eta_k^t$. In @curve, the notation $V_t$ is actually equal to $V^*_{\Rfam}(S_{t})$ by @cor-easy-impl.
 
 ::: {.content-visible when-format="html"}
 ```pseudocode
-#| label: alg-curve
+#| label: curve
 #| html-indent-size: "1.2em"
 #| html-comment-delimiter: "//"
 #| html-line-number: true
@@ -737,7 +737,7 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 :::
 ::: {.content-hidden when-format="html"}
 ```pseudocode
-#| label: alg-curve
+#| label: curve
 #| html-indent-size: "1.2em"
 #| html-comment-delimiter: "//"
 #| html-line-number: true
@@ -776,11 +776,11 @@ We note that, from @thm-curve-path and @cor-easy-impl, if one is only interested
 ```
 :::
 
-Stocking, for each $i_t$, the indices $k$ such that $i_t\in R_k$, is done by scanning the forest structure so it has complexity in $O(|\cK|)$. Once this information is available, finding $\kth th$ and updating $\cK^-$ can be done in $O(1)$. Then each step $t$ of the `for` loop consists in two successive scans of the $\kth th$, $1\leq h\leq H$, the first to check if $i_t\in\bigcup_{k\in\cK^-}R_k$, and the second to update the $\eta_{\kth th}$ if $i_t\not\in\bigcup_{k\in\cK^-}R_k$. So each step has complexity in $O(H)$ and finally the complexity of @alg-curve is in $O(Hm+|\cK|)\leq O(|\cK|m)$, and even only $O(Hm)$ after the first call if the necessary information has been stocked.
+Stocking, for each $i_t$, the indices $k$ such that $i_t\in R_k$, is done by scanning the forest structure so it has complexity in $O(|\cK|)$. Once this information is available, finding $\kth th$ and updating $\cK^-$ can be done in $O(1)$. Then each step $t$ of the `for` loop consists in two successive scans of the $\kth th$, $1\leq h\leq H$, the first to check if $i_t\in\bigcup_{k\in\cK^-}R_k$, and the second to update the $\eta_{\kth th}$ if $i_t\not\in\bigcup_{k\in\cK^-}R_k$. So each step has complexity in $O(H)$ and finally the complexity of @curve is in $O(Hm+|\cK|)\leq O(|\cK|m)$, and even only $O(Hm)$ after the first call if the necessary information has been stocked.
 
 ## Illustration on a detailed example {#sec-example}
 
-In this section, we follow @alg-formal-curve during its first steps in a detailed fashion.
+In this section, we follow @formal-curve during its first steps in a detailed fashion.
 
 We keep the structure of @exm-toy-forest and @exm-toy-leaves. Recall that $m=25$, $P_{1:5}=R_1 = \{1, \dotsc , 20 \}$, $P_1=R_2  =  \{1, 2  \}$, $P_{2:3}=R_3   =   \{3 , \dotsc , 10 \}$, $P_{4:5}=R_4  =    \{11, \dotsc , 20 \}$, $P_2=\{3,4\}$, $P_3=R_5 =  \{5, \dotsc , 10 \}$, $P_4=R_6   =     \{11, \dotsc , 16 \}$, $P_5=R_7  =   \{17, \dotsc ,20  \}$, $P_{6:7}=R_8=\{21,22\}$, $P_6=\{21\}$, $P_7=R_9 = \{22\}$ and $P_8=\{23,24,25\}$. 
 
@@ -827,7 +827,7 @@ The regions of @exm-toy-forest with the $\zeta_k$ values.
 
 We want to compute the curve $\left(\Vstar\left(S_t\right)\right)_{1\leq t\leq 9}$ with $S_t=\{i_1,\dotsc, i_t\}$ and $i_1=11$, $i_2=17$, $i_3=12$, $i_4=13$, $i_5=18$, $i_6=24$, $i_7=19$, $i_8=22$ and $i_9=5$.
 
-First, we apply @alg-pruning to the family. This results in pruning $P_{6:7}$ (and only this region), because $2=\zeta_{(6, 7)}\geq \zeta_{(6, 6)}+\zeta_{(7, 7)}=1+0$. This gives @fig-pruned.
+First, we apply @pruning to the family. This results in pruning $P_{6:7}$ (and only this region), because $2=\zeta_{(6, 7)}\geq \zeta_{(6, 6)}+\zeta_{(7, 7)}=1+0$. This gives @fig-pruned.
 
 :::{#fig-pruned}
 
@@ -865,7 +865,7 @@ The regions of @exm-toy-forest after pruning.
 
 :::
 
-Now we initialize @alg-formal-curve, that is we let $t=0$. Because $\zeta_{(2, 3)}=\zeta_{(3, 3)}=\zeta_{(7,7)}=0$, $(2,3)$, $(3,3)$ and $(7, 7)$ are added to $\cK^-_t$: $\cK^-_0=\{(2, 3), (3, 3), (7, 7)\}$. We define $\cP^0$ according to \eqref{E}, \eqref{F} and \eqref{cP0}. Here, $E=\{(2,3), (7,7)\}$ and so $F=\{(1,1), (4,4), (5,5), (6,6), (8,8)\}$ and $\cP^0=E\cup F$. Furthermore, all $\eta_k^t$ are set to 0. The initial state of @alg-formal-curve is shown in @fig-t0, with the elements of $\cK^-_t$ being in red to show that they will not contribute to the computations, and the elements of $\cP^t$ as squares.
+Now we initialize @formal-curve, that is we let $t=0$. Because $\zeta_{(2, 3)}=\zeta_{(3, 3)}=\zeta_{(7,7)}=0$, $(2,3)$, $(3,3)$ and $(7, 7)$ are added to $\cK^-_t$: $\cK^-_0=\{(2, 3), (3, 3), (7, 7)\}$. We define $\cP^0$ according to \eqref{E}, \eqref{F} and \eqref{cP0}. Here, $E=\{(2,3), (7,7)\}$ and so $F=\{(1,1), (4,4), (5,5), (6,6), (8,8)\}$ and $\cP^0=E\cup F$. Furthermore, all $\eta_k^t$ are set to 0. The initial state of @formal-curve is shown in @fig-t0, with the elements of $\cK^-_t$ being in red to show that they will not contribute to the computations, and the elements of $\cP^t$ as squares.
 
 :::{#fig-t0}
 
@@ -900,7 +900,7 @@ Now we initialize @alg-formal-curve, that is we let $t=0$. Because $\zeta_{(2, 3
 \end{tikzpicture}
 ```
 
-The regions of @exm-toy-forest at $t=0$ in @alg-formal-curve.
+The regions of @exm-toy-forest at $t=0$ in @formal-curve.
 
 :::
 
@@ -939,7 +939,7 @@ We move on to $t=1$, with $i_1=11$. $i_1\in P_4\subseteq P_{4:5}\subseteq P_{1:5
 \end{tikzpicture}
 ```
 
-The regions of @exm-toy-forest at $t=1$ in @alg-formal-curve.
+The regions of @exm-toy-forest at $t=1$ in @formal-curve.
 
 :::
 
@@ -978,11 +978,11 @@ We move on to $t=2$, with $i_2=17$. $i_1\in P_5\subseteq P_{4:5}\subseteq P_{1:5
 \end{tikzpicture}
 ```
 
-The regions of @exm-toy-forest at $t=2$ in @alg-formal-curve.
+The regions of @exm-toy-forest at $t=2$ in @formal-curve.
 
 :::
 
-We move on to $t=3$, with $i_3=12$. $i_3\in P_4\subseteq P_{4:5}\subseteq P_{1:5}$. The appropriate $\eta_k^t$ are increased by one, and we notice that $\eta_{(4, 4)}^3=2=\zeta_{(4, 4)}$. So $P_4$ will stop contributing, we add it to $\cK^-_t$: $\cK^-_3=\{(2,3), (3,3), (4, 4), (7, 7)\}$. Following line 17 of @alg-formal-curve, $\cP^t$ does not change (we remove then add $(4,4)$ from it) and $\cP^3=\cP^0$. By \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_3)=3$. The state of the step is summarized in @fig-t3, with $P_4$ now also in red.
+We move on to $t=3$, with $i_3=12$. $i_3\in P_4\subseteq P_{4:5}\subseteq P_{1:5}$. The appropriate $\eta_k^t$ are increased by one, and we notice that $\eta_{(4, 4)}^3=2=\zeta_{(4, 4)}$. So $P_4$ will stop contributing, we add it to $\cK^-_t$: $\cK^-_3=\{(2,3), (3,3), (4, 4), (7, 7)\}$. Following line 17 of @formal-curve, $\cP^t$ does not change (we remove then add $(4,4)$ from it) and $\cP^3=\cP^0$. By \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_3)=3$. The state of the step is summarized in @fig-t3, with $P_4$ now also in red.
 
 :::{#fig-t3}
 
@@ -1017,13 +1017,13 @@ We move on to $t=3$, with $i_3=12$. $i_3\in P_4\subseteq P_{4:5}\subseteq P_{1:5
 \end{tikzpicture}
 ```
 
-The regions of @exm-toy-forest at $t=3$ in @alg-formal-curve.
+The regions of @exm-toy-forest at $t=3$ in @formal-curve.
 
 :::
 
-We move on to $t=4$, with $i_4=13$. $i_4\in P_4\in \bigcup_{k\in\cK^-_3}R_k$. No $\eta_k^t$ is increased (see line 9 of @alg-formal-curve), and by \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_4)=3$.
+We move on to $t=4$, with $i_4=13$. $i_4\in P_4\in \bigcup_{k\in\cK^-_3}R_k$. No $\eta_k^t$ is increased (see line 9 of @formal-curve), and by \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_4)=3$.
 
-We move on to $t=5$, with $i_5=18$. $i_5\in P_5\subseteq P_{4:5}\subseteq P_{1:5}$. We first increase $\eta_{(1,5)}^t$: $\eta_{(1,5)}^5=4<\zeta_{(1,5)}$, then $\eta_{(4,5)}^t$: $\eta_{(4,5)}^5=4$, and we stop there because $\eta_{(4,5)}^5=4=\zeta_{(4,5)}$. $P_{4:5}$ will stop contributing, we add it to $\cK^-_t$: $\cK^-_5=\{(2,3), (4,5), (3,3), (4, 4), (7, 7)\}$. We also add $(4,5)$ and remove $(4,4)$ and $(5,5)$ from $\cP^t$: $\cP^5=\{(1,1), (2,3), (4,5), (6,6), (7,7), (8,8)\}$. Note that $\eta_{(5,5)}^t$ is not updated because we stopped the loop before, see line 23 of @alg-formal-curve. By \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_5)=4$. The state of the step is summarized in @fig-t5, with $P_{4:5}$ now also in red.
+We move on to $t=5$, with $i_5=18$. $i_5\in P_5\subseteq P_{4:5}\subseteq P_{1:5}$. We first increase $\eta_{(1,5)}^t$: $\eta_{(1,5)}^5=4<\zeta_{(1,5)}$, then $\eta_{(4,5)}^t$: $\eta_{(4,5)}^5=4$, and we stop there because $\eta_{(4,5)}^5=4=\zeta_{(4,5)}$. $P_{4:5}$ will stop contributing, we add it to $\cK^-_t$: $\cK^-_5=\{(2,3), (4,5), (3,3), (4, 4), (7, 7)\}$. We also add $(4,5)$ and remove $(4,4)$ and $(5,5)$ from $\cP^t$: $\cP^5=\{(1,1), (2,3), (4,5), (6,6), (7,7), (8,8)\}$. Note that $\eta_{(5,5)}^t$ is not updated because we stopped the loop before, see line 23 of @formal-curve. By \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_5)=4$. The state of the step is summarized in @fig-t5, with $P_{4:5}$ now also in red.
 
 :::{#fig-t5}
 
@@ -1058,7 +1058,7 @@ We move on to $t=5$, with $i_5=18$. $i_5\in P_5\subseteq P_{4:5}\subseteq P_{1:5
 \end{tikzpicture}
 ```
 
-The regions of @exm-toy-forest at $t=5$ in @alg-formal-curve.
+The regions of @exm-toy-forest at $t=5$ in @formal-curve.
 
 :::
 
@@ -1097,15 +1097,15 @@ We move on to $t=6$, with $i_6=24$. $i_6\in P_8$. The appropriate $\eta_k^t$ is 
 \end{tikzpicture}
 ```
 
-The regions of @exm-toy-forest at $t=6$ in @alg-formal-curve.
+The regions of @exm-toy-forest at $t=6$ in @formal-curve.
 
 :::
 
-We move on to the remaining steps. $i_7=19\in P_{4:5}$, $i_8=22\in P_{7}$ and $i_9=5\in P_{2:3}$ are all in $\bigcup_{k\in\cK^-_6}R_k$ so no $\eta_k^t$ is increased at their step (see line 9 of @alg-formal-curve), and by \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_7)=\Vstar(S_8)=\Vstar(S_9)=5$.
+We move on to the remaining steps. $i_7=19\in P_{4:5}$, $i_8=22\in P_{7}$ and $i_9=5\in P_{2:3}$ are all in $\bigcup_{k\in\cK^-_6}R_k$ so no $\eta_k^t$ is increased at their step (see line 9 of @formal-curve), and by \eqref{eq_vstar_equal_sum_eta}, we have $\Vstar(S_7)=\Vstar(S_8)=\Vstar(S_9)=5$.
 
 # Implementation {#sec-implementation}
 
-All algorithms discussed in this manuscript are already implemented in the `R` [@R-base] package `sanssouci` [@sanssouci] which is available on GitHub (see the References for the link) and is dedicated to the computation of confidence bounds for the number of false positives. It also hosts the implementation of the methods described in @MR4124323 and @10.1093/bioinformatics/btac693. @alg-vstar is implemented as the `V.star` function, @alg-pruning is implemented as the `pruning` function, and @alg-curve is implemented as the `curve.V.star.forest.fast` function (whereas the `curve.V.star.forest.naive` function just repeatedly calls `V.star`). Note that the `pruning` function has a `delete.gaps` option that speeds up the computation even more by removing unnecessary gaps introduced in the data structure by the pruning operation, those gaps being due to the specific structure that is used to store the information of $\cK$. 
+All algorithms discussed in this manuscript are already implemented in the `R` [@R-base] package `sanssouci` [@sanssouci] which is available on GitHub (see the References for the link) and is dedicated to the computation of confidence bounds for the number of false positives. It also hosts the implementation of the methods described in @MR4124323 and @10.1093/bioinformatics/btac693. @vstar is implemented as the `V.star` function, @pruning is implemented as the `pruning` function, and @curve is implemented as the `curve.V.star.forest.fast` function (whereas the `curve.V.star.forest.naive` function just repeatedly calls `V.star`). Note that the `pruning` function has a `delete.gaps` option that speeds up the computation even more by removing unnecessary gaps introduced in the data structure by the pruning operation, those gaps being due to the specific structure that is used to store the information of $\cK$. 
 
 Speaking of the data structure, we briefly describe it, with an example. We represent $(R_k)_{k\in\cK}$ by two lists, `C` and `leaf_list`. `leaf_list` is a list of vectors, where `leaf_list[[i]]` is the vector listing the hypotheses in the atom $P_i$. `C` is a list of lists. For $1\leq h\leq H$, `C[[h]]` lists the regions at depth $h$, using the index bounds of the atoms they are composed of. That is, the elements of the list `C[[h]]` are vectors of size two, and if there is `k`, `i`  and `j` such that `C[[h]][[k]] = c(i, j)`, it means that $(i, j)\in\cK$, or in other words that $R_{(i,j)}=P_{i:j}$ is one of the regions, and that $\phi((i, j))=h$. 
 
@@ -1123,7 +1123,7 @@ We emphasize that the 1D structure of the hypotheses has to be respected by the 
 :::
 
 ::: {#tip-leaves .callout-tip}
-We see that the current implementation requires to provide a partition $(P_n)_{1\leq n \leq N}$ of leaves compatible with the reference family. So, in a way, we always provide a complete family. However, not all `c(i,i)` have to be in `C` for the various algorithms implemented to function properly. It is not needed for the implementations of @alg-vstar and @alg-pruning given that, as stated in @tip-algo1, they start by computing $|S\cap P_n|$ for each leaf $P_n$ anyway. Having a complete `C` is not needed either for @alg-curve. Indeed, if $R_k$ is a region such that $\zeta_k=|R_k|$, the condition of line 12 of @alg-curve is always true, except for the last element of $R_k$ that is added to $S_t$. At that point, because the elements of $R_k$ have been exhausted, $R_k$ won't ever be visited again, so adding it to $\cK^-$ is irrelevant. In the end, tracking $R_k$ and $\eta_k$ for such $k$ was not necessary in the first place. Furthermore, if the implementation does not find $k^{(t,h)}$ (see line 10), it simply pass to the next iteration of the `for` loop.
+We see that the current implementation requires to provide a partition $(P_n)_{1\leq n \leq N}$ of leaves compatible with the reference family. So, in a way, we always provide a complete family. However, not all `c(i,i)` have to be in `C` for the various algorithms implemented to function properly. It is not needed for the implementations of @vstar and @pruning given that, as stated in @tip-algo1, they start by computing $|S\cap P_n|$ for each leaf $P_n$ anyway. Having a complete `C` is not needed either for @curve. Indeed, if $R_k$ is a region such that $\zeta_k=|R_k|$, the condition of line 12 of @curve is always true, except for the last element of $R_k$ that is added to $S_t$. At that point, because the elements of $R_k$ have been exhausted, $R_k$ won't ever be visited again, so adding it to $\cK^-$ is irrelevant. In the end, tracking $R_k$ and $\eta_k$ for such $k$ was not necessary in the first place. Furthermore, if the implementation does not find $k^{(t,h)}$ (see line 10), it simply pass to the next iteration of the `for` loop.
 :::
 
 The functions `dyadic.from.leaf_list`, `dyadic.from.window.size`, and `dyadic.from.height` return the appropriate data structure to represent a $\cK$ that can be described as a dyadic tree, based on some entry parameters that can be inferred from the names of the functions. As said in @tip-leaves, the completion of `C` given `leaf_list` is not necessary, but can be done by the `forest.completion` function. Finally, the $\zeta_k$'s are computed as in @MR4178188 by the `zetas.tree` function with `method=zeta.DKWM`. Using `method=zeta.trivial` just yields $\zeta_k=|R_k|$.
@@ -1157,7 +1157,7 @@ curve.V.star.forest.fast(o, pruning.res$C, pruning.res$ZL, leaf_list)
 
 # Numerical experiments {#sec-numeric}
 
-In this Section, we present some numerical experiments aiming to demonstrate the impact of the pruning of @alg-pruning (using the `delete.gaps` option mentioned in @sec-implementation) and of the fast @alg-curve, in terms of computation time, compared to the only previously available method to compute a curve of confidence bounds. As mentioned in @sec-forest-structure and @sec-implementation, this naive method simply consisted in a `for` loop repeatedly applying @alg-vstar.
+In this Section, we present some numerical experiments aiming to demonstrate the impact of the pruning of @pruning (using the `delete.gaps` option mentioned in @sec-implementation) and of the fast @curve, in terms of computation time, compared to the only previously available method to compute a curve of confidence bounds. As mentioned in @sec-forest-structure and @sec-implementation, this naive method simply consisted in a `for` loop repeatedly applying @vstar.
 
 To compare the computation time, we use the `R` package `microbenchmark` version 1.5.0 [@microbenchmark] with `R` version 4.4.0 (2024-04-24) and `sanssouci` version 0.14.1, on a MacBook Air M1 (2020) running macOS 15.1.1. The package `microbenchmark` allows to run code snippets a given number `n_repl` of times, and to compute summary statistics on the computation time. The script executing the computation can be found in the same repository as this manuscript.
 
@@ -1241,7 +1241,7 @@ Comparing scenarios 1 and 2 first, we see that, as expected, there is no signifi
 
 The comparison between scenarios 3 and 4 is similar. Although, with only `n_repl=10`, the statistics seem less accurate, this can be confirmed with additional experiments (`n_repl` can also be set to 100 without problem if we don't include `naive` methods).
 
-Finally, comparing scenarios 3 & 4 with scenarios 1 & 2, we see that multiplying the number of hypotheses by 10 effectively multiplies the computation time by $\sim10$ when using @alg-curve and by $\sim100$ when using @alg-vstar naively, which illustrates the stated complexities of $O(|\cK|m)$ and $O(|\cK|m^2)$, respectively.
+Finally, comparing scenarios 3 & 4 with scenarios 1 & 2, we see that multiplying the number of hypotheses by 10 effectively multiplies the computation time by $\sim10$ when using @curve and by $\sim100$ when using @vstar naively, which illustrates the stated complexities of $O(|\cK|m)$ and $O(|\cK|m^2)$, respectively.
 
 # Conclusion {#sec-conclusion}
 
@@ -1302,13 +1302,13 @@ We minimize over all $Q$ to get that $\Vstar(S)\geq V^*_{\Rfam^{\pr}}(S)$.
 
 First, $\cK\setminus\mathcal{L}\subseteq\cK\setminus\cK^{\pr}$ is trivial: a $k$ such that $\zeta_{k} \geq  \sum_{k'\in Succ_k} Vec_{k'}$ obviously satisfies the condition of @def-pruning to be pruned.
 
-Now let $(i,i')\in \cK\setminus\cK^{\pr}$ an element that is pruned by @def-pruning, so there exists $p\geq2$ and integers $i_1,\dotsc,i_{p-1}$ such that, when setting $i_0=i$ and $i_{p}=i'+1$, the sequence $(i_0,\dotsc,i_{p})$ is strictly increasing, $(i_{j-1},i_{j}-1)\in\cK$ for all $1\leq j\leq p$ and finally $\zeta_{(i,i')}=\zeta_{(i_0,i_{p}-1)}\geq \sum_{j=1}^{p} \zeta_{(i_{j-1}, i_{j}-1)}$. Then by the proof of Theorem 1 of @MR4178188 but applied to $S=R_{(i,i')}$ we have that $\sum_{j=1}^{p} \zeta_{(i_{j-1}, i_{j}-1)}\geq  \sum_{k'\in Succ_{(i,i')}} Vec_{k'}$ (see the unnumbered line just above Equation (A4) in that paper) and so $\zeta_{(i,i')}\geq \sum_{k'\in Succ_{(i,i')}} Vec_{k'}$ hence $(i,i')$ is pruned by @alg-pruning and $\cK\setminus\cK^{\pr}\subseteq\cK\setminus\mathcal{L}$.
+Now let $(i,i')\in \cK\setminus\cK^{\pr}$ an element that is pruned by @def-pruning, so there exists $p\geq2$ and integers $i_1,\dotsc,i_{p-1}$ such that, when setting $i_0=i$ and $i_{p}=i'+1$, the sequence $(i_0,\dotsc,i_{p})$ is strictly increasing, $(i_{j-1},i_{j}-1)\in\cK$ for all $1\leq j\leq p$ and finally $\zeta_{(i,i')}=\zeta_{(i_0,i_{p}-1)}\geq \sum_{j=1}^{p} \zeta_{(i_{j-1}, i_{j}-1)}$. Then by the proof of Theorem 1 of @MR4178188 but applied to $S=R_{(i,i')}$ we have that $\sum_{j=1}^{p} \zeta_{(i_{j-1}, i_{j}-1)}\geq  \sum_{k'\in Succ_{(i,i')}} Vec_{k'}$ (see the unnumbered line just above Equation (A4) in that paper) and so $\zeta_{(i,i')}\geq \sum_{k'\in Succ_{(i,i')}} Vec_{k'}$ hence $(i,i')$ is pruned by @pruning and $\cK\setminus\cK^{\pr}\subseteq\cK\setminus\mathcal{L}$.
 
 In the end, $\cK\setminus\cK^{\pr}=\cK\setminus\mathcal{L}$ so $\cK^{\pr}=\mathcal{L}$.
 
 ## Proof of @thm-curve-path {#sec-proof}
 
-In this section, every reference to a line is a reference to a line of @alg-formal-curve.
+In this section, every reference to a line is a reference to a line of @formal-curve.
 
 ### Derivation of \eqref{eq_vstar_equal_sum_eta}
 

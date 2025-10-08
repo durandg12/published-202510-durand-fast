@@ -9,9 +9,7 @@
 
 Author:
 
--  Guillermo Durand - [Université Paris-Saclay](https://www.universite-paris-saclay.fr/), [CNRS]
-(https://www.cnrs.fr), [Inria](https://team.inria.fr/celeste/), [Laboratoire de Mathématique
-s d'Orsay](https://www.imo.universite-paris-saclay.fr), 91405, Orsay, France
+-  Guillermo Durand - [Université Paris-Saclay](https://www.universite-paris-saclay.fr/), [CNRS](https://www.cnrs.fr), [Inria](https://team.inria.fr/celeste/), [Laboratoire de Mathématiques d'Orsay](https://www.imo.universite-paris-saclay.fr), 91405, Orsay, France
 
 Abstract
 
